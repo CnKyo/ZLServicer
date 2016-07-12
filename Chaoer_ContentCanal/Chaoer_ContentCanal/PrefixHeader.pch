@@ -1,0 +1,171 @@
+//
+//  PrefixHeader.pch
+//  O2O_XiCheSeller
+//
+//  Created by 密码为空！ on 15/6/18.
+//  Copyright (c) 2015年 zongyoutec.com. All rights reserved.
+//
+
+#ifndef O2O_XiCheSeller_PrefixHeader_pch
+#define O2O_XiCheSeller_PrefixHeader_pch
+
+#define  KEY_USERNAME_PASSWORD @"com.company.app.usernamepassword"
+#define  KEY_USERNAME @"com.company.app.username"
+#define  KEY_PASSWORD @"com.company.app.password"
+
+#define  JH_KEY @"29c41f5f6374ad7a7a6bc635b9e06cfa"
+
+#define  JH_API @"http://op.juhe.cn/ofpay/public/province"
+
+#define AVADA_KEY @"1737e85580e64852bf2a0c736686430a"
+
+#define AMAP_KEY @"178b436722c6380096ffdfad7b8718f0"
+#pragma mark----融云我们自己的证书
+/**
+ *  开发环境
+ *
+ *  @param weakSelf
+ *
+ *  @return
+ */
+//#define RCCAPP_KEY @"cpj2xarljnyun"
+//#define RCCAPP_SECRET @"c1KUCfjxCNTD"
+/**
+ *  生产环境
+ *
+ *  @param weakSelf
+ *
+ *  @return 
+ */
+//#define RCCAPP_KEY @"pgyu6atqyw3vu"
+//#define RCCAPP_SECRET @"UJVomQH4WSpKf"
+
+
+#pragma mark----融云企业证书
+/**
+ *  开发环境
+ *
+ *  @param weakSelf
+ *
+ *  @return
+ */
+//#define RCCAPP_KEY @"p5tvi9dstu8n4"
+//#define RCCAPP_SECRET @"FkJ1YvraKjmNy"
+/**
+ *  生产环境
+ *
+ *  @param weakSelf
+ *
+ *  @return
+ */
+#define RCCAPP_KEY @"n19jmcy59u489"
+#define RCCAPP_SECRET @"Nn1gJY5HWq"
+
+#define WXPAYKEY @"wxf8feb845b3a4d04e"
+
+
+
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#define MAS_SHORTHAND //use Masonry without the 'mas_' prefix
+#define MAS_SHORTHAND_GLOBALS //enable auto-boxing for default syntax
+
+#define WS(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+#import "CustomDefine.h"
+#import "HDDefine.h"
+#import "NSString+CheckEmpty.h"
+#import "IQKeyboardManager.h"
+#import "UIImageView+WebCache.h"
+#import "UIView+SuperView.h"
+#import "Util.h"
+#import "UIButton+WebCache.h"
+#import "UIViewExt.h"
+#import "UIView+Additions.h"
+#import "MJPhotoBrowser.h"
+#import "MJPhoto.h"
+#import "CTAssetsPickerController.h"
+#import "RSKImageCropViewController.h"
+#import "TTTAttributedLabel.h"
+#import "Masonry.h"
+#import "mCustomAlertView.h"
+#import <CoreText/CoreText.h>
+
+#import "NSString+WPAttributedMarkup.h"
+
+#import "WPAttributedStyleAction.h"
+#import "WPHotspotLabel.h"
+#import "UITableViewCell+HDFAutoCalculateHeight.h"
+#import "DetailTextView.h"
+
+#import "DYUIImageView.h"
+#import "DYMgr.h"
+#import "DYDescLabel.h"
+#import "DYLineView.h"
+#import "DYMainLabel.h"
+#import "UIImage+DYUIImage.h"
+
+#import "MZTimerLabel.h"
+#import "BaseVC.h"
+#import "UILabel+HYBAttributedCategory.h"
+
+
+#import "NSString+FontAwesome.h"
+#import "HZQDatePickerView.h"
+
+#import "mAddressView.h"
+#import "mBalanceViewController.h"
+
+#import "WKSegmentControl.h"
+
+
+#import "dataModel.h"
+#import "JHJsonRequst.h"
+#import "DVSwitch.h"
+#import "InputText.h"
+#import "JVFloatLabeledTextView.h"
+#import "JVFloatLabeledTextField.h"
+
+#import "MHActionSheet.h"
+
+
+#import "mGeneralSubView.h"
+
+#import "ZJAlertListView.h"
+#import "WebVC.h"
+#import "HTTPrequest.h"
+#import "SVProgressHUD.h"
+#import "GiFHUD.h"
+
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
+#import <AMapLocationKit/AMapLocationKit.h>
+
+#import "JHJsonRequst.h"
+#import "AVAndaJson.h"
+
+
+#import "LBProgressHUD.h"
+#import "LCProgressHUD.h"
+#import "WJStatusBarHUD.h"
+
+
+#import "BlockButton.h"
+#import "WKLeftView.h"
+
+#import "DCPicScrollView.h"
+#import "DCWebImageManager.h"
+
+#import "AttributeView.h"
+#import "UIView+Extnesion.h"
+
+#import "CustomProgress.h"
+
+#import "UITextField+Shake.h"
+#import "MBProgressHUD.h"
+
+
+#import "HDPicModle.h"
+
+#endif
