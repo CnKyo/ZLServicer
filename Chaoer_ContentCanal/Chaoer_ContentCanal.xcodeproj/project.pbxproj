@@ -95,6 +95,8 @@
 		04E5BD341CC61F6700E62795 /* WJ_sucess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E5BD2E1CC61F6700E62795 /* WJ_sucess@2x.png */; };
 		04E5BD351CC61F6700E62795 /* WJ_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E5BD2F1CC61F6700E62795 /* WJ_warning.png */; };
 		04E5BD361CC61F6700E62795 /* WJ_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E5BD301CC61F6700E62795 /* WJ_warning@2x.png */; };
+		04EA59AE1D34E03700CC5C39 /* mMyHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EA59AD1D34E03700CC5C39 /* mMyHeaderView.m */; };
+		04EA59B01D34E04100CC5C39 /* mMyHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EA59AF1D34E04100CC5C39 /* mMyHeaderView.xib */; };
 		04EEADB01D0FAE5A00FA97C6 /* HDPicModle.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEADAF1D0FAE5A00FA97C6 /* HDPicModle.m */; };
 		04EEADC61D0FAED900FA97C6 /* Foundation+HDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEADB31D0FAED900FA97C6 /* Foundation+HDLog.m */; };
 		04EEADC71D0FAED900FA97C6 /* NSDate+HDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EEADB51D0FAED900FA97C6 /* NSDate+HDExtension.m */; };
@@ -620,6 +622,9 @@
 		04E5BD2E1CC61F6700E62795 /* WJ_sucess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WJ_sucess@2x.png"; sourceTree = "<group>"; };
 		04E5BD2F1CC61F6700E62795 /* WJ_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WJ_warning.png; sourceTree = "<group>"; };
 		04E5BD301CC61F6700E62795 /* WJ_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WJ_warning@2x.png"; sourceTree = "<group>"; };
+		04EA59AC1D34E03700CC5C39 /* mMyHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mMyHeaderView.h; sourceTree = "<group>"; };
+		04EA59AD1D34E03700CC5C39 /* mMyHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mMyHeaderView.m; sourceTree = "<group>"; };
+		04EA59AF1D34E04100CC5C39 /* mMyHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mMyHeaderView.xib; sourceTree = "<group>"; };
 		04EEADAD1D0FAE0400FA97C6 /* HDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDefine.h; sourceTree = "<group>"; };
 		04EEADAE1D0FAE5A00FA97C6 /* HDPicModle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPicModle.h; sourceTree = "<group>"; };
 		04EEADAF1D0FAE5A00FA97C6 /* HDPicModle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPicModle.m; sourceTree = "<group>"; };
@@ -2097,6 +2102,9 @@
 				044A24761CB4A85700A6379C /* kitchenTableViewCell.h */,
 				044A24771CB4A85700A6379C /* kitchenTableViewCell.m */,
 				044A24781CB4A85700A6379C /* kitchenTableViewCell.xib */,
+				04EA59AC1D34E03700CC5C39 /* mMyHeaderView.h */,
+				04EA59AD1D34E03700CC5C39 /* mMyHeaderView.m */,
+				04EA59AF1D34E04100CC5C39 /* mMyHeaderView.xib */,
 			);
 			name = "个人中心";
 			sourceTree = "<group>";
@@ -2946,6 +2954,7 @@
 			files = (
 				749BE9AC1B32758100BABCA6 /* SVProgressHUD.bundle in Resources */,
 				B2CEE1191C03782500FC159C /* city.txt in Resources */,
+				04EA59B01D34E04100CC5C39 /* mMyHeaderView.xib in Resources */,
 				749BE9DC1B32775D00BABCA6 /* Images.xcassets in Resources */,
 				04E5BD351CC61F6700E62795 /* WJ_warning.png in Resources */,
 				749BE9AA1B32758100BABCA6 /* LICENSE.txt in Resources */,
@@ -3196,6 +3205,7 @@
 				742FB8FC1B5CDEA3005A1AFA /* WPHotspotLabel.m in Sources */,
 				749BE9971B32756800BABCA6 /* IQNSArray+Sort.m in Sources */,
 				31F5447B1CAE0C4100307B83 /* kitchenViewController.m in Sources */,
+				04EA59AE1D34E03700CC5C39 /* mMyHeaderView.m in Sources */,
 				749BEA091B32779800BABCA6 /* MBProgressHUD+Add.m in Sources */,
 				741B8D941B326EFA002104A0 /* AppDelegate.m in Sources */,
 				04EEADC81D0FAED900FA97C6 /* NSString+HDExtension.m in Sources */,

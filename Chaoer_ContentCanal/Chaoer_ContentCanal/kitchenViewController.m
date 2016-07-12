@@ -8,14 +8,14 @@
 
 #import "kitchenViewController.h"
 #import "kitchenTableViewCell.h"
-
+#import "mMyHeaderView.h"
 @interface kitchenViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
 @implementation kitchenViewController
 {
-
+    mMyHeaderView *mHeaderView;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
