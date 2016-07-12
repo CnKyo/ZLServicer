@@ -25,24 +25,6 @@
 
 
 + (homeNavView *)shareView;
-/**
- *  设置
- */
-@property (strong, nonatomic) IBOutlet UIButton *mSetupBtn;
-/**
- *  消息
- */
-@property (strong, nonatomic) IBOutlet UIButton *mMsgBtn;
-/**
- *  消息气泡
- */
-@property (weak, nonatomic) IBOutlet UILabel *mBadge;
 
-+ (homeNavView *)sharePersonNav;
-
-
-@property (weak, nonatomic) IBOutlet UIButton *mBackBtn;
-
-+ (homeNavView *)shareChatNav;
 
 @end

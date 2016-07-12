@@ -89,7 +89,6 @@
 #import "RSKImageCropViewController.h"
 #import "TTTAttributedLabel.h"
 #import "Masonry.h"
-#import "mCustomAlertView.h"
 #import <CoreText/CoreText.h>
 
 #import "NSString+WPAttributedMarkup.h"
@@ -113,15 +112,10 @@
 
 #import "NSString+FontAwesome.h"
 #import "HZQDatePickerView.h"
-
-#import "mAddressView.h"
-#import "mBalanceViewController.h"
-
 #import "WKSegmentControl.h"
 
 
 #import "dataModel.h"
-#import "JHJsonRequst.h"
 #import "DVSwitch.h"
 #import "InputText.h"
 #import "JVFloatLabeledTextView.h"
@@ -142,8 +136,6 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
 
-#import "JHJsonRequst.h"
-#import "AVAndaJson.h"
 
 
 #import "LBProgressHUD.h"

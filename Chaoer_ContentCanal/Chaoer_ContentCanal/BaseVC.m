@@ -712,8 +712,6 @@
 }
 -(void)gotoLoginVC
 {
-    //    LoginVC *vclog = [[LoginVC alloc]init];
-    //    [self pushViewController:vclog];//LoginVC,RegisterVC 里面的isMustLogin 一定不能设置了,否则递归
     
     if( [self.navigationController.topViewController isKindOfClass:[ViewController class]] )
     {
@@ -725,7 +723,6 @@
     id viewController = [storyboard instantiateViewControllerWithIdentifier:@"login"];
     
     [self presentViewController:viewController animated:YES completion:nil];
-    //    [self.navigationController pushViewController:viewController animated:YES];
     
 }
 

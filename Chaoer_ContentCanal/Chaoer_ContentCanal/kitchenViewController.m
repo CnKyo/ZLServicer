@@ -9,7 +9,6 @@
 #import "kitchenViewController.h"
 #import "kitchenTableViewCell.h"
 
-#import "mCookDetail.h"
 @interface kitchenViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -45,71 +44,6 @@
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
     
 }
-
-- (void)headerBeganRefresh{
-
-    self.page = 1;
-    
-//    [SVProgressHUD showWithStatus:@"正在加载中..." maskType:SVProgressHUDMaskTypeClear];
-    [[mUserInfo backNowUser] getCookList:self.page block:^(mJHBaseData *resb, NSArray *mArr) {
-        [self headerEndRefresh];
-        [self removeEmptyView];
-        [self.tempArray removeAllObjects];
-        
-        if (resb.mSucess) {
-            
-            [SVProgressHUD dismiss];
-//            [SVProgressHUD showSuccessWithStatus:@"加载成功！"];
-            
-            if (mArr.count <= 0) {
-                [self addEmptyViewWithImg:nil];
-                return ;
-            }
-            
-            [self.tempArray addObjectsFromArray:mArr];
-            [self.tableView reloadData];
-            
-            
-        }else{
-            [SVProgressHUD showErrorWithStatus:@"加载失败！"];
-            [self addEmptyViewWithImg:nil];
-        }
-        
-        
-        
-    }];
-    
-    
-}
-
-- (void)footetBeganRefresh{
-
-    self.page ++;
-//    [SVProgressHUD showWithStatus:@"正在加载中..." maskType:SVProgressHUDMaskTypeClear];
-    [[mUserInfo backNowUser] getCookList:self.page block:^(mJHBaseData *resb, NSArray *mArr) {
-        [self footetEndRefresh];
-        [self removeEmptyView];
-        
-        if (resb.mSucess) {
-            
-            [SVProgressHUD dismiss];
-//            [SVProgressHUD showSuccessWithStatus:resb.mMessage];
-            
-            [self.tempArray addObjectsFromArray:mArr];
-            [self.tableView reloadData];
-            
-            
-        }else{
-            [SVProgressHUD showErrorWithStatus:resb.mMessage];
-            [self addEmptyViewWithImg:nil];
-        }
-        
-        
-        
-    }];
-    
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -164,23 +98,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    GCook *mCook = self.tempArray[indexPath.row];
-
-//    WebVC* vc = [[WebVC alloc]init];
-//    vc.mName = mCook.mName;
-//    vc.mUrl = [NSString stringWithFormat:@"http://api.avatardata.cn/Cook/Show?key=%@&id=%d",AVADA_KEY,mCook.mId];
-//    [self pushViewController:vc];
- 
-    
-    mCookDetail *mcc = [mCookDetail new];
-    mcc.mTT = mCook.mName;
-    mcc.mName = mCook.mName;
-    mcc.mImg = mCook.mImg;
-    mcc.mFood = [NSString stringWithFormat:@"%@%@",mCook.mFood,mCook.mKeywords];
-    mcc.mDesctipution = mCook.mDescription;
-    [self pushViewController:mcc];
-    
+       
 }
 
 

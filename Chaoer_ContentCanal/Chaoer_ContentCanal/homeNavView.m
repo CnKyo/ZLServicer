@@ -24,19 +24,4 @@
     return view;
 }
 
-+ (homeNavView *)sharePersonNav{
-    
-    homeNavView *view = [[[NSBundle mainBundle] loadNibNamed:@"mPersonNavView" owner:self options:nil] objectAtIndex:0];
-    
-    view.mBadge.layer.masksToBounds = YES;
-    view.mBadge.layer.cornerRadius = view.mBadge.mwidth/2;
-    
-    return view;
-}
-
-+ (homeNavView *)shareChatNav{
-    
-    homeNavView *view = [[[NSBundle mainBundle] loadNibNamed:@"chatNavView" owner:self options:nil] objectAtIndex:0];
-    return view;
-}
 @end

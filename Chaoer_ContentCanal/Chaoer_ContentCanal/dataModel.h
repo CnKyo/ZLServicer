@@ -40,30 +40,6 @@
 
 @end
 
-#pragma mark----聚合基本数据结构
-@interface mJHBaseData : NSObject
-
-
-
-
-@property (nonatomic,assign) int        mState;
-
-@property (nonatomic,assign) BOOL        mSucess;
-
-@property (nonatomic,strong) id         mData;
-
-
-@property (nonatomic,strong) NSString   *mMessage;
-
-
--(id)initWithObj:(NSDictionary*)obj;
-
--(void)fetchIt:(NSDictionary*)obj;
-
-+(mJHBaseData *)infoWithError:(NSString*)error;
-
-@end
-#pragma mark----聚合基本数据结构
 @interface Ginfo : NSObject
 /**
  *  app版本
@@ -279,7 +255,6 @@
  */
 -(BOOL)isVaildUser;
 
-- (BOOL)isNeedLogin;
 /**
  *  临时身份
  *
@@ -313,20 +288,6 @@
  *  @param block
  */
 + (void)getRSAKey:(void(^)(mBaseData *resb))block;
-#pragma mark----关联融云
-/**
- *  关联融云
- */
-+ (void)OpenRCConnect;
-/**
- *  融云更新定位信息
- *
- *  @param mRCCUserId 融云userid
- *  @param mLat       纬度
- *  @param mLong      经度
- *  @param block      返回值
- */
-+ (void)reRCClocation:(NSString *)mRCCUserId andLat:(NSString *)mLat andLong:(NSString *)mLong block:(void(^)(mBaseData *resb))block;
 
 /**
  *  获取当前用户信息
@@ -678,33 +639,6 @@
  */
 - (void)payCanal:(NSMutableDictionary *)mPara block:(void(^)(mBaseData *resb))block;
 
-
-#pragma mark----聚合数据：公共事业省份查询
-/**
- *  公共事业省份查询
- *
- *  @param block
- */
-- (void)FindPublickType:(int)mType andId:(NSString *)mId block:(void(^)(mJHBaseData *resb,NSArray *mArr))block;
-
-- (void)FindPublic:(int )mType andPara:(NSDictionary *)mParas block:(void(^)(mJHBaseData *resb,NSArray *mArr))block;
-
-/**
- *  账户欠费查询
- *
- *  @param mParas 参数
- *  @param block  返回值
- */
-- (void)Inquire:(NSDictionary *)mParas block:(void(^)(mJHBaseData *resb))block;
-
-/**
- *  缴费
- *
- *  @param mParas 参数
- *  @param block  返回值
- */
-- (void)goPay:(NSDictionary *)mParas block:(void(^)(mJHBaseData *resb))block;
-
 /**
  *  提现
  *
@@ -866,14 +800,6 @@
  *  @param block 返回值
  */
 - (void)getScoreList:(int)mType andPage:(int)mPage andNum:(int)mNum block:(void(^)(mBaseData *resb,NSArray *mArr))block;
-#pragma mark---菜谱
-/**
- *  阿凡达菜谱数据
- *
- *  @param mPage 分页
- *  @param block 返回值
- */
-- (void)getCookList:(int)mPage block:(void(^)(mJHBaseData *resb,NSArray *mArr))block;
 
 #pragma mark----获取保修用户信息
 /**
@@ -1720,97 +1646,6 @@
 
 @end
 
-#pragma mark----聚合数据->省份对象
-@interface JHProvince : NSObject
-
--(id)initWithObj:(NSDictionary*)obj;
-/**
- *  省份ID
- */
-@property (strong,nonatomic) NSString    *mProvinceId;
-/**
- *  省份名称
- */
-@property (strong,nonatomic) NSString    *mProvinceName;
-
-@property (strong,nonatomic) NSString    *mPayProjectId;
-
-@property (strong,nonatomic) NSString    *mPayProjectName;
-
-
-
-@end
-#pragma mark----聚合数据->城市对象
-@interface JHCity : NSObject
-
--(id)initWithObj:(NSDictionary*)obj;
-/**
- *  城市ID
- */
-@property (strong,nonatomic) NSString    *mCityId;
-/**
- *  城市名称
- */
-@property (strong,nonatomic) NSString    *mCityName;
-/**
- *  省份ID
- */
-@property (strong,nonatomic) NSString    *mProvinceId;
-
-
-@end
-
-#pragma mark----聚合缴费数据对象
-@interface JHPayData : NSObject
-
--(id)initWithObj:(NSDictionary*)obj;
-/**
- *  省份ID
- */
-@property (strong,nonatomic) NSString    *mProvinceId;
-/**
- *  省份名称
- */
-@property (strong,nonatomic) NSString    *mProvinceName;
-/**
- *  城市ID
- */
-@property (strong,nonatomic) NSString    *mCityId;
-/**
- *  城市名称
- */
-@property (strong,nonatomic) NSString    *mCityName;
-/**
- *  缴费类型id
- */
-@property (strong,nonatomic) NSString    *mPayProjectId;
-/**
- *  缴费类型名称
- */
-@property (strong,nonatomic) NSString    *mPayProjectName;
-/**
- *  缴费单位id
- */
-@property (strong,nonatomic) NSString    *mPayUnitId;
-/**
- *  缴费单位名称
- */
-@property (strong,nonatomic) NSString    *mPayUnitName;
-/**
- *  商品id
- */
-@property (strong,nonatomic) NSString    *mProductId;
-/**
- *  商品名称
- */
-@property (strong,nonatomic) NSString    *mProductName;
-/**
- *  价格？
- */
-@property (strong,nonatomic) NSString    *mInprice;
-
-@end
-
 /**
  订单统计对象
  
@@ -1930,86 +1765,6 @@
 @property (strong,nonatomic) NSString    *mAddressName;
 
 @property (strong,nonatomic) NSString    *mAddressId;
-
-
-@end
-
-
-#pragma mark----融云信息对象
-@interface RCCInfo : NSObject
-
--(id)initWithObj:(NSDictionary*)obj;
-
-
-+ (RCCInfo *)backRCCInfo;
-
-@property (nonatomic,strong) NSString   *mRCCUserName;
-
-@property (nonatomic,strong) NSString   *mRCCUserId;
-
-@property (nonatomic,strong) NSString   *mRCCToken;
-/**
- *  获取融云token
- *
- *  @param mType     用户类型
- *  @param mValue    登录类型
- *  @param mUserName 用户昵称
- *  @param mHeader   头像
- *  @param block     返回值
- */
-+ (void)getToken:(NSString *)mType andValue:(NSString *)mValue andUserName:(NSString *)mUserName andPrtraitUri:(NSString *)mHeader block:(void(^)(mBaseData *resb,RCCInfo *mrcc))block;
-
-/**
- *  获取我的小区用户列表
- *
- *  @param mPage 页数
- *  @param mNum  条数
- *  @param block 返回值
- */
-+ (void)getArearWithRcc:(int)mPage andNum:(int)mNum block:(void(^)(mBaseData *resb,NSArray *mArr))block;
-
-/**
- *  获取附近的人
- *
- *  @param mPage 页数
- *  @param mNum  条数
- *  @param mLat  纬度
- *  @param mLng  经度
- *  @param block 返回值
- */
-+ (void)getDistanceWith:(int)mPage andNum:(int)mNum andLat:(NSString *)mLat andLng:(NSString *)mLng block:(void(^)(mBaseData *resb,NSArray *mArr))block;
-
-#pragma mark----获取融云用户信息
-/**
- *  获取融云用户信息
- *
- *  @param mUserId userid
- *  @param block   返回值
- */
-+ (void)getUserInfo:(NSString *)mUserId block:(void (^)(mBaseData *resb))block;
-@end
-
-@interface  RCCUserInfo : NSObject
-
--(id)initWithObj:(NSDictionary*)obj;
-
-@property (nonatomic,strong) NSString   *totalRow;
-
-@property (nonatomic,strong) NSString   *pageNumber;
-
-@property (nonatomic,strong) NSString   *totalPage;
-
-@property (nonatomic,strong) NSString   *pageSize;
-
-@property (nonatomic,strong) NSString   *userId;
-
-@property (nonatomic,strong) NSString   *userName;
-
-@property (nonatomic,strong) NSString   *portraitUri;
-
-@property (nonatomic,strong) NSString   *distance;
-
-@property (nonatomic,strong) NSArray   *mList;
 
 
 @end

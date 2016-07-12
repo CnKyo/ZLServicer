@@ -24,25 +24,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *codeTx;
 
 /**
- *  腾讯登陆
- */
-@property (strong, nonatomic) IBOutlet UIButton *mTencentLogin;
-/**
- *  微信登陆
- */
-@property (strong, nonatomic) IBOutlet UIButton *mWechatLogin;
-/**
- *  新浪登陆
- */
-@property (strong, nonatomic) IBOutlet UIButton *mSinaLogin;
-/**
  *  忘记密码
  */
 @property (strong, nonatomic) IBOutlet UIButton *mForgetBtn;
-/**
- *  注册
- */
-@property (strong, nonatomic) IBOutlet UIButton *mRegistBtn;
+
 
 
 +(mLoginView *)shareView;

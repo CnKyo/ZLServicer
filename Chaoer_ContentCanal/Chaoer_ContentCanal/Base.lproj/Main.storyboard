@@ -243,8 +243,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="94W-V2-ig3" kind="relationship" relationship="viewControllers" id="2cB-gg-PbO"/>
-                        <segue destination="5fB-JT-LjI" kind="relationship" relationship="viewControllers" id="3ex-CY-0bo"/>
-                        <segue destination="0VO-Tv-vPt" kind="relationship" relationship="viewControllers" id="bf3-lO-oX5"/>
                         <segue destination="Ye6-fO-qTJ" kind="relationship" relationship="viewControllers" id="KW7-du-6Ts"/>
                     </connections>
                 </tabBarController>
@@ -408,11 +406,11 @@
             </objects>
             <point key="canvasLocation" x="-495" y="-466"/>
         </scene>
-        <!--厨房-->
+        <!--个人中心-->
         <scene sceneID="LKM-59-gBJ">
             <objects>
                 <navigationController id="Ye6-fO-qTJ" customClass="NavC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="厨房" image="82-4" id="tqe-jN-RPo"/>
+                    <tabBarItem key="tabBarItem" title="个人中心" image="82-4" id="tqe-jN-RPo"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="H7u-ki-qG4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -425,35 +423,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqH-zK-uHC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-72" y="-466"/>
-        </scene>
-        <!--管家-->
-        <scene sceneID="EBs-7f-ABj">
-            <objects>
-                <navigationController id="5fB-JT-LjI" customClass="NavC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="管家" image="personcenter_unselected" selectedImage="personcenter_selected" id="1Mq-tE-3a2"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vo7-Ha-f8q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="yxA-6Z-6ur" kind="relationship" relationship="rootViewController" id="6TE-Ds-4ei"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CT9-rc-ofy" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="943" y="-503"/>
-        </scene>
-        <!--我的-->
-        <scene sceneID="YyP-rD-SkA">
-            <objects>
-                <viewController storyboardIdentifier="wode" id="yxA-6Z-6ur" customClass="MyViewController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="我的" id="Kcf-eN-ba4"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LRn-qK-Ozl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1313" y="-503"/>
         </scene>
         <!--My Message View Controller-->
         <scene sceneID="bEt-i7-Y0y">
@@ -1078,44 +1047,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1dt-zA-Xxr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-374" y="1291"/>
-        </scene>
-        <!--钱包-->
-        <scene sceneID="KVF-jP-wiB">
-            <objects>
-                <navigationController id="0VO-Tv-vPt" customClass="NavC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="钱包" image="aboutus_unselected" selectedImage="aboutus_selected" id="hOy-qh-dRJ"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cqZ-Un-A9C">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="9TH-NI-Ocm" kind="relationship" relationship="rootViewController" id="FCX-Hj-VVE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y8L-6F-bfa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="932" y="780"/>
-        </scene>
-        <!--Wallet View Controller-->
-        <scene sceneID="xg6-xd-DjJ">
-            <objects>
-                <viewController storyboardIdentifier="wkOrderT" id="9TH-NI-Ocm" customClass="walletViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1Vr-Zp-mL1"/>
-                        <viewControllerLayoutGuide type="bottom" id="lxY-zX-742"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="gQq-MU-WKg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="76Y-zo-8Eu"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gkC-Tc-aZb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1362" y="768"/>
         </scene>
         <!--Kitchen View Controller-->
         <scene sceneID="pN1-F9-XiF">
@@ -3383,8 +3314,6 @@
         <image name="3-1" width="574" height="88"/>
         <image name="72" width="160" height="160"/>
         <image name="82-4" width="30" height="32"/>
-        <image name="aboutus_selected" width="30" height="32"/>
-        <image name="aboutus_unselected" width="30" height="32"/>
         <image name="dp_defaultImg" width="64" height="64"/>
         <image name="dp_del" width="21" height="21"/>
         <image name="dp_dpdz" width="38" height="38"/>
@@ -3406,8 +3335,6 @@
         <image name="jiantou1.png" width="16" height="26"/>
         <image name="msg" width="27" height="27"/>
         <image name="passwd" width="26" height="32"/>
-        <image name="personcenter_selected" width="30" height="32"/>
-        <image name="personcenter_unselected" width="30" height="32"/>
         <image name="phone" width="26" height="32"/>
     </resources>
 </document>

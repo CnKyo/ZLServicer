@@ -7,20 +7,12 @@
 //
 
 #import "ViewController.h"
-#import "MyViewController.h"
 #import "WebVC.h"
-#import "pwdViewController.h"
 #import "forgetAndChangePwdView.h"
 #import "AppDelegate.h"
 
-#import "MyViewController.h"
 
 #import "mLoginView.h"
-
-#import "registViewController.h"
-#import "dataModel.h"
-
-#import "otherLoginViewController.h"
 #import "AppDelegate.h"
 #import "WJAdsView.h"
 #import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
@@ -59,8 +51,6 @@
     UIScrollView    *mScrollerView;
     
     mLoginView  *mLoginV;
-    
-    mCustomAlertView *mAlertView;
     
     
     NSString    *mCodeStr;
@@ -135,8 +125,6 @@
     [self getRSAKey];
     [self initView];
     
-    [self initAlertView];
-
 }
 - (void)initView{
 
@@ -160,15 +148,9 @@
     
     [mLoginV.loginBtn addTarget:self action:@selector(mLoginAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [mLoginV.mRegistBtn addTarget:self action:@selector(registAction:) forControlEvents:UIControlEventTouchUpInside];
     [mLoginV.mForgetBtn addTarget:self action:@selector(forgetAction:) forControlEvents:UIControlEventTouchUpInside];
     
     
-    [mLoginV.mWechatLogin addTarget:self action:@selector(wechatAction:) forControlEvents:UIControlEventTouchUpInside];
-
-    [mLoginV.mTencentLogin addTarget:self action:@selector(tencentAction:) forControlEvents:UIControlEventTouchUpInside];
-    [mLoginV.mSinaLogin addTarget:self action:@selector(sinaAction:) forControlEvents:UIControlEventTouchUpInside];
-
     
     [mScrollerView addSubview:mLoginV];
     mScrollerView.contentSize = CGSizeMake(DEVICE_Width, 568);
@@ -180,222 +162,13 @@
     
     
 }
-#pragma mark----微信登录
-- (void)wechatAction:(UIButton *)sender{
-
-    [self loginWithType:SSDKPlatformTypeWechat];
-}
-#pragma mark----qq登录
-- (void)tencentAction:(UIButton *)sender{
-    
-    [self loginWithType:SSDKPlatformTypeQQ];
-    
-}
-
-#pragma mark----新浪登录
-- (void)sinaAction:(UIButton *)sender{
-    //    [LBProgressHUD showHUDto:self.view withTips:@"正在登录中..." animated:YES];
-    //
-    //    ///新浪登录
-    //    [ShareSDK getUserInfo:SSDKPlatformTypeSinaWeibo
-    //           onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error)
-    //     {
-    //         [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    //
-    //         if (state == SSDKResponseStateSuccess)
-    //         {
-    //
-    //             NSLog(@"返回的用户信息：%@",user);
-    //
-    //         }
-    //
-    //         else
-    //         {
-    //             NSLog(@"%@",error);
-    //             [self showErrorStatus:[NSString stringWithFormat:@"%@",error]];
-    //
-    //         }
-    //         
-    //     }];
-    [LCProgressHUD showInfoMsg:@"未授权..."];
-    
-}
-
-- (void)loginWithType:(SSDKPlatformType)type{
-    [LBProgressHUD showHUDto:self.view withTips:@"正在登录中..." animated:YES];
-    
-    
-    [SSEThirdPartyLoginHelper loginByPlatform:type
-                                   onUserSync:^(SSDKUser *user, SSEUserAssociateHandler associateHandler) {
-                                       [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                       
-                                       
-                                       //在此回调中可以将社交平台用户信息与自身用户系统进行绑定，最后使用一个唯一用户标识来关联此用户信息。
-                                       
-                                       //在此示例中没有跟用户系统关联，则使用一个社交用户对应一个系统用户的方式。将社交用户的uid作为关联ID传入associateHandler。
-                                       associateHandler (user.uid, user, user);
-                                       MLLog(@"dd%@",user.rawData);
-                                       MLLog(@"dd%@",user.credential);
-                                       NSMutableDictionary *para = [NSMutableDictionary new];
-
-                                       if (type == SSDKPlatformTypeQQ) {
-                                           mOpenID = user.credential.uid;
-                                           mNickName = [user.rawData objectForKey:@"nickname"];
-                                           mSex = [user.rawData objectForKey:@"gender"];
-                                           mHeaderUrl = [user.rawData objectForKey:@"figureurl_qq_2"];
-                                           [para setObject:@"2" forKey:@"loginType"];
-                                           if ([mSex isEqualToString:@"男"]) {
-                                               mSex = @"1";
-                                           }else if ([mSex isEqualToString:@"女"]){
-                                               mSex = @"2";
-                                           }
-
-                                       }else if (type == SSDKPlatformTypeWechat){
-                                           mOpenID = [user.rawData objectForKey:@"openid"];
-                                           mNickName = [user.rawData objectForKey:@"nickname"];
-                                           mSex = [user.rawData objectForKey:@"sex"];
-                                           mHeaderUrl = [user.rawData objectForKey:@"headimgurl"];
-                                           [para setObject:@"1" forKey:@"loginType"];
-
-                                       }
-
-                                       
-                                       NSString *mUTFStr = [[NSString alloc] initWithString:mNickName];
-                                       [mUTFStr enumerateSubstringsInRange:NSMakeRange(0, mUTFStr.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
-                                           
-                                           
-                                           const unichar hs = [substring characterAtIndex:0];
-                                           if (0xd800 <= hs && hs <= 0xdbff) {
-                                               if (substring.length > 1) {
-                                                   const unichar ls = [substring characterAtIndex:1];
-                                                   const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
-                                                   if (0x1d000 <= uc && uc <= 0x1f77f) {
-                                                       mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                                   }
-                                               }
-                                           } else if (substring.length > 1) {
-                                               const unichar ls = [substring characterAtIndex:1];
-                                               if (ls == 0x20e3) {
-                                                   mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               }
-                                           } else {
-                                               if (0x2100 <= hs && hs <= 0x27ff) {
-                                                   mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               } else if (0x2B05 <= hs && hs <= 0x2b07) {
-                                                       mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               } else if (0x2934 <= hs && hs <= 0x2935) {
-                                                           mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               } else if (0x3297 <= hs && hs <= 0x3299) {
-                                                               mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50) {
-                                                                   mNickName = [mNickName stringByReplacingOccurrencesOfString:substring withString:@""];                                               }
-                                           }
-
-                                       }];
-                              
-                                     
-                                       
-                                       
-                                       MLLog(@"性别是：%@",mSex);
-                                       [para setObject:@"ios" forKey:@"device"];
-
-                                       [para setObject:mOpenID forKey:@"openid"];
-                                       [para setObject:mNickName forKey:@"nickname"];
-                                       [para setObject:mSex forKey:@"sex"];
-                                       [para setObject:mHeaderUrl forKey:@"headimgurl"];
-                                       [para setObject:NumberWithInt(0) forKey:@"identity"];
-                                       
-                                       MLLog(@"第三方登录的参数：%@",para);
-                                       
-                                       [mUserInfo mVerifyOpenId:para block:^(mBaseData *resb, mUserInfo *mUser) {
-                                           if (resb.mState == 200011) {
-                                               
-                                               [LCProgressHUD showSuccess:@"登录成功"];
-                                               
-                                               [self loginOk];
-                                               //
-                                           }else if (resb.mSucess){
-                                               [LCProgressHUD showSuccess:@"登录成功"];
-                                               
-                                               [self loginOk];
-                                           }
-                                           else{
-                                               
-                                               //                                               [self showAdsView];
-                                               
-                                               [self showErrorStatus:@"您已取消登录！"];
-                                               
-                                               
-                                           }
-                                       }];
-                                       
-                                       
-                                   }onLoginResult:^(SSDKResponseState state, SSEBaseUser *user, NSError *error) {
-                                       
-                                       if (state == SSDKResponseStateSuccess){
-                                           [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                           
-                                           MLLog(@"返回的用户信息：%@",user);
-                                           
-                                        
-                                           
-                                       }  else
-                                       {
-                                           [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                                           
-                                           MLLog(@"－－－错误信息%@",error);
-                                           [self showErrorStatus:@"您已取消登录！"];
-                                       }
-                                   }];
-
-}
-
-
-
-- (void)goWechat{
-
-    otherLoginViewController *ooo = [[otherLoginViewController alloc] initWithNibName:@"otherLoginViewController" bundle:nil];
-    ooo.mType = 2;
-    ooo.mOpenId = mOpenID;
-    [self presentModalViewController:ooo];
-}
 
 #pragma mark----忘记密码
 - (void)forgetAction:(UIButton *)sender{
-    registViewController *rrr = [[registViewController alloc] initWithNibName:@"registViewController" bundle:nil];
-    rrr.mType = 2;
-    rrr.block = ^(NSString *content,NSString *mPwd){
-        
-        mLoginV.phoneTx.text = content;
-        mLoginV.codeTx.text = mPwd;
-    };
-    
-    [self presentModalViewController:rrr];
-}
-#pragma mark----注册
-- (void)registAction:(UIButton *)sender{
-    
-    mType = 1;
-    
-    [self goRegist];
+   
 }
 
-- (void)goRegist{
-    registViewController *rrr = [[registViewController alloc] initWithNibName:@"registViewController" bundle:nil];
-    rrr.mType = mType;
-    
-    if (mType == 3) {
-        rrr.mOpenid = mOpenID;
-        rrr.mNickName = mNickName;
-        rrr.mSex = mSex;
-        rrr.mHeaderUrl = mHeaderUrl;
-    }
-    
-    rrr.block = ^(NSString *content,NSString *mPwd){
-        
-        mLoginV.phoneTx.text = content;
-        mLoginV.codeTx.text = mPwd;
-        
-        [self initLogin];
-        
-    };
 
-    [self presentModalViewController:rrr];
-}
 #pragma mark----获取RSAkey
 - (void)getRSAKey{
 
@@ -463,12 +236,6 @@
     
    
 }
-- (void)rightBtnTouched:(id)sender{
-    pwdViewController *p = [pwdViewController new];
-    [self pushViewController:p];
-    
-}
-
 #pragma mark----忘记密码
 - (void)ConnectionAction:(UIButton *)sender{
     UIStoryboard *secondStroyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -488,27 +255,8 @@
 - (void)loginOk{
     
 
-//    self.tabBarController.selectedIndex = 1;
-
-
-//    if( self.quikTagVC )
-//    {
-//        [self setToViewController_2:self.quikTagVC];
-//    }
-//    else
-//    {
-//        [self popViewController_2];
     [self dismissViewController];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"back"object:self];
 
-//    }
-    
-
-//    [((AppDelegate*)[UIApplication sharedApplication].delegate) dealFuncTab];
-  
-    
-    
-    
     
 }
 
@@ -628,45 +376,6 @@
 }
 
 
-
-- (void)initAlertView{
-    mAlertView = [mCustomAlertView shareView];
-    mAlertView.alpha = 0;
-
-    mAlertView.frame = self.view.bounds;
-    mAlertView.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.75];
-    [self.view addSubview:mAlertView];
-    
-}
-
-- (void)showSucsess:(NSString *)message{
-    
-    [UIView animateWithDuration:1 animations:^{
-        mAlertView.alpha = 1;
-        mAlertView.mStatusImg.image = [UIImage imageNamed:@"finish"];
-        mAlertView.mContent.text = message;
-    } completion:^(BOOL finished) {
-        mAlertView.alpha = 1;
-    }];
-}
-
-- (void)showError:(NSString *)message{
-
-    [UIView animateWithDuration:1 animations:^{
-        mAlertView.alpha = 1;
-        mAlertView.mStatusImg.image = [UIImage imageNamed:@"error"];
-        mAlertView.mContent.text = message;
-    } completion:^(BOOL finished) {
-        mAlertView.alpha = 1;
-    }];
-}
-- (void)dismissAlertView{
-    [UIView animateWithDuration:0.2 animations:^{
-        mAlertView.alpha = 0;
-    }];
-}
-
-
 #pragma mark----加载弹框
 - (void)showAdsView{
     
@@ -697,10 +406,6 @@
     aaa.layer.masksToBounds = YES;
     aaa.layer.cornerRadius = 3;
     
-    [aaa setTitle:tt[0] forState:0];
-    [aaa addTarget:self action:@selector(aaaAction:) forControlEvents:UIControlEventTouchUpInside];
-    [vvvv addSubview:aaa];
-    
     UIButton *bbb = [UIButton new];
     bbb.frame = CGRectMake(15, vvvv.frame.size.height/2+30, vvvv.frame.size.width-30, 40);
     bbb.backgroundColor = [UIColor redColor];
@@ -709,7 +414,6 @@
     bbb.layer.cornerRadius = 3;
     
     [bbb setTitle:tt[1] forState:0];
-    [bbb addTarget:self action:@selector(bbbAction:) forControlEvents:UIControlEventTouchUpInside];
     [vvvv addSubview:bbb];
     
     
@@ -720,17 +424,6 @@
     [self.view addSubview:adsView];
     adsView.containerSubviews = array;
     [adsView showAnimated:YES];
-}
-
-
-- (void)aaaAction:(UIButton *)sender{
-    [self goWechat];
-
-}
-
-- (void)bbbAction:(UIButton *)sender{
-    mType = 3;
-    [self goRegist];
 }
 
 - (void)hide{

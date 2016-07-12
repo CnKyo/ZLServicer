@@ -10,7 +10,6 @@
 #import "MTA.h"
 #import "MTAConfig.h"
 
-#import "MyViewController.h"
 #import "APService.h"
 
 #import "WebVC.h"
@@ -30,10 +29,9 @@
 #import "WeiboSDK.h"
 //新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加"-ObjC"
 
-#import <RongIMKit/RongIMKit.h>
 
 
-@interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate,RCIMConnectionStatusDelegate,RCIMReceiveMessageDelegate>
+@interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 
 @end
 @interface myalert : UIAlertView
@@ -56,17 +54,7 @@
     [AMapSearchServices sharedServices].apiKey = AMAP_KEY;
     [AMapLocationServices sharedServices].apiKey = AMAP_KEY;
     [MTA startWithAppkey:@"IBW9PAI485ZQ"];
-    
-    
-    /**
-     融云
-     
-     - returns:
-     */
-    [[RCIM sharedRCIM] initWithAppKey:RCCAPP_KEY];
-    
-    
-    
+
     /**
      *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册，
      *  在将生成的AppKey传入到此方法中。
@@ -129,35 +117,11 @@
     [WXApi registerApp:WXPAYKEY withDescription:[Util getAPPName]];// 配置info.plist的 Scheme,
 
 }
-#pragma mark----加载融云
-- (void)loadRongCloud{
-    // 注册自定义测试消息
-    [[RCIM sharedRCIM] registerMessageType:[RCTextMessage class]];
-    
-    
-    //设置接收消息代理
-    [RCIM sharedRCIM].receiveMessageDelegate=self;
-    //    [RCIM sharedRCIM].globalMessagePortraitSize = CGSizeMake(46, 46);
-    //开启输入状态监听
-    [RCIM sharedRCIM].enableTypingStatus=YES;
-    //开启发送已读回执（只支持单聊）
-    [RCIM sharedRCIM].enableReadReceipt=YES;
-    //设置显示未注册的消息
-    //如：新版本增加了某种自定义消息，但是老版本不能识别，开发者可以在旧版本中预先自定义这种未识别的消息的显示
-    [RCIM sharedRCIM].showUnkownMessage = YES;
-    [RCIM sharedRCIM].showUnkownMessageNotificaiton = YES;
-    
-    [mUserInfo OpenRCConnect];
-
-    
-
-}
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // Override point for customization after application launch.
 
     [self initExtComp];
-    [self loadRongCloud];
     
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |
@@ -202,20 +166,7 @@
         
     }
     
-    //融云即时通讯
-    
-    [[NSNotificationCenter defaultCenter]
-     
-     addObserver:self
-     
-     selector:@selector(didReceiveMessageNotification:)
-     
-     name:RCKitDispatchMessageNotification
-     
-     object:nil];
-    
-    [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
-
+   
     NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     
     if( notificationPayload )
@@ -237,31 +188,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"notify"object:dic];
 
 }
-- (void)onRCIMConnectionStatusChanged:(RCConnectionStatus)status {
-    
-    if (status == ConnectionStatus_KICKED_OFFLINE_BY_OTHER_CLIENT) {
-        
-        UIAlertView *alert = [[UIAlertView alloc]
-                              
-                              initWithTitle:@"提示"
-                              
-                              message:@"您"
-                              
-                              @"的帐号在别的设备上登录，您被迫下线！"
-                              
-                              delegate:self
-                              
-                              cancelButtonTitle:@"重新登录！"
-                              
-                              otherButtonTitles:nil, nil];
-        alert.tag = 10000;
-        
-        [alert show];
-        
-        
-    }
-    
-}
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
@@ -411,14 +338,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    int unreadMsgCount = [[RCIMClient sharedRCIMClient] getUnreadCount:@[
-                                                                         @(ConversationType_PRIVATE),
-                                                                         @(ConversationType_DISCUSSION),
-                                                                         @(ConversationType_APPSERVICE),
-                                                                         @(ConversationType_PUBLICSERVICE),
-                                                                         @(ConversationType_GROUP)
-                                                                         ]];
-    application.applicationIconBadgeNumber = unreadMsgCount;
+  
 }
 - (void)redirectNSlogToDocumentFolder {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
@@ -492,13 +412,6 @@
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [APService registerDeviceToken:deviceToken];
-    //融云的
-    NSString *token =[[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<"withString:@""]stringByReplacingOccurrencesOfString:@">"
-                                                                                                                                    withString:@""]
-                      stringByReplacingOccurrencesOfString:@" "
-                      withString:@""];
-    
-    [[RCIMClient sharedRCIMClient] setDeviceToken:token];
     
 }
 
@@ -650,11 +563,6 @@
 
 - (void)didReceiveMessageNotification:(NSNotification *)notification {
     
-    RCMessage *message = notification.object;
-    if (message.messageDirection == MessageDirection_RECEIVE) {
-        [UIApplication sharedApplication].applicationIconBadgeNumber =
-        [UIApplication sharedApplication].applicationIconBadgeNumber + 1;
-    }
 
 }
 
