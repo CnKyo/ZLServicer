@@ -17,13 +17,7 @@
  *  标题
  */
 @property (strong, nonatomic) IBOutlet UILabel *mTitle;
-/**
- *  内容
- */
-@property (strong, nonatomic) IBOutlet UILabel *mContent;
-/**
- *  时间
- */
-@property (strong, nonatomic) IBOutlet UILabel *mTime;
+
+@property (weak, nonatomic) IBOutlet UIView *mBgk;
 
 @end

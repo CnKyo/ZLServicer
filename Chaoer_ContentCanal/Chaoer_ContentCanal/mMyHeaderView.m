@@ -24,7 +24,7 @@
     
     View.mHeader.layer.masksToBounds = YES;
     View.mHeader.layer.cornerRadius = View.mHeader.mwidth/2;
-    View.mHeader.layer.borderColor = [UIColor whiteColor];
+    View.mHeader.layer.borderColor = [UIColor whiteColor].CGColor;
     View.mHeader.layer.borderWidth = 2;
     
     return View;

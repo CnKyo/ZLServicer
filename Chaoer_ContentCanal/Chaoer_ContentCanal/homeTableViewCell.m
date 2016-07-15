@@ -23,8 +23,8 @@
 - (void)layoutSubviews{
 
     [super layoutSubviews];
-    self.mImg.layer.masksToBounds = YES;
-    self.mImg.layer.cornerRadius = 3;
+    self.mImg.layer.masksToBounds = self.mBgk.layer.masksToBounds = YES;
+    self.mImg.layer.cornerRadius = self.mBgk.layer.cornerRadius = 3;
 }
 
 @end

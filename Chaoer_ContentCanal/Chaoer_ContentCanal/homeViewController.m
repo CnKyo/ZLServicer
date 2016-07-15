@@ -13,7 +13,9 @@
 #import "homeNavView.h"
 #import "mGeneralSubView.h"
 #import "CurentLocation.h"
-
+#import "pptORderViewController.h"
+#import "fixViewController.h"
+#import "marketOrderViewController.h"
 #define Height (DEVICE_Width*0.67)
 
 @interface homeViewController ()<UITableViewDelegate,UITableViewDataSource,AMapLocationManagerDelegate,MMApBlockCoordinate>
@@ -158,7 +160,7 @@
     [self.view addSubview:mNavView];
     
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.haveHeader = YES;
     UINib   *nib = [UINib nibWithNibName:@"homeTableViewCell" bundle:nil];
@@ -233,13 +235,13 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 5;
+    return 3;
     
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 101;
+    return 150;
     
 }
 
@@ -258,7 +260,18 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {
+        pptORderViewController *ppt = [[pptORderViewController alloc] initWithNibName:@"pptORderViewController" bundle:nil];
+        [self pushViewController:ppt];
+    }else if (indexPath.row == 1){
     
+        
+        fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
+        [self pushViewController:fix];
+    }else{
+        marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+        [self pushViewController:mmm];
+    }
     
 }
 

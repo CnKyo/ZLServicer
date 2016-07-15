@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e6w-41-LxG">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mBottom_bgk" translatesAutoresizingMaskIntoConstraints="NO" id="e6w-41-LxG">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7gp-RU-dN2">
@@ -34,9 +34,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户：100元" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnE-Uq-cGo">
-                    <rect key="frame" x="0.0" y="165" width="160" height="18"/>
+                    <rect key="frame" x="0.0" y="165" width="160" height="30"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kG-SY-Cr2">
@@ -65,6 +65,7 @@
                 <constraint firstItem="YPv-Q9-d6f" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4eO-Vn-VAb"/>
                 <constraint firstAttribute="trailing" secondItem="e6w-41-LxG" secondAttribute="trailing" id="6UT-3l-jUx"/>
                 <constraint firstItem="0kG-SY-Cr2" firstAttribute="width" secondItem="dnE-Uq-cGo" secondAttribute="width" id="CxN-zg-8hB"/>
+                <constraint firstItem="dnE-Uq-cGo" firstAttribute="height" secondItem="0kG-SY-Cr2" secondAttribute="height" id="JOZ-ec-4kZ"/>
                 <constraint firstItem="dnE-Uq-cGo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="R3a-5l-ctH"/>
                 <constraint firstAttribute="trailing" secondItem="YPv-Q9-d6f" secondAttribute="trailing" constant="-5" id="bso-kI-51z"/>
                 <constraint firstItem="oaZ-gY-42P" firstAttribute="top" secondItem="tMX-L6-RLO" secondAttribute="bottom" constant="8" id="cFX-A1-ezf"/>
@@ -94,4 +95,7 @@
             <point key="canvasLocation" x="299" y="301"/>
         </view>
     </objects>
+    <resources>
+        <image name="mBottom_bgk" width="480" height="160"/>
+    </resources>
 </document>

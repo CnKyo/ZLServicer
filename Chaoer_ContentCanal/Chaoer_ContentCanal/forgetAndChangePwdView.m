@@ -363,5 +363,7 @@
     }
     
 }
-
+- (void)leftBtnTouched:(id)sender{
+    [self dismissViewController];
+}
 @end

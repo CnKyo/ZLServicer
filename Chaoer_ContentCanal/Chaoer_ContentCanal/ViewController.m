@@ -148,7 +148,7 @@
     
     [mLoginV.loginBtn addTarget:self action:@selector(mLoginAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [mLoginV.mForgetBtn addTarget:self action:@selector(forgetAction:) forControlEvents:UIControlEventTouchUpInside];
+    [mLoginV.mForgetBtn addTarget:self action:@selector(ConnectionAction:) forControlEvents:UIControlEventTouchUpInside];
     
     
     
@@ -162,12 +162,6 @@
     
     
 }
-
-#pragma mark----忘记密码
-- (void)forgetAction:(UIButton *)sender{
-   
-}
-
 
 #pragma mark----获取RSAkey
 - (void)getRSAKey{
@@ -241,7 +235,8 @@
     UIStoryboard *secondStroyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     forgetAndChangePwdView *f =[secondStroyBoard instantiateViewControllerWithIdentifier:@"forget"];
     f.wkType = 2;
-    [self.navigationController pushViewController:f animated:YES];
+    [self presentViewController:f animated:YES completion:nil];
+
 }
 #pragma 免责声明事件
 - (void)mianzeAction:(UIButton *)sender{
