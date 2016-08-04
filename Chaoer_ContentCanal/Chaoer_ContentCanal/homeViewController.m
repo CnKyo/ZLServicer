@@ -121,9 +121,8 @@
     
     mLat = nil;
     mLng = nil;
-    
     [self callBack];
-}
+} 
 
 - (void)appInit{
 
@@ -147,7 +146,7 @@
     [self appInit];
 
     [self initview];
-    [self dateUpAppVersion];
+//    [self dateUpAppVersion];
 
 }
 - (void)initview{
@@ -235,7 +234,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 3;
+    return 2;
     
 }
 
@@ -260,10 +259,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 0) {
-        pptORderViewController *ppt = [[pptORderViewController alloc] initWithNibName:@"pptORderViewController" bundle:nil];
-        [self pushViewController:ppt];
-    }else if (indexPath.row == 1){
+//    if (indexPath.row == 0) {
+//        pptORderViewController *ppt = [[pptORderViewController alloc] initWithNibName:@"pptORderViewController" bundle:nil];
+//        [self pushViewController:ppt];
+//    }else
+        if (indexPath.row == 0){
     
         
         fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];

@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneTx;
 ///验证码输入框
 @property (weak, nonatomic) IBOutlet UITextField *codeTx;
-
 /**
  *  忘记密码
  */
@@ -31,5 +30,27 @@
 
 
 +(mLoginView *)shareView;
+
+
+/**
+ *  腾讯登陆
+ */
+@property (strong, nonatomic) IBOutlet UIButton *mTencentLogin;
+/**
+ *  微信登陆
+ */
+@property (strong, nonatomic) IBOutlet UIButton *mWechatLogin;
+/**
+ *  新浪登陆
+ */
+@property (strong, nonatomic) IBOutlet UIButton *mSinaLogin;
+
+@property (weak, nonatomic) IBOutlet UIView *mView1;
+
+@property (weak, nonatomic) IBOutlet UIView *mView2;
+
+@property (weak, nonatomic) IBOutlet UIView *mView3;
+
++ (mLoginView *)shareBottomView;
 
 @end

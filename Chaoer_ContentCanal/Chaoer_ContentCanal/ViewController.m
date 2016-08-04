@@ -11,6 +11,7 @@
 #import "forgetAndChangePwdView.h"
 #import "AppDelegate.h"
 
+#import "registViewController.h"
 
 #import "mLoginView.h"
 #import "AppDelegate.h"
@@ -51,7 +52,8 @@
     UIScrollView    *mScrollerView;
     
     mLoginView  *mLoginV;
-    
+    mLoginView  *mBottomView;
+
     
     NSString    *mCodeStr;
     
@@ -115,11 +117,7 @@
     self.hiddenRightBtn = YES;
     self.navBar.rightBtn.frame = CGRectMake(DEVICE_Width-100, 20, 120, 44);
     self.rightBtnTitle = @"密码登录";
-    
-    UIImageView *mBgk = [UIImageView new];
-    mBgk.frame = self.view.bounds;
-    mBgk.image = [UIImage imageNamed:@"login_bgk"];
-    [self.view addSubview:mBgk];
+
     
     mRSAKey = nil;
     [self getRSAKey];
@@ -135,26 +133,29 @@
     [self.view addSubview:mScrollerView];
     
     mLoginV = [mLoginView shareView];
-    mLoginV.frame = CGRectMake(0, 0, mScrollerView.mwidth, 568);
+    mLoginV.frame = CGRectMake(0, 64, mScrollerView.mwidth, 389);
     
     
     if ([mUserInfo backNowUser].mPhone) {
         mLoginV.phoneTx.text = [mUserInfo backNowUser].mPhone;
-
+        
     }
     
-
+    
     mLoginV.phoneTx.delegate = mLoginV.codeTx.delegate = self;
     
     [mLoginV.loginBtn addTarget:self action:@selector(mLoginAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    [mLoginV.mForgetBtn addTarget:self action:@selector(ConnectionAction:) forControlEvents:UIControlEventTouchUpInside];
+    [mLoginV.mForgetBtn addTarget:self action:@selector(forgetAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     
     
     
     [mScrollerView addSubview:mLoginV];
-    mScrollerView.contentSize = CGSizeMake(DEVICE_Width, 568);
     
+  
+    
+    mScrollerView.contentSize = CGSizeMake(DEVICE_Width, 568);
     
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction)];
@@ -162,7 +163,18 @@
     
     
 }
-
+#pragma mark----忘记密码
+- (void)forgetAction:(UIButton *)sender{
+    registViewController *rrr = [[registViewController alloc] initWithNibName:@"registViewController" bundle:nil];
+    rrr.mType = 2;
+    rrr.block = ^(NSString *content,NSString *mPwd){
+        
+        mLoginV.phoneTx.text = content;
+        mLoginV.codeTx.text = mPwd;
+    };
+    
+    [self presentModalViewController:rrr];
+}
 #pragma mark----获取RSAkey
 - (void)getRSAKey{
 
