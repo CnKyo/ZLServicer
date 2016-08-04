@@ -82,6 +82,19 @@
  *  用户信息
  */
 @interface mUserInfo : NSObject
+/**
+ *  是否开通商家
+ */
+@property (assign,nonatomic) BOOL mIsOpenMerchant;
+/**
+ *  是否开通超市
+ */
+@property (assign,nonatomic) BOOL mIsOpenShop;
+
+/**
+ *  服务状态
+ */
+@property (assign,nonatomic) int mServiceStatus;
 
 /**
  *  登陆id
@@ -93,7 +106,9 @@
  */
 @property (nonatomic,strong) NSString   *mVerifyCode;
 
+@property (nonatomic,strong) NSString   *mLoginName;
 
+@property (nonatomic,strong) NSString   *mServiceName;
 /**
  *  昵称
  */
@@ -112,6 +127,10 @@
  */
 @property (nonatomic,assign) int        mId;
 
+@property (nonatomic,assign) int        mSId;
+
+
+@property (nonatomic,assign) int        mShopId;
 
 /**
  *  用户头像
@@ -145,18 +164,6 @@
 @property (nonatomic,strong) NSString   *mSex;
 
 /**
- *  是否实名认证
- */
-@property (nonatomic,assign) BOOL        mIsRegist;
-/**
- *  是否绑定住户信息
- */
-@property (nonatomic,assign) BOOL        mIsBundle;
-/**
- *  是否房屋认证:0:未认证；1：认证
- */
-@property (nonatomic,assign) BOOL mIsHousingAuthentication;
-/**
  *  密码
  */
 @property (nonatomic,strong) NSString   *mPwd;
@@ -179,30 +186,16 @@
  *  添加时间
  */
 @property (nonatomic,strong) NSString   *mAddTime;
-/**
- *  年龄
- */
-@property (nonatomic,strong) NSString   *mAge;
-/**
- *  教育
- */
-@property (nonatomic,strong) NSString   *mEducation;
+
 /**
  *  邮箱
  */
 @property (nonatomic,strong) NSString   *mEmail;
-/**
- *  肖像
- */
-@property (nonatomic,strong) NSString   *mPortrait;
+
 /**
  *  省份
  */
 @property (nonatomic,strong) NSString   *mProvince;
-/**
- *  qq
- */
-@property (nonatomic,strong) NSString   *mQQ;
 /**
  *  状态
  */
@@ -211,19 +204,6 @@
  *  
  */
 @property (nonatomic,strong) SVerifyMsg *mVerifyMsg;
-/**
- *  登录类型1是微信登录 0是手机登录 其它
- */
-@property (nonatomic,assign) int mLoginType;
-/**
- *  微信openid
- */
-@property (nonatomic,strong) NSString   *mOpenId;
-/**
- *  社区id
- */
-@property (nonatomic,assign) int mCommunityId;
-
 
 
 #pragma mark----用户跑跑腿状态
@@ -332,15 +312,6 @@
  *  @param block 返回值
  */
 + (void)mWechatRegist:(NSDictionary *)mPara block:(void(^)(mBaseData *resb))block;
-#pragma mark----支付方式（微信，支付宝）
-/**
- *  支付
- *
- *  @param paytype 支付方式
- *  @param block   返回值
- */
--(void)payIt:(NSString*)paytype andPrice:(int)mPrice block:(void(^)(mBaseData* resb))block;
-
 /**
  *  报修支付
  *
@@ -421,15 +392,7 @@
  */
 + (void)verifyUserPhone:(NSString *)mPhone andNum:(float)mMoney block:(void(^)(mBaseData *resb))block;
 
-/**
- *  手机充值
- *
- *  @param mPhone  手机号
- *  @param mMoney  金额
- *  @param mUserId 用户id
- *  @param block   返回值
- */
-+ (void)topUpPhone:(NSString *)mPhone andNum:(float)mMoney andUserId:(int)mUserId block:(void(^)(mBaseData *resb))block;
+
 
 
 /**
@@ -449,16 +412,6 @@
  */
 + (void)getBalanceVerifyCode:(NSString *)mSellerName andLoginName:(NSString *)mLoginName andPayMoney:(int)mMoney andPayName:(NSString *)mPayName andIdentify:(NSString *)mIdentify andPhone:(NSString *)mPhone andBalance:(int)mBalance andBankCard:(NSString *)mBankCard andBankTime:(NSString *)mTime andCVV:(NSString *)mCVV block:(void(^)(mBaseData *resb))block;
 
-
-/**
- *  核实验证码并首款
- *
- *  @param mOrderCode   本地订单号
- *  @param mYBOrderCode 易宝订单号
- *  @param mCode        手机验证码
- *  @param block        返回值
- */
-+ (void)getCodeAndPay:(NSString *)mOrderCode andYBOrderCode:(NSString *)mYBOrderCode andPhoneCode:(NSString *)mCode block:(void(^)(mBaseData *resb))block;
 #pragma mark----实名认证
 
 #pragma mark----实名认证（获取省市区）

@@ -160,15 +160,12 @@ bool g_bined = NO;
     
     self.mLoginId = [[obj objectForKeyMy:@"loginId"] intValue];
     
-    self.mNickName = [obj objectForKeyMy:@"nickName"];
+    self.mNickName = [obj objectForKeyMy:@"loginName"];
+    self.mServiceName = [obj objectForKeyMy:@"serviceName"];
     
-    int mIdd =  [[obj objectForKeyMy:@"identity"] intValue];
+    self.mId =  [[obj objectForKeyMy:@"mId"] intValue];
     
-    if (mIdd == 1) {
-        self.mIdentity = @"房主";
-    }else{
-        self.mIdentity = @"租客";
-    }
+    self.mSId =  [[obj objectForKeyMy:@"sid"] intValue];
     
     self.mUserImgUrl = [obj objectForKeyMy:@"img"];
     self.mCredit = [[obj objectForKeyMy:@"credit"] intValue];
@@ -184,31 +181,28 @@ bool g_bined = NO;
         self.mSex = @"女";
     }
     
-    
-    int isregist = [[obj objectForKeyMy:@"isRegist"] boolValue];
-    
-    int isbind = [[obj objectForKeyMy:@"isBindHourse"] boolValue];
-    
-    int isAut = [[obj objectForKeyMy:@"isHousingAuthentication"] boolValue];
-    
-    self.mIsRegist = isregist?1:0;
-    
-    self.mIsBundle = isbind?1:0;
-    
-    self.mIsHousingAuthentication = isAut?1:0;
-
+  
     
     self.mPhone = [obj objectForKeyMy:@"moblie"];
     self.mPwd = [obj objectForKeyMy:@"mPwd"];
     self.muuid = @"";
     
-    self.mLoginType = [[obj objectForKeyMy:@"loginType"] intValue];
-    self.mOpenId = [obj objectForKeyMy:@"mOpenId"];
-    self.mId = [[obj objectForKeyMy:@"identity"] intValue];
-    self.mIs_leg = [[obj objectForKeyMy:@"is_leg"] intValue];
-    self.mLegworkUserId = [[obj objectForKeyMy:@"legworkUserId"] intValue];
     
-    self.mCommunityId = [[obj objectForKeyMy:@"community_id"] intValue];
+    int mMerchant = [[obj objectForKeyMy:@"is_open_merchant"] intValue];
+    
+    self.mIsOpenMerchant = mMerchant?0:1;
+    
+    int mShop = [[obj objectForKeyMy:@"is_open_shop"] intValue];
+    
+    self.mIsOpenShop = mShop?0:1;;
+    
+    
+    self.mShopId = [[obj objectForKeyMy:@"shopId"] intValue];
+    self.mEmail = [obj objectForKeyMy:@"email"];
+    
+    
+    
+    
 }
 +(void)cleanUserInfo
 {
@@ -250,159 +244,6 @@ bool g_bined = NO;
 }
 
 
-#pragma mark----微信支付
-//=======================微信支付===================================
--(void)wxPay:(int)Price block:(void(^)(mBaseData* retobj))block
-{
-    NSMutableDictionary* param =    NSMutableDictionary.new;
-    [param setObject:NumberWithInt(Price) forKey:@"price"];
-    [param setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    [param setObject:@"wx" forKey:@"channel"];
-    [param setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
-
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/pay/recharge" parameters:param call:^(mBaseData *info) {
-        
-        if( info.mSucess )
-        {
-            // self.mPayedSn = [info.mdata objectForKeyMy:@"sn"];
-            // self.mPayMoney = [[info.mdata objectForKeyMy:@"money"] floatValue];
-            
-            NSString* typestr = [info.mData objectForKeyMy:@"channel"];
-            if( [typestr isEqualToString:@"wx"] )
-            {
-                
-    
-                
-                [SVProgressHUD dismiss];
-                SWxPayInfo* wxpayinfo = [[SWxPayInfo alloc]initWithObj:info.mData];
-                [mUserInfo backNowUser].mPayBlock = ^(mBaseData *retobj) {
-                    
-                    if( retobj.mSucess )
-                    {//如果成功了,就更新下
-                        block(retobj);//再回调获取
-
-                    }else
-                        block(retobj);//再回调获取
-                    [mUserInfo backNowUser].mPayBlock = nil;
-                    
-                };
-                [self gotoWXPayWithSRV:wxpayinfo];
-            }
-            else
-            {
-                mBaseData* itretobj = [mBaseData infoWithError:@"支付出现异常,请稍后再试"];
-                block(itretobj);//再回调获取
-            }
-        }
-        else
-            block( info );
-    }];
-}
-
--(void)gotoWXPayWithSRV:(SWxPayInfo*)payinfo
-{
-    
-    PayReq * payobj = [[PayReq alloc]init];
-    
-    payobj.partnerId = @"1336953201";
-    payobj.prepayId = payinfo.prepayid;
-    payobj.nonceStr = payinfo.noncestr;
-    payobj.timeStamp = payinfo.mtimeStamp;
-    payobj.package = @"Sign=WXPay";
-    payobj.sign = payinfo.sign;
-    [WXApi sendReq:payobj];
-    
-}
-#pragma mark----支付宝支付
-//=======================支付宝支付===================================
--(void)aliPay:(int)Price block:(void(^)(mBaseData* retobj))block
-{
-
-    
-    NSMutableDictionary* param =    NSMutableDictionary.new;
-    [param setObject:NumberWithInt(Price) forKey:@"price"];
-    [param setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    [param setObject:@"alipay" forKey:@"channel"];
-    [param setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
-
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/pay/recharge" parameters:param call:^(mBaseData *info) {
-        
-        if( info.mSucess )
-        {
-            // self.mPayedSn = [info.mdata objectForKeyMy:@"sn"];
-            // self.mPayMoney = [[info.mdata objectForKeyMy:@"money"] floatValue];
-            
-            NSString *mPayInfo = [info.mData objectForKey:@"packages"];
-            
-            
-            
-            [SVProgressHUD dismiss];
-            
-            
-            
-            [mUserInfo backNowUser].mPayBlock = ^(mBaseData *retobj) {
-                
-                if( retobj.mSucess )
-                {//如果成功了,就更新下
-                    block(retobj);//再回调获取
-                    
-                }else
-                    block(retobj);//再回调获取
-                [mUserInfo backNowUser].mPayBlock = nil;
-                
-            };
-            
-            
-            [[AlipaySDK defaultService] payOrder:mPayInfo fromScheme:@"zerolife" callback:^(NSDictionary *resultDic) {
-                
-                MLLog(@"xxx:%@",resultDic);
-                
-                mBaseData* retobj = nil;
-                
-                if (resultDic)
-                {
-                    if ( [[resultDic objectForKey:@"resultStatus"] intValue] == 9000 )
-                    {
-                        retobj = [[mBaseData alloc]init];
-                        retobj.mSucess = YES;
-                        retobj.mMessage = @"支付成功";
-                        retobj.mState = 200000;
-                    }
-                    else
-                    {
-                        retobj = [mBaseData infoWithError: [resultDic objectForKey:@"memo" ]];
-                    }
-                }
-                else
-                {
-                    retobj = [mBaseData infoWithError: @"支付出现异常"];
-                }
-                
-                if(  [mUserInfo backNowUser].mPayBlock )
-                {
-                    [mUserInfo backNowUser].mPayBlock( retobj );
-                }
-                else
-                {
-                    MLLog(@"alipay block nil?");
-                }
-                
-            }];
-            
-            
-            
-          
-        }
-        else
-        {
-            mBaseData* itretobj = [mBaseData infoWithError:@"支付出现异常,请稍后再试"];
-            block(itretobj);//再回调获取
-        }
-    }];
-
-    
-    
-}
 + (void)getRegistVerifyCode:(NSString *)mPhone block:(void(^)(mBaseData *resb))block{
     NSMutableDictionary *para = [NSMutableDictionary new];
     [para setObject:mPhone forKey:@"moblie"];
@@ -446,23 +287,6 @@ bool g_bined = NO;
         }
     }];
     
-}
-#pragma mark----支付方式（微信，支付宝）
--(void)payIt:(NSString*)paytype andPrice:(int)mPrice block:(void(^)(mBaseData* resb))block{
-
-    if( [paytype isEqualToString:@"wx"] )
-    {
-        [self wxPay:mPrice block:block];
-    }
-    else if ([paytype isEqualToString:@"alipay"]){
-    
-        [self aliPay:mPrice block:block];
-    }
-    else{
-        block( [mBaseData infoWithError:@"不支持的支付方式!"] );
-
-    }
-
 }
 /**
  *  报修支付
@@ -554,7 +378,6 @@ bool g_bined = NO;
                         [mUserInfo backNowUser].mPayBlock = nil;
                         
                     };
-                    [self gotoWXPayWithSRV:wxpayinfo];
                 }
                 else
                 {
@@ -635,19 +458,17 @@ bool g_bined = NO;
 }
 + (void)mUserLogin:(NSString *)mLoginName andPassword:(NSString *)mPwd block:(void (^)(mBaseData *resb, mUserInfo *mUser))block{
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:mLoginName forKey:@"loginName"];
+    [para setObject:[Util RSAEncryptor:mLoginName] forKey:@"loginName"];
     [para setObject:mPwd forKey:@"passWord"];
     [para setObject:@"ios" forKey:@"device"];
+    [para setObject:[Util getAppVersion] forKey:@"app"];
+    [para setObject:[Util getDeviceModel] forKey:@"mobileVersion"];
+    [para setObject:[Util getDeviceVersion] forKey:@"mobileSystem"];
+    [para setObject:[Util getDeviceUUID] forKey:@"imei"];
     
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/login/applogin" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"auth/login" parameters:para call:^(mBaseData *info) {
         [self dealUserSession:info andPhone:mPwd andOpenId:nil block:block];
     }];
-    
-//    [[HTTPrequest sharedHDNetworking] POST:@"app/login/applogin" parameters:para success:^(id  _Nonnull responseObject) {
-//        MLLog(@"%@",responseObject);
-//    } failure:^(NSError * _Nonnull error) {
-//        MLLog(@"%@",error);
-//    }];
     
 }
 + (void)mVerifyOpenId:(NSDictionary *)mOpenId block:(void (^)(mBaseData *resb, mUserInfo *mUser))block{
@@ -676,9 +497,12 @@ bool g_bined = NO;
 
 +(void)mForgetPwd:(NSString *)mLoginName andNewPwd:(NSString *)mPwd block:(void (^)(mBaseData *))block{
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:mLoginName forKey:@"userName"];
-    [para setObject:mPwd forKey:@"newPassword"];
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/auth/updatePassowrd" parameters:para call:^(mBaseData *info) {
+    [para setObject:[Util RSAEncryptor:mLoginName] forKey:@"loginName"];
+    [para setObject:[Util RSAEncryptor:mPwd] forKey:@"oPass"];
+    [para setObject:@"ios" forKey:@"device"];
+    [para setObject:[Util getDeviceModel] forKey:@"nPass"];
+
+    [[HTTPrequest sharedHDNetworking] postUrl:@"auth/upPass" parameters:para call:^(mBaseData *info) {
         if (info.mSucess) {
             block (info);
 
@@ -702,19 +526,12 @@ bool g_bined = NO;
     }else{
         [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
     }
-    if([mUserInfo backNowUser].mLoginType){
-        [para setObject:NumberWithInt([mUserInfo backNowUser].mLoginType) forKey:@"loginType"];
-    }
-    
-    if ([mUserInfo backNowUser].mOpenId) {
-        [para setObject:[mUserInfo backNowUser].mOpenId forKey:@"openid"];
-
-    }
+   
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"app/updUser/appFindUser" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
-            [mUserInfo dealUserSession:info andPhone:nil andOpenId:[mUserInfo backNowUser].mOpenId block:block];
+            [mUserInfo dealUserSession:info andPhone:nil andOpenId:nil block:block];
         }else{
             block (info,[mUserInfo backNowUser]);
         }
@@ -1052,24 +869,6 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
         }
     }];
 }
-+ (void)topUpPhone:(NSString *)mPhone andNum:(float)mMoney andUserId:(int)mUserId block:(void (^)(mBaseData *))block{
-    NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:mPhone forKey:@"phone"];
-    [para setObject:NumberWithFloat(mMoney) forKey:@"money"];
-    [para setObject:NumberWithInt(mUserId) forKey:@"userId"];
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
-
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/convenience/appLineOrder" parameters:para call:^(mBaseData *info) {
-        if (info.mSucess) {
-            block ( info );
-
-        }else{
-            block ( info );
-
-        }
-    }];
-}
-
 + (void)getBalanceVerifyCode:(NSString *)mSellerName andLoginName:(NSString *)mLoginName andPayMoney:(int)mMoney andPayName:(NSString *)mPayName andIdentify:(NSString *)mIdentify andPhone:(NSString *)mPhone andBalance:(int)mBalance andBankCard:(NSString *)mBankCard andBankTime:(NSString *)mTime andCVV:(NSString *)mCVV block:(void(^)(mBaseData *resb))block{
     
     NSMutableDictionary *para = [NSMutableDictionary new];
@@ -1098,28 +897,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     
 }
 
-+ (void)getCodeAndPay:(NSString *)mOrderCode andYBOrderCode:(NSString *)mYBOrderCode andPhoneCode:(NSString *)mCode block:(void(^)(mBaseData *resb))block{
 
-    NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    [para setObject:mOrderCode forKey:@"orderCode"];
-    [para setObject:mYBOrderCode forKey:@"ybOrderCode"];
-    [para setObject:mCode forKey:@"verifyCode"];
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
-
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/epos/pay/vertifyCodePay" parameters:para call:^(mBaseData *info) {
-        if (info.mSucess) {
-            
-            block( info );
-            
-        }else{
-            block( info );
-        }
-    }];
-    
-    
-    
-}
 #pragma mark----实名认证（获取省市区）
 /**
  *  实名认证（获取省市区）
@@ -1682,7 +1460,6 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     [para setObject:NumberWithInt(mUid) forKey:@"userId"];
     [para setObject:mMoney forKey:@"money"];
     [para setObject:@"0" forKey:@"presentManner"];
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"app/wallet/present" parameters:para call:^(mBaseData *info) {
         if (info.mSucess ) {
             
@@ -2438,7 +2215,6 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
         mUrlStr = @"app/legwork/user/appOrderCarry";
 
     }
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mCommunityId) forKey:@"community_id"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:mUrlStr parameters:para call:^(mBaseData *info) {
         
