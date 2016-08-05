@@ -15,6 +15,8 @@
 #import "WithdrawViewController.h"
 #import "mBankCarViewController.h"
 #import "historyViewController.h"
+#import "forgetAndChangePwdView.h"
+
 @interface kitchenViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -32,14 +34,13 @@
     self.hiddenRightBtn = YES;
     
     self.page = 1;
-    [self loadData];
     [self initView];
 
 }
 - (void)loadData{
-
+    [self.tempArray removeAllObjects];
     NSArray *mArr1 = @[@"接单地区",@"服务类型"];
-    NSArray *mArr2 = @[@"银行卡",@"我的消息",@"账单纪录"];
+    NSArray *mArr2 = @[@"银行卡",@"我的消息",@"账单纪录",@"修改密码"];
     [self.tempArray addObject:mArr1];
     [self.tempArray addObject:mArr2];
 
@@ -50,10 +51,9 @@
 //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
     
-//    self.haveHeader = YES;
-//    self.haveFooter = YES;
-    
-    
+    self.haveHeader = YES;
+
+
     UINib   *nib = [UINib nibWithNibName:@"mMyTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell1"];
     
@@ -80,6 +80,36 @@
     [self.tableView setTableFooterView:mFooterView];
     
 }
+
+- (void)headerBeganRefresh{
+    [self loadData];
+
+    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
+        [self removeEmptyView];
+        [self headerEndRefresh];
+        if (resb.mSucess) {
+            [self upDatePage];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+    }];
+    
+}
+
+- (void)upDatePage{
+
+    
+    [mHeaderView.mHeader sd_setImageWithURL:[NSURL URLWithString:[mUserInfo backNowUser].mUserImgUrl] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+    mHeaderView.mName.text = [mUserInfo backNowUser].mNickName;
+    mHeaderView.mPhone.text = [mUserInfo backNowUser].mPhone;
+    mHeaderView.mMoney.text = [NSString stringWithFormat:@"账户余额:¥%.2f元",[mUserInfo backNowUser].mMoney];
+    
+    
+}
+
 - (void)withDrawAction:(UIButton *)sender{
     WithdrawViewController *www = [[WithdrawViewController alloc] initWithNibName:@"WithdrawViewController" bundle:nil];
     [self pushViewController:www];
@@ -113,7 +143,7 @@
     if (section == 0) {
         return 2;
     }else{
-        return 3;
+        return 4;
     }
     
 }
@@ -155,6 +185,13 @@
         
         mMyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
         cell.mName.text = self.tempArray[0][indexPath.row];
+        
+        if (indexPath.row == 0) {
+            cell.mContent.text = [mUserInfo backNowUser].mProvince;
+        }else{
+            cell.mContent.text = [mUserInfo backNowUser].mServiceType;
+        }
+        
         return cell;
 
     }else{
@@ -189,9 +226,14 @@
         else if (indexPath.row == 1) {
             messageViewController *mmm = [[messageViewController alloc] initWithNibName:@"messageViewController" bundle:nil];
             [self pushViewController:mmm];
-        }else{
+        }else if(indexPath.row == 2){
             historyViewController *hhh = [[historyViewController alloc] initWithNibName:@"historyViewController" bundle:nil];
             [self pushViewController:hhh];
+        }else{
+        
+            UIStoryboard *secondStroyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            forgetAndChangePwdView *f =[secondStroyBoard instantiateViewControllerWithIdentifier:@"forget"];
+            [self pushViewController:f];
         }
     }
 }

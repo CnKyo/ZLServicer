@@ -246,7 +246,6 @@
 - (void)ConnectionAction:(UIButton *)sender{
     UIStoryboard *secondStroyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
     forgetAndChangePwdView *f =[secondStroyBoard instantiateViewControllerWithIdentifier:@"forget"];
-    f.wkType = 2;
     [self presentViewController:f animated:YES completion:nil];
 
 }

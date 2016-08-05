@@ -9,9 +9,6 @@
 #import "BaseVC.h"
 
 @interface forgetAndChangePwdView : BaseVC
-/**
- *  类型 
- */
-@property (assign,nonatomic) int        wkType;
+
 
 @end

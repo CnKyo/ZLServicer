@@ -71,20 +71,8 @@
     }
     
     [CurentLocation sharedManager];
-    [self upDateUserInfo];
 }
-- (void)upDateUserInfo{
 
-    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-      
-        
-        if (resb.mSucess) {
-
-        }else{
-        
-        }
-    }];
-}
 #pragma mark----更新app
 - (void)dateUpAppVersion{
 
@@ -124,29 +112,13 @@
     [self callBack];
 } 
 
-- (void)appInit{
-
-    [Ginfo getGinfo:^(mBaseData *resb) {
-        if (resb.mSucess) {
-            
-        }else{
-            
-        }
-    }];
-    
-    
-    
-}
-
 -(void)callBack{
     [self.mBanerArr removeAllObjects];
     MLLog(@"this is Notification.");
     [self showFrist];
 
-    [self appInit];
 
     [self initview];
-//    [self dateUpAppVersion];
 
 }
 - (void)initview{
@@ -175,7 +147,19 @@
 }
 - (void)headerBeganRefresh{
 
-    [self headerEndRefresh];
+    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
+        [self.tempArray removeAllObjects];
+        [self removeEmptyView];
+        [self headerEndRefresh];
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:user.mOrderArr];
+            [self.tableView reloadData];
+        }else{
+        
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+    }];
     
 }
 - (void)loadAddress{
@@ -234,7 +218,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 2;
+    return self.tempArray.count;
     
 }
 
@@ -248,9 +232,19 @@
 {
     NSString *reuseCellId = @"cell";
 
+    NSDictionary *dic = self.tempArray[indexPath.row];
+    
     homeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
 
-
+    int mType = [[dic objectForKey:@"type"] intValue];
+    
+    if (mType == 1) {
+        cell.mImg.image = [UIImage imageNamed:@"type_fix"];
+    }else{
+        cell.mImg.image = [UIImage imageNamed:@"type_market"];
+        
+    }
+    
     return cell;
 
 }
@@ -259,15 +253,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.row == 0) {
-//        pptORderViewController *ppt = [[pptORderViewController alloc] initWithNibName:@"pptORderViewController" bundle:nil];
-//        [self pushViewController:ppt];
-//    }else
-        if (indexPath.row == 0){
     
-        
+    NSDictionary *dic = self.tempArray[indexPath.row];
+    
+    if ([[dic objectForKey:@"type"] intValue] == 1) {
         fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
         [self pushViewController:fix];
+        
     }else{
         marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
         [self pushViewController:mmm];

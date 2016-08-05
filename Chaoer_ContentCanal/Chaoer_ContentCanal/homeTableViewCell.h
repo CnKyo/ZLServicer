@@ -13,11 +13,10 @@
  *  图片
  */
 @property (strong, nonatomic) IBOutlet UIImageView *mImg;
-/**
- *  标题
- */
-@property (strong, nonatomic) IBOutlet UILabel *mTitle;
+
 
 @property (weak, nonatomic) IBOutlet UIView *mBgk;
+
+
 
 @end

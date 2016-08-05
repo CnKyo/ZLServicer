@@ -19,7 +19,7 @@
     self.hiddenTabBar = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.Title = self.mPageName = @"消息";
+    self.Title = self.mPageName = @"账单纪录";
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
@@ -41,7 +41,49 @@
     UINib   *nib = [UINib nibWithNibName:@"mmgTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
 }
+- (void)headerBeganRefresh{
 
+    self.page = 1;
+    
+    [[mUserInfo backNowUser] getTradeHistoryList:self.page block:^(mBaseData *resb, NSArray *mArr) {
+        
+        [self headerEndRefresh];
+        [self.tempArray removeAllObjects];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mArr];
+            [self.tableView reloadData];
+        }else{
+        
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
+    
+}
+
+- (void)footetBeganRefresh{
+
+    self.page ++;
+    
+    [[mUserInfo backNowUser] getTradeHistoryList:self.page block:^(mBaseData *resb, NSArray *mArr) {
+        
+        [self footetEndRefresh];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mArr];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -63,7 +105,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.tempArray.count;
     
     
 }
@@ -79,11 +121,16 @@
     
     NSString *reuseCellId = nil;
     
+    GTradeHistory *mTrade = self.tempArray[indexPath.row];
+    
     reuseCellId = @"cell";
     mmgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
     cell.mPoint.hidden = YES;
     cell.mLogo.image = [UIImage imageNamed:@"money_msg"];
     
+    cell.mName.text = [NSString stringWithFormat:@"支出/收入:¥%.2f元  余额:¥%.2f元",mTrade.mOutMoney,mTrade.mNowMoney];
+    cell.mContent.text = mTrade.mNote;
+    cell.mTime.text = mTrade.mTime;
     return cell;
     
     

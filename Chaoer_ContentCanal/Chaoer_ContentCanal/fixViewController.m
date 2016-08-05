@@ -27,7 +27,7 @@
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
-    mType =1;
+    mType =0;
     [self initView];
 
 }
@@ -45,6 +45,51 @@
     
     mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:@[@"进行中订单",@"已完成订单",@"已取消订单"] andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
     
+}
+
+
+- (void)headerBeganRefresh{
+    
+    self.page = 1;
+    
+    [[mUserInfo backNowUser] getFixOrderList:self.page andState:mType block:^(mBaseData *resb, GFixOrder *mOrder) {
+        
+        [self headerEndRefresh];
+        [self.tempArray removeAllObjects];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mOrder.mOrderList];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
+    
+}
+
+- (void)footetBeganRefresh{
+    
+    self.page ++;
+    
+    [[mUserInfo backNowUser] getFixOrderList:self.page andState:mType block:^(mBaseData *resb, GFixOrder *mOrder) {
+        
+        [self footetEndRefresh];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mOrder.mOrderList];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +114,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 5;
+    return self.tempArray.count;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -87,9 +132,9 @@
 - (void)WKDidSelectedIndex:(NSInteger)mIndex{
     MLLog(@"点击了%lu",(unsigned long)mIndex);
     
-    mType = [[NSString stringWithFormat:@"%ld",(long)mIndex+1] intValue];
-    //    [self headerBeganRefresh];
-    [self.tableView reloadData];
+    mType = [[NSString stringWithFormat:@"%ld",(long)mIndex] intValue];
+    [self headerBeganRefresh];
+    
     
 }
 

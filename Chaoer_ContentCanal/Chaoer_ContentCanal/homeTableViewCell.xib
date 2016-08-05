@@ -19,30 +19,17 @@
                         <rect key="frame" x="10" y="10" width="300" height="130"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="type_fix" translatesAutoresizingMaskIntoConstraints="NO" id="1FU-U3-e05">
-                                <rect key="frame" x="110" y="10" width="80" height="80"/>
+                                <rect key="frame" x="85" y="0.0" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="XGd-c0-Sym"/>
-                                    <constraint firstAttribute="height" constant="80" id="qqj-MX-T7K"/>
+                                    <constraint firstAttribute="width" constant="130" id="XGd-c0-Sym"/>
+                                    <constraint firstAttribute="height" constant="130" id="qqj-MX-T7K"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="社区新闻" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWX-PR-ieq">
-                                <rect key="frame" x="8" y="98" width="284" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="M1P-ao-hRJ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="0.20385237068965517" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="hWX-PR-ieq" secondAttribute="trailing" constant="8" id="E3c-oa-kbN"/>
                             <constraint firstItem="1FU-U3-e05" firstAttribute="centerX" secondItem="qwT-pb-FjR" secondAttribute="centerX" id="MNl-gW-D66"/>
-                            <constraint firstItem="hWX-PR-ieq" firstAttribute="top" secondItem="1FU-U3-e05" secondAttribute="bottom" constant="8" id="NNl-S8-mT6"/>
-                            <constraint firstItem="hWX-PR-ieq" firstAttribute="centerX" secondItem="qwT-pb-FjR" secondAttribute="centerX" id="irO-9y-1Xv"/>
-                            <constraint firstItem="1FU-U3-e05" firstAttribute="top" secondItem="qwT-pb-FjR" secondAttribute="top" constant="10" id="lcJ-dS-oSb"/>
-                            <constraint firstItem="hWX-PR-ieq" firstAttribute="leading" secondItem="qwT-pb-FjR" secondAttribute="leading" constant="8" id="rZv-me-YZt"/>
+                            <constraint firstItem="1FU-U3-e05" firstAttribute="top" secondItem="qwT-pb-FjR" secondAttribute="top" id="lcJ-dS-oSb"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -58,7 +45,6 @@
             <connections>
                 <outlet property="mBgk" destination="qwT-pb-FjR" id="b1D-J7-PaE"/>
                 <outlet property="mImg" destination="1FU-U3-e05" id="eg1-K8-hOx"/>
-                <outlet property="mTitle" destination="hWX-PR-ieq" id="Mh1-mn-mc7"/>
             </connections>
             <point key="canvasLocation" x="255" y="345"/>
         </tableViewCell>

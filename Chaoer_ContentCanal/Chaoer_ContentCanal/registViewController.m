@@ -98,7 +98,7 @@
         if (resb.mData) {
             [SVProgressHUD showSuccessWithStatus:resb.mMessage];
 
-            mCode = [NSString stringWithFormat:@"%@",resb.mData];
+            mCode = [NSString stringWithFormat:@"%@",[resb.mData objectForKey:@"verificationCode"]];
             
             [self timeCount];
         }else{

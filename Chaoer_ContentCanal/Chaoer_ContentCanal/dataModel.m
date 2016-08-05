@@ -167,7 +167,7 @@ bool g_bined = NO;
     
     self.mSId =  [[obj objectForKeyMy:@"sid"] intValue];
     
-    self.mUserImgUrl = [obj objectForKeyMy:@"img"];
+    self.mUserImgUrl = [obj objectForKeyMy:@"portrait"];
     self.mCredit = [[obj objectForKeyMy:@"credit"] intValue];
     self.mGrade = [[obj objectForKeyMy:@"grade"] intValue];
     self.mMoney = [[obj objectForKeyMy:@"money"] floatValue];
@@ -181,7 +181,6 @@ bool g_bined = NO;
         self.mSex = @"女";
     }
     
-  
     
     self.mPhone = [obj objectForKeyMy:@"moblie"];
     self.mPwd = [obj objectForKeyMy:@"mPwd"];
@@ -190,17 +189,52 @@ bool g_bined = NO;
     
     int mMerchant = [[obj objectForKeyMy:@"is_open_merchant"] intValue];
     
-    self.mIsOpenMerchant = mMerchant?0:1;
+    self.mIsOpenMerchant = mMerchant?1:0;
     
     int mShop = [[obj objectForKeyMy:@"is_open_shop"] intValue];
     
-    self.mIsOpenShop = mShop?0:1;;
+    self.mIsOpenShop = mShop?1:0;;
     
+    NSMutableArray *mArr = [NSMutableArray new];
+    [mArr removeAllObjects];
+    
+    
+    if (mMerchant==1) {
+        [mArr addObject:@{@"name":@"物业报修",@"type":@"1"}];
+    }else{
+        [mArr removeObject:@{@"name":@"物业报修",@"type":@"1"}];
+
+    }
+    
+    if (mShop == 1) {
+        [mArr addObject:@{@"name":@"社区超市",@"type":@"2"}];
+
+    }else{
+        [mArr removeObject:@{@"name":@"社区超市",@"type":@"2"}];
+
+    }
+    
+    self.mOrderArr = mArr;
     
     self.mShopId = [[obj objectForKeyMy:@"shopId"] intValue];
     self.mEmail = [obj objectForKeyMy:@"email"];
     
     
+    NSString *mTT = @"";
+
+    for (int i =0;i<self.mOrderArr.count;i++) {
+        
+        NSDictionary *dic = self.mOrderArr[i];
+        
+        
+        if (i == self.mOrderArr.count-1) {
+            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]]];
+        }else{
+            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@,",[dic objectForKey:@"name"]]];
+        }
+        
+    }
+    self.mServiceType = mTT;
     
     
 }
@@ -246,16 +280,38 @@ bool g_bined = NO;
 
 + (void)getRegistVerifyCode:(NSString *)mPhone block:(void(^)(mBaseData *resb))block{
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:mPhone forKey:@"moblie"];
-    [para setObject:@"1" forKey:@"from"];
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/verfyCode/appVerfyCode" parameters:para call:^(mBaseData *info) {
+    [para setObject:mPhone forKey:@"loginName"];
+    
+    
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/auth/ForgetPassword" parameters:para call:^(mBaseData *info) {
         if (info.mSucess) {
             block (info);
         }else
             block(info);
     }];
 }
+/**
+ *  修改密码
+ *
+ *  @param mPhone  手机
+ *  @param mOldPwd 旧密码
+ *  @param mNewPwd 新密码
+ *  @param block   返回值
+ */
++ (void)modifyPwd:(NSString *)mPhone andOldPwd:(NSString *)mOldPwd andNewPwd:(NSString *)mNewPwd block:(void(^)(mBaseData *resb, mUserInfo *mUser))block{
 
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    [para setObject:[Util RSAEncryptor:mPhone] forKey:@"loginName"];
+    [para setObject:[Util RSAEncryptor:mOldPwd] forKey:@"oPass"];
+    [para setObject:[Util RSAEncryptor:mNewPwd] forKey:@"nPass"];
+    [para setObject:@"ios" forKey:@"device"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/auth/upPass" parameters:para call:^(mBaseData *info) {
+        [self dealUserSession:info andPhone:mNewPwd andOpenId:nil block:block];
+
+    }];
+}
 + (void)mUserRegist:(NSString *)mPhoneNum andCode:(NSString *)mCode andPwd:(NSString *)mPwd andIdentity:(NSString *)mId block:(void (^)(mBaseData *))block{
 
     NSMutableDictionary *para = [NSMutableDictionary new];
@@ -466,7 +522,7 @@ bool g_bined = NO;
     [para setObject:[Util getDeviceVersion] forKey:@"mobileSystem"];
     [para setObject:[Util getDeviceUUID] forKey:@"imei"];
     
-    [[HTTPrequest sharedHDNetworking] postUrl:@"auth/login" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/auth/login" parameters:para call:^(mBaseData *info) {
         [self dealUserSession:info andPhone:mPwd andOpenId:nil block:block];
     }];
     
@@ -498,11 +554,10 @@ bool g_bined = NO;
 +(void)mForgetPwd:(NSString *)mLoginName andNewPwd:(NSString *)mPwd block:(void (^)(mBaseData *))block{
     NSMutableDictionary *para = [NSMutableDictionary new];
     [para setObject:[Util RSAEncryptor:mLoginName] forKey:@"loginName"];
-    [para setObject:[Util RSAEncryptor:mPwd] forKey:@"oPass"];
+    [para setObject:[Util RSAEncryptor:mPwd] forKey:@"nPass"];
     [para setObject:@"ios" forKey:@"device"];
-    [para setObject:[Util getDeviceModel] forKey:@"nPass"];
 
-    [[HTTPrequest sharedHDNetworking] postUrl:@"auth/upPass" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/auth/modifyPassword" parameters:para call:^(mBaseData *info) {
         if (info.mSucess) {
             block (info);
 
@@ -519,24 +574,18 @@ bool g_bined = NO;
 
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    if (![mUserInfo backNowUser].mUserId) {
-        
-        [para setObject:@"0" forKey:@"identity"];
+ 
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mSId]] forKey:@"sId"];
+    [para setObject:@"ios" forKey:@"device"];
 
-    }else{
-        [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    }
-   
-    
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/updUser/appFindUser" parameters:para call:^(mBaseData *info) {
+ 
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/homeRefresh" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
             [mUserInfo dealUserSession:info andPhone:nil andOpenId:nil block:block];
         }else{
             block (info,[mUserInfo backNowUser]);
         }
-        
-        
 
     }];
 
@@ -577,6 +626,9 @@ bool g_bined = NO;
         
         if (mPara) {
             [tdic setObject:mPara forKey:@"mPwd"];
+        }else{
+            [tdic setObject:[mUserInfo backNowUser].mPwd forKey:@"mPwd"];
+
         }
         if (mOpenid) {
             [tdic setObject:mOpenid forKey:@"mOpenId"];
@@ -707,95 +759,115 @@ bool g_bined = NO;
   NSURLConnection * _connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     [_connection start];
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    NSURLRequest *request = [[HTTPrequest sharedClient].requestSerializer multipartFormRequestWithMethod:@"POST" URLString:mUrlStr parameters:para constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        
-//        
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        formatter.dateFormat = @"yyyyMMddHHmmss";
-//        NSString *nowTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];
-//        
-//        NSString *fileName = [NSString stringWithFormat:@"%@.png",nowTimeStr];
-//        [formData appendPartWithFileData:mImg name:@"file" fileName:fileName mimeType:@"image/png"];
-//        
-//    } error:nil];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    AFHTTPRequestOperation *operator = [[HTTPrequest sharedClient] HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//
-//        NSLog(@"%@ˆ",responseObject);
-//
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        NSLog(@"%@",error);
-//        block( [mBaseData infoWithError:[NSString stringWithFormat:@"%@",error]] );
-//
-//    }];
-//    [operator start];
-    
-    
-    
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    
-//    
-//    [manager POST:mUrlStr parameters:para constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-//        
-//        
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        formatter.dateFormat = @"yyyyMMddHHmmss";
-//        NSString *nowTimeStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSinceNow:0]];
-//        
-//        NSString *fileName = [NSString stringWithFormat:@"%@.png",nowTimeStr];
-//        [formData appendPartWithFileData:mImg name:@"file" fileName:fileName mimeType:@"application/octet-stream"];
-//
-//        
-//    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"%@ˆ",responseObject);
-//
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"%@",error);
-//        block( [mBaseData infoWithError:[NSString stringWithFormat:@"%@",error]] );
-//
-//    }];
+ 
     
   
 
 }
+
+#pragma mark----查询银行卡
+/**
+ *  查询银行卡
+ *
+ *  @param block fanhuizhi
+ */
+- (void)getBankInfo:(void(^)(mBaseData *resb))block{
+
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId ) forKey:@"serviceId"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/bank" parameters:para call:^(mBaseData * _Nonnull info) {
+        
+        block(info);
+ 
+    }];
+    
+}
+#pragma mark----获取账单纪录
+/**
+ *  获取账单纪录
+ *
+ *  @param block fanhuizhi
+ */
+- (void)getTradeHistoryList:(int)mPage block:(void(^)(mBaseData *resb,NSArray *mArr))block{
+
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId ) forKey:@"serviceId"];
+    [para setObject:NumberWithInt(10) forKey:@"rows"];
+    [para setObject:NumberWithInt(mPage) forKey:@"page"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/bank" parameters:para call:^(mBaseData * _Nonnull info) {
+        NSMutableArray *tempArr = [NSMutableArray new];
+        [tempArr removeAllObjects];
+        if (info.mSucess) {
+            
+            for (NSDictionary *dic in info.mData) {
+                [tempArr addObject:[[GTradeHistory alloc] initWithObj:dic]];
+            }
+            block(info,tempArr);
+
+            
+        }else{
+        
+            block(info,tempArr);
+        }
+    }];
+    
+    
+}
+
+#pragma mark----获取物业报修订单
+/**
+ *  获取物业报修订单
+ *
+ *  @param mPage  分页
+ *  @param mState 状态 4:报修申请8:服务中
+ 5:服务完成6:完成
+ 
+ *  @param block  返回值
+ */
+- (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block{
+
+    
+    NSString *mType = nil;
+    
+    if (mState == 0) {
+        mType = @"8,5";
+    }else if (mState == 1){
+        mType = @"6";
+    }else{
+        mType = @"0";
+    }
+    
+    
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId ) forKey:@"mId"];
+    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
+    [para setObject:mType forKey:@"state"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/getWarrantyOrderList" parameters:para call:^(mBaseData * _Nonnull info) {
+//        NSMutableArray *tempArr = [NSMutableArray new];
+//        [tempArr removeAllObjects];
+        if (info.mSucess) {
+            
+//            for (NSDictionary *dic in info.mData) {
+//                [tempArr addObject:[[GFixOrder alloc] initWithObj:dic]];
+//            }
+            block(info,[[GFixOrder alloc] initWithObj:info.mData]);
+            
+            
+        }else{
+            
+            block(info,nil);
+        }
+    }];
+    
+}
+
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     MLLog(@"reveive Response:\n%@",response);
 }
@@ -3186,12 +3258,24 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 -(void)fetch:(NSDictionary*)obj
 {
     
-    self.mAppointmentTime = [obj objectForKeyMy:@"appointmentTime"];
+    NSMutableArray *mTep = [NSMutableArray new];
+    
+    for (NSDictionary *dic in [obj objectForKeyMy:@"list"]) {
+        [mTep addObject:[[GFixOrderList alloc] initWithObj:dic]];
+    }
+    
+    self.mOrderList = mTep;
+    
+    self.mTTRow = [[obj objectForKeyMy:@"totalRow"] intValue];
+    self.mMerchantID = [[obj objectForKeyMy:@"merchantId"] intValue];
+    self.mUserId = [[obj objectForKeyMy:@"userId"] intValue];
+
+    self.mAppointmentTime = [obj objectForKeyMy:@"addTime"];
     self.mBuyerAddress = [obj objectForKeyMy:@"buyerAddress"];
     self.mClassificationName = [obj objectForKeyMy:@"classificationName"];
     self.mMerchantName = [obj objectForKeyMy:@"merchantName"];
-    self.mNote = [obj objectForKeyMy:@"note"];
-    self.mOrderId = [[obj objectForKeyMy:@"orderId"] intValue];
+    self.mNote = [obj objectForKeyMy:@"description"];
+    self.mOrderId = [[obj objectForKeyMy:@"id"] intValue];
     self.mOrderCode = [obj objectForKeyMy:@"orderCode"];
     self.mStatus = [[obj objectForKeyMy:@"status"] intValue];
     self.mPhone = [obj objectForKeyMy:@"phone"];
@@ -4563,4 +4647,71 @@ bool pptbined = NO;
     
 }
 
+@end
+
+@implementation GTradeHistory
+
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+    
+    
+    
+    self.mOldMoney = [[obj objectForKeyMy:@"beforeMoney"] floatValue];
+    self.mNewMoney = [[obj objectForKeyMy:@"afterMoney"] floatValue];
+    self.mNowMoney = [[obj objectForKeyMy:@"txMoney"] floatValue];
+
+    self.mOutMoney = [[obj objectForKeyMy:@"txType"] floatValue];
+    self.mNote = [obj objectForKeyMy:@"txResult"];
+    self.mTime = [obj objectForKeyMy:@"addTime"];
+
+    
+}
+
+@end
+
+
+@implementation GFixOrderList
+
+
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+    
+    
+    self.mAddTime = [obj objectForKeyMy:@"addTime"];
+    
+    self.mPhone = [obj objectForKeyMy:@"phone"];
+
+    self.mMerchantID = [[obj objectForKeyMy:@"merchantId"] intValue];
+
+    self.mDescrip = [obj objectForKeyMy:@"description"];
+
+    self.mOrderCode = [obj objectForKeyMy:@"orderCode"];
+    
+    self.mPrice = [[obj objectForKeyMy:@"price"] floatValue];
+
+    self.mId = [[obj objectForKeyMy:@"id"] intValue];
+    
+    self.mUserId = [[obj objectForKeyMy:@"userId"] intValue];
+    
+    self.mState = [[obj objectForKeyMy:@"status"] intValue];
+
+    
+    
+}
 @end

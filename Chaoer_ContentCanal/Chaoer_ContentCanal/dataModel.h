@@ -83,6 +83,16 @@
  */
 @interface mUserInfo : NSObject
 /**
+ *  服务类型
+ */
+@property (nonatomic,strong) NSString *mServiceType;
+
+/**
+ *  订单数组
+ */
+@property (nonatomic,strong) NSArray *mOrderArr;
+
+/**
  *  是否开通商家
  */
 @property (assign,nonatomic) BOOL mIsOpenMerchant;
@@ -295,6 +305,16 @@
  */
 + (void)getRegistVerifyCode:(NSString *)mPhone block:(void(^)(mBaseData *resb))block;
 /**
+ *  修改密码
+ *
+ *  @param mPhone  手机
+ *  @param mOldPwd 旧密码
+ *  @param mNewPwd 新密码
+ *  @param block   返回值
+ */
++ (void)modifyPwd:(NSString *)mPhone andOldPwd:(NSString *)mOldPwd andNewPwd:(NSString *)mNewPwd block:(void(^)(mBaseData *resb, mUserInfo *mUser))block;
+
+/**
  *  注册
  *
  *  @param mPhoneNum 手机号码
@@ -375,6 +395,33 @@
  *  @param block   返回值
  */
 + (void)modifyUserImg:(int)mUserId andImage:(NSData *)mImg andPath:(NSString *)mPath block:(void(^)(mBaseData *resb))block;
+
+#pragma mark----查询银行卡
+/**
+ *  查询银行卡
+ *
+ *  @param block fanhuizhi
+ */
+- (void)getBankInfo:(void(^)(mBaseData *resb))block;
+#pragma mark----获取账单纪录
+/**
+ *  获取账单纪录
+ *
+ *  @param block fanhuizhi
+ */
+- (void)getTradeHistoryList:(int)mPage block:(void(^)(mBaseData *resb,NSArray *mArr))block;
+#pragma mark----获取物业报修订单
+/**
+ *  获取物业报修订单
+ *
+ *  @param mPage  分页
+ *  @param mState 状态 4:报修申请8:服务中
+ 5:服务完成6:完成
+
+ *  @param block  返回值
+ */
+- (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
+
 /**
  *  获取红包信息
  *
@@ -1331,15 +1378,56 @@
 
 
 @end
-
+/**
+ 物业报修订单对象
+ 
+ - returns: <#return value description#>
+ */
 @interface GFixOrder : NSObject
 
 -(id)initWithObj:(NSDictionary*)obj;
+@property (assign,nonatomic) int    mTTRow;
+
+@property (assign,nonatomic) int    mPageNumber;
+
+@property (nonatomic,strong)    NSArray       *mOrderList;
+
+@property (assign,nonatomic) int    mMerchantID;
+/**
+ *  订单价格
+ */
+@property (nonatomic,assign)    float       mOrderPrice;
 
 /**
  *  订单创建时间
  */
 @property (nonatomic,strong)    NSString       *mAppointmentTime;
+/**
+ *  电话
+ */
+@property (nonatomic,strong)    NSString       *mPhone;
+/**
+ *  备注
+ */
+@property (nonatomic,strong)    NSString       *mNote;
+/**
+ *  订单编号
+ */
+@property (nonatomic,strong)    NSString       *mOrderCode;
+/**
+ *  订单id
+ */
+@property (assign,nonatomic) int    mOrderId;
+/**
+ *  用户id
+ */
+@property (assign,nonatomic) int    mUserId;
+
+/**
+ *  订单状态
+ */
+@property (assign,nonatomic) int    mStatus;
+
 /**
  *  地址
  */
@@ -1352,26 +1440,11 @@
  *  姓名
  */
 @property (nonatomic,strong)    NSString       *mMerchantName;
-/**
- *  备注
- */
-@property (nonatomic,strong)    NSString       *mNote;
-/**
- *  电话
- */
-@property (nonatomic,strong)    NSString       *mPhone;
-/**
- *  订单编号
- */
-@property (nonatomic,strong)    NSString       *mOrderCode;
-/**
- *  订单状态
- */
-@property (assign,nonatomic) int    mStatus;
-/**
- *  订单id
- */
-@property (assign,nonatomic) int    mOrderId;
+
+
+
+
+
 /**
  *  订单图片
  */
@@ -1388,10 +1461,6 @@
  *  id？
  */
 @property (nonatomic,strong)    NSString       *mOrderMerchanid;
-/**
- *  订单价格
- */
-@property (nonatomic,assign)    CGFloat       mOrderPrice;
 /**
  *  社区id
  */
@@ -2554,5 +2623,83 @@
 
 @end
 
+/**
+ *  交易纪录（账单纪录）
+ */
+@interface GTradeHistory : NSObject
+/**
+ *  之前的余额
+ */
+@property (assign,nonatomic) float mOldMoney;
+/**
+ *  之后余额
+ */
+@property (assign,nonatomic) float mNewMoney;
+/**
+ *  当前余额
+ */
+@property (assign,nonatomic) float mNowMoney;
+/**
+ *  支出/收入
+ */
+@property (assign,nonatomic) float mOutMoney;
+/**
+ *  备注
+ */
+@property (strong,nonatomic) NSString *mNote;
+/**
+ *  添加时间
+ */
+@property (strong,nonatomic) NSString *mTime;
+
+-(id)initWithObj:(NSDictionary *)obj;
+
+@end
+
+/**
+ 订单列表对象
+ 
+ - returns: <#return value description#>
+ */
+@interface GFixOrderList : NSObject
+-(id)initWithObj:(NSDictionary *)obj;
+/**
+ *  时间
+ */
+@property (strong,nonatomic) NSString *mAddTime;
+/**
+ *  电话
+ */
+@property (strong,nonatomic) NSString *mPhone;
+/**
+ *  描述
+ */
+@property (strong,nonatomic) NSString *mDescrip;
+
+/**
+ *  商户id
+ */
+@property (assign,nonatomic) int mMerchantID;
+/**
+ *  价格
+ */
+@property (assign,nonatomic) float mPrice;
+/**
+ *  订单编号
+ */
+@property (strong,nonatomic) NSString *mOrderCode;
+/**
+ *  id
+ */
+@property (assign,nonatomic) int mId;
+/**
+ *  用户id
+ */
+@property (assign,nonatomic) int mUserId;
+/**
+ *  状态
+ */
+@property (assign,nonatomic) int mState;
 
 
+@end
