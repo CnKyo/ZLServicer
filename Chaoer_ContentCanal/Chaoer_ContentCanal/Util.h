@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>  //导入核心位置库(里面有定位和地理编码的头文件)
 
 typedef enum _RelDic
 {
@@ -292,5 +293,14 @@ typedef enum _RelDic
  *  @return 返回加密内容
  */
 + (NSString *)RSAEncryptor:(NSString *)mText;
+#pragma mark 地理编码(通过城市得到经度和纬度)的操作
+/**
+ *  地理编码(通过城市得到经度和纬度)的操作
+ *
+ *  @param mAddress 地址
+ *
+ *  @return 返回经纬度集合
+ */
++ (void)mapAddressToLatAndLng:(NSString *)mAddress;
 
 @end

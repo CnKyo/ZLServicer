@@ -1329,6 +1329,20 @@
     
 }
 
+#pragma mark 地理编码(通过城市得到经度和纬度)的操作
+/**
+ *  地理编码(通过城市得到经度和纬度)的操作
+ *
+ *  @param mAddress 地址
+ *
+ *  @return 返回经纬度集合
+ */
++ (void)mapAddressToLatAndLng:(NSString *)mAddress{
+
+    NSMutableArray *mAddressArr = [NSMutableArray new];
+    
+    
+}
 @end
 
 

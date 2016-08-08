@@ -33,5 +33,22 @@
     return view;
 }
 
+- (IBAction)mCancelOrderAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(cellWithCancelOrderBtnAction)]) {
+        [self.delegate cellWithCancelOrderBtnAction];
+    }
+    
+    
+}
+
+- (IBAction)mAcceptOrderAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(cellWithAcceptOrderBtnAction)]) {
+        [self.delegate cellWithAcceptOrderBtnAction];
+    }
+    
+}
+
 @end
 

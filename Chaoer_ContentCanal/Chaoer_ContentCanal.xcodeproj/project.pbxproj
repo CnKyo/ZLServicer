@@ -44,6 +44,7 @@
 		04102CE51D2A5BC4003A0C56 /* BaseHeaderRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 04102CE41D2A5BC4003A0C56 /* BaseHeaderRefresh.m */; };
 		04102E141CE42C35006F82E2 /* AttributeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04102E131CE42C35006F82E2 /* AttributeView.m */; };
 		04102E1D1CE431CF006F82E2 /* UIView+Extnesion.m in Sources */ = {isa = PBXBuildFile; fileRef = 04102E1C1CE431CF006F82E2 /* UIView+Extnesion.m */; };
+		041E35E91D5867620079CF16 /* YXCustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 041E35E81D5867620079CF16 /* YXCustomAlertView.m */; };
 		0446BB831D387E170071E7B5 /* mMyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0446BB811D387E170071E7B5 /* mMyTableViewCell.m */; };
 		0446BB841D387E170071E7B5 /* mMyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0446BB821D387E170071E7B5 /* mMyTableViewCell.xib */; };
 		0446BB861D3880BE0071E7B5 /* mMyTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0446BB851D3880BE0071E7B5 /* mMyTableViewCell2.xib */; };
@@ -506,6 +507,8 @@
 		04102E131CE42C35006F82E2 /* AttributeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeView.m; sourceTree = "<group>"; };
 		04102E1B1CE431CF006F82E2 /* UIView+Extnesion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extnesion.h"; sourceTree = "<group>"; };
 		04102E1C1CE431CF006F82E2 /* UIView+Extnesion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extnesion.m"; sourceTree = "<group>"; };
+		041E35E71D5867620079CF16 /* YXCustomAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YXCustomAlertView.h; sourceTree = "<group>"; };
+		041E35E81D5867620079CF16 /* YXCustomAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YXCustomAlertView.m; sourceTree = "<group>"; };
 		0446BB801D387E170071E7B5 /* mMyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mMyTableViewCell.h; sourceTree = "<group>"; };
 		0446BB811D387E170071E7B5 /* mMyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mMyTableViewCell.m; sourceTree = "<group>"; };
 		0446BB821D387E170071E7B5 /* mMyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = mMyTableViewCell.xib; sourceTree = "<group>"; };
@@ -1406,6 +1409,15 @@
 				04102E131CE42C35006F82E2 /* AttributeView.m */,
 			);
 			name = AttributeView;
+			sourceTree = "<group>";
+		};
+		041E35E61D5867470079CF16 /* YXCustomAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				041E35E71D5867620079CF16 /* YXCustomAlertView.h */,
+				041E35E81D5867620079CF16 /* YXCustomAlertView.m */,
+			);
+			name = YXCustomAlertView;
 			sourceTree = "<group>";
 		};
 		0446BB871D3892630071E7B5 /* message */ = {
@@ -2821,6 +2833,7 @@
 		749BE9CB1B3276D600BABCA6 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				041E35E61D5867470079CF16 /* YXCustomAlertView */,
 				0461EC671D33A9040080A3ED /* WKRateView */,
 				04D9F5091D279E5A00518F6F /* YT_ShopTypeView */,
 				04D9F5001D275B2900518F6F /* WKLabel */,
@@ -3171,7 +3184,7 @@
 				TargetAttributes = {
 					741B8D8A1B326EFA002104A0 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = 9RKHC7JB9Y;
+						DevelopmentTeam = 5FKH22H2X2;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -3425,6 +3438,7 @@
 				749BEA3F1B3277AA00BABCA6 /* SDWebImageCompat.m in Sources */,
 				0446BBC41D38D6290071E7B5 /* fixOrderTableViewCell.m in Sources */,
 				04D9F5031D275B4F00518F6F /* WKLabelView.m in Sources */,
+				041E35E91D5867620079CF16 /* YXCustomAlertView.m in Sources */,
 				749BEA3E1B3277AA00BABCA6 /* SDImageCache.m in Sources */,
 				0446BBE91D3906750071E7B5 /* marketOrderDetailTableViewCell.m in Sources */,
 				0461EC711D33A9160080A3ED /* StarView.m in Sources */,

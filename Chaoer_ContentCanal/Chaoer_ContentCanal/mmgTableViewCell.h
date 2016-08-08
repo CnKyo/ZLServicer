@@ -30,5 +30,5 @@
  */
 @property (weak, nonatomic) IBOutlet UILabel *mContent;
 
-
+@property (strong,nonatomic) GMsgObj *mMsg;
 @end

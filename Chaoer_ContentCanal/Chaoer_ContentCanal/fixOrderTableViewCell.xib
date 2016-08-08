@@ -123,6 +123,9 @@
                         <state key="normal" title="联系顾客">
                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="mRightBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="sFJ-d1-Grg"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hED-19-zBb">
                         <rect key="frame" x="173" y="215" width="60" height="28"/>
@@ -134,6 +137,9 @@
                         <state key="normal" title="路径导航">
                             <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="mLeftBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kxA-cs-J8i"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

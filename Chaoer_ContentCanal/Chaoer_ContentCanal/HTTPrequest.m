@@ -669,4 +669,30 @@ HDSingletonM(HDNetworking) // 单例实现
     
     return key;
 }
+
++ (NSString *)getAppName{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    NSLog(@"%@", data);//直接打印数据。
+    NSString *ss = [data objectForKey:@"CFBundleName"];
+    return ss;
+}
++ (NSString *)getAppScheme{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
+    NSLog(@"%@", data);//直接打印数据。
+    
+    
+    NSString *mS = nil;
+    for (NSDictionary *dic in [data objectForKey:@"CFBundleURLTypes"]) {
+        
+        NSArray *ss = [dic objectForKey:@"CFBundleURLSchemes"];
+        NSString *sss  = ss[0];
+        if ([sss isEqualToString:@"gotoMap"]) {
+            mS = sss;
+        }
+    }
+    
+    return mS;
+}
 @end

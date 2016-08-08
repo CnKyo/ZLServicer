@@ -7,6 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#pragma mark----cell 代理方法
+/**
+ *  cell 代理方法
+ */
+@protocol cellWithBtnActionDelegate <NSObject>
+
+@optional
+/**
+ *  左边按钮的代理方法
+ *
+ *  @param mIndexPath 返回索引
+ */
+- (void)cellWithLeftBtnActionIndexPath:(NSIndexPath *)mIndexPath;
+/**
+ *  右边按钮的代理方法
+ *
+ *  @param mIndexPath 返回索引
+ */
+- (void)cellWithRightBtnActionIndexPath:(NSIndexPath *)mIndexPath;
+
+
+@end
 
 @interface fixOrderTableViewCell : UITableViewCell
 /**
@@ -45,6 +67,16 @@
  *  导航按钮
  */
 @property (weak, nonatomic) IBOutlet UIButton *mNavBtn;
+/**
+ *  索引
+ */
+@property (assign,nonatomic) NSIndexPath *mIndexPath;
 
+@property (strong,nonatomic) id<cellWithBtnActionDelegate> delegate;
+
+/**
+ *  报修订单列表对象
+ */
+@property (strong,nonatomic) GFixOrderList *mItem;
 
 @end

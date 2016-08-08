@@ -423,44 +423,29 @@
 - (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
 
 - (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
-
-
+#pragma mark----报修商户接单接口
 /**
- *  获取红包信息
+ *  报修商户接单接口
  *
- *  @param mUserId 用户id
- *  @param mType   类型（s为收到的红包，f为发出的红包）
- *  @param block   返回值
+ *  @param mId      商家id
+ *  @param mOrderId 订单id
+ *  @param block    返回值
  */
-+ (void)getRedBag:(int)mUserId andType:(NSString *)mType block:(void(^)(mBaseData *resb,NSArray *marray))block;
+- (void)merchantAcceptOrder:(int)mId andOrderId:(int)mOrderId block:(void(^)(mBaseData *resb))block;
+
+#pragma mark----报修商户完成服务接口
 /**
- *  验证手机能否充值
+ *  报修商户完成服务接口
  *
- *  @param mPhone 手机号
- *  @param mMoney 充值金额
- *  @param block  返回值
+ *  @param mId      商家id
+ *  @param mOrderId 订单id
+ *  @param mPrice   最终价格
+ *  @param block    返回值
  */
-+ (void)verifyUserPhone:(NSString *)mPhone andNum:(float)mMoney block:(void(^)(mBaseData *resb))block;
+- (void)merchantFinishOrder:(int)mId andOrderId:(int)mOrderId andPrice:(float)mPrice block:(void(^)(mBaseData *resb))block;
 
 
 
-
-/**
- *  获取易宝验证吗
- *
- *  @param mSellerName 商户名称：默认超尔物管通
- *  @param mLoginName  登录名
- *  @param mMoney      支付金额
- *  @param mPayName    付款人
- *  @param mIdentify   身份证
- *  @param mPhone      电话
- *  @param mBalance    余额
- *  @param mBankCard   银行卡
- *  @param mTime       有效期
- *  @param mCVV        cvv码
- *  @param block       返回值
- */
-+ (void)getBalanceVerifyCode:(NSString *)mSellerName andLoginName:(NSString *)mLoginName andPayMoney:(int)mMoney andPayName:(NSString *)mPayName andIdentify:(NSString *)mIdentify andPhone:(NSString *)mPhone andBalance:(int)mBalance andBankCard:(NSString *)mBankCard andBankTime:(NSString *)mTime andCVV:(NSString *)mCVV block:(void(^)(mBaseData *resb))block;
 
 #pragma mark----实名认证
 
@@ -1444,11 +1429,6 @@
  *  姓名
  */
 @property (nonatomic,strong)    NSString       *mMerchantName;
-
-
-
-
-
 /**
  *  订单图片
  */
@@ -1496,18 +1476,9 @@
 /**
  *  电话
  */
-@property (nonatomic,strong)    NSString       *tel;
+@property (nonatomic,strong)    NSString       *mVideoUrl;
 
-
-#pragma mark----手机充值对象
-@property (nonatomic,strong)    NSString       *mSerialNumber;
-
-@property (nonatomic,strong)    NSString       *mIntegral;
-
-@property (nonatomic,strong)    NSString       *mRechargeTime;
-
-@property (nonatomic,strong)    NSString       *mPaymentMethod;
-
+@property (nonatomic,assign)    float       mEstimatedPrice;
 
 
 @end
@@ -2705,5 +2676,10 @@
  */
 @property (assign,nonatomic) int mState;
 
+@property (strong,nonatomic) NSString *mAddress;
+
+@property (strong,nonatomic) NSString *mUserName;
+
+@property (strong,nonatomic) NSString *mServiceName;
 
 @end

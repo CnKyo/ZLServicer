@@ -7,6 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
+#pragma mark-----cell按钮的点击代理方法
+/**
+ *  cell按钮的点击代理方法
+ */
+@protocol cellWithDetailBtnActionDelegate<NSObject>
+
+@optional
+/**
+ *  导航按钮方法
+ */
+- (void)cellWithNavBtnAction;
+/**
+ *  打电话按钮方法
+ */
+- (void)cellWithPhoneBtnAction;
+/**
+ *  查看图片方法
+ */
+- (void)cellWithImgBtnAction;
+/**
+ *  查看视频方法
+ */
+- (void)cellWithVideoBtnAction;
+
+
+@end
 
 @interface fixDetailTableViewCell : UITableViewCell
 /**
@@ -69,5 +95,9 @@
  *  查看视频
  */
 @property (weak, nonatomic) IBOutlet UIButton *mCheckVieoBtn;
+
+@property (strong,nonatomic) id <cellWithDetailBtnActionDelegate>delegate;
+
+@property (strong,nonatomic) GFixOrder *mOrderDetail;
 
 @end

@@ -9,7 +9,9 @@
 #import "fixViewController.h"
 #import "fixOrderTableViewCell.h"
 #import "fixDetailViewController.h"
-@interface fixViewController ()<UITableViewDelegate,UITableViewDataSource,WKSegmentControlDelagate>
+#import <MapKit/MapKit.h>
+
+@interface fixViewController ()<UITableViewDelegate,UITableViewDataSource,WKSegmentControlDelagate,cellWithBtnActionDelegate>
 
 @end
 
@@ -43,7 +45,7 @@
     UINib   *nib = [UINib nibWithNibName:@"fixOrderTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
     
-    mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:@[@"进行中订单",@"已完成订单",@"已取消订单"] andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
+    mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:@[@"等待接单",@"进行中订单",@"已完成订单"] andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
     
 }
 
@@ -142,7 +144,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return 260;
+    return 270;
     
 }
 
@@ -151,13 +153,11 @@
     NSString *reuseCellId = @"cell";
     
     fixOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
+    cell.mIndexPath = indexPath;
+    cell.delegate = self;
+    [cell setMItem:[self.tempArray objectAtIndex:indexPath.row]];
     
-    GFixOrderList *item = [self.tempArray objectAtIndex:indexPath.row];
-    cell.mOrderStatus.text = item.mOrderCode;
-    cell.mName.text = [NSString stringWithFormat:@"服务名称:%@", item.mDescrip.length>0 ? item.mDescrip : @"暂无"];
-    cell.mPhone.text = [NSString stringWithFormat:@"联系电话:%@", item.mPhone.length>0 ? item.mPhone : @"暂无"];
-    cell.mTime.text = [NSString stringWithFormat:@"预约时间:%@", item.mAddTime.length>0 ? item.mAddTime : @"暂无"];
-    
+
     return cell;
     
 }
@@ -170,6 +170,80 @@
     fixDetailViewController *fff = [[fixDetailViewController alloc] initWithNibName:@"fixDetailViewController" bundle:nil];
     fff.baseItem = [self.tempArray objectAtIndex:indexPath.row];
     [self pushViewController:fff];
+}
+
+
+- (void)cellWithRightBtnActionIndexPath:(NSIndexPath *)mIndexPath{
+    MLLog(@"右边的按钮");
+    
+    GFixOrderList *mOrder = self.tempArray[mIndexPath.row];
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",mOrder.mPhone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    
+}
+
+- (void)cellWithLeftBtnActionIndexPath:(NSIndexPath *)mIndexPath{
+    MLLog(@"左边的按钮");
+    
+    GFixOrderList *mOrder = self.tempArray[mIndexPath.row];
+    
+    if(mOrder.mAddress.length>0){
+        CLGeocoder *stringWithCityName=[[CLGeocoder alloc]init]; //地理编码的类和下面其对应的方法,CLPlacemark是地理信息的类
+        [stringWithCityName geocodeAddressString:mOrder.mAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+            if (error||!(placemarks.count>0)) {
+                MLLog(@"该城市不存在或者搜索有误");
+                [self showErrorStatus:@"该城市不存在或者搜索有误"];
+            }
+            else{
+                CLPlacemark *firstObj=[placemarks firstObject]; // 就用第一个位置对象
+                CLLocationCoordinate2D cityCoor=firstObj.location.coordinate; //得到城市的纬度和经度
+                NSString *strLat=[NSString stringWithFormat:@"%f",cityCoor.latitude];
+                NSString *strLong=[NSString stringWithFormat:@"%f",cityCoor.longitude];
+                
+                
+                NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0", @"gotoMap",[HTTPrequest getAppName],strLat, strLong] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                //跳转到高德地图
+                NSString* ampurl = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0",@"gotoMap",[HTTPrequest getAppName],strLat, strLong];
+                
+                if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]] )
+                {//
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+                }
+                else
+                {//ioS map
+                    
+                    CLLocationCoordinate2D to;
+                    to.latitude =  [[NSString stringWithFormat:@"%@",strLat] floatValue];
+                    to.longitude =  [[NSString stringWithFormat:@"%@",strLong] floatValue];
+                    
+                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+                    MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil] ];
+                    toLocation.name = mOrder.mAddress;
+                    [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil]
+                                   launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]
+                                                                             forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
+                }
+                
+
+            }
+            
+        }];
+        
+    }
+    else{
+        
+        MLLog(@"地理位置不能为空");
+        [self showErrorStatus:@"地理位置不能为空"];
+        
+    }
+
+    
+    
+   
+    
+
+    
 }
 
 @end

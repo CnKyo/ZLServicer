@@ -21,4 +21,14 @@
     // Configure the view for the selected state
 }
 
+- (void)setMMsg:(GMsgObj *)mMsg{
+
+    self.mName.text = mMsg.mMsg_title;
+    self.mTime.text = mMsg.mGen_time;
+    self.mContent.text = mMsg.mMsg_content;
+    
+    
+    self.mPoint.hidden = mMsg.mIsRead?YES:NO;
+    
+}
 @end

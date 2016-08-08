@@ -12,38 +12,69 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rlH-E4-rTD">
-                    <rect key="frame" x="10" y="16" width="140" height="29"/>
+                    <rect key="frame" x="10" y="10" width="140" height="40"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <state key="normal" title="放弃订单">
                         <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="mCancelOrderAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="CUg-rH-Q1H"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AER-Qo-1Wq">
-                    <rect key="frame" x="172" y="16" width="140" height="29"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="172" y="10" width="140" height="40"/>
+                    <color key="backgroundColor" red="0.52941176469999995" green="0.75686274509999996" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <state key="normal" title="接单">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="mAcceptOrderAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="yBh-cF-Ces"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="57S-Hc-51o">
+                    <rect key="frame" x="8" y="10" width="304" height="40"/>
+                    <color key="backgroundColor" red="0.52941176469999995" green="0.75686274509999996" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="接单">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mAcceptOrderAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="06D-Ke-PEo"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="57S-Hc-51o" secondAttribute="trailing" constant="8" id="1DY-2d-ki9"/>
                 <constraint firstItem="AER-Qo-1Wq" firstAttribute="height" secondItem="rlH-E4-rTD" secondAttribute="height" id="50h-ev-FXd"/>
                 <constraint firstAttribute="trailing" secondItem="AER-Qo-1Wq" secondAttribute="trailing" constant="8" id="5xs-j6-YYk"/>
                 <constraint firstItem="rlH-E4-rTD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="A0R-vW-yQ6"/>
                 <constraint firstItem="AER-Qo-1Wq" firstAttribute="leading" secondItem="rlH-E4-rTD" secondAttribute="trailing" constant="22" id="EqQ-NM-qPv"/>
+                <constraint firstItem="rlH-E4-rTD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="FBC-FV-s52"/>
                 <constraint firstItem="AER-Qo-1Wq" firstAttribute="width" secondItem="rlH-E4-rTD" secondAttribute="width" id="HWy-0Q-AQG"/>
                 <constraint firstItem="AER-Qo-1Wq" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="K5a-tp-nOt"/>
+                <constraint firstItem="57S-Hc-51o" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="Qfc-Cn-qJy"/>
+                <constraint firstAttribute="bottom" secondItem="57S-Hc-51o" secondAttribute="bottom" constant="10" id="V25-cS-bS5"/>
                 <constraint firstItem="rlH-E4-rTD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="VFu-6d-zKw"/>
+                <constraint firstAttribute="bottom" secondItem="rlH-E4-rTD" secondAttribute="bottom" constant="10" id="X5m-um-9hG"/>
+                <constraint firstAttribute="bottom" secondItem="AER-Qo-1Wq" secondAttribute="bottom" constant="10" id="lcv-SN-Avc"/>
+                <constraint firstItem="AER-Qo-1Wq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="mpO-3c-ehK"/>
+                <constraint firstItem="57S-Hc-51o" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="uhh-Sy-317"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="A0R-vW-yQ6"/>
+                    <exclude reference="K5a-tp-nOt"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="mLeftBtn" destination="rlH-E4-rTD" id="OQK-lP-LIv"/>
+                <outlet property="mMidBtn" destination="57S-Hc-51o" id="IgI-L8-Vco"/>
                 <outlet property="mRightBtn" destination="AER-Qo-1Wq" id="j5G-bv-1Kd"/>
             </connections>
-            <point key="canvasLocation" x="237" y="399"/>
+            <point key="canvasLocation" x="294" y="458"/>
         </view>
     </objects>
 </document>

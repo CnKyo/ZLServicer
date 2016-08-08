@@ -165,7 +165,7 @@ bool g_bined = NO;
     
     self.mId =  [[obj objectForKeyMy:@"mId"] intValue];
     
-    self.mSId =  [[obj objectForKeyMy:@"sid"] intValue];
+    self.mSId =  [[obj objectForKeyMy:@"serviceId"] intValue];
     
     self.mUserImgUrl = [obj objectForKeyMy:@"portrait"];
     self.mCredit = [[obj objectForKeyMy:@"credit"] intValue];
@@ -216,7 +216,7 @@ bool g_bined = NO;
     
     self.mOrderArr = mArr;
     
-    self.mShopId = [[obj objectForKeyMy:@"shopId"] intValue];
+    self.mShopId = [[obj objectForKeyMy:@"sId"] intValue];
     self.mEmail = [obj objectForKeyMy:@"email"];
     
     
@@ -575,7 +575,7 @@ bool g_bined = NO;
     NSMutableDictionary *para = [NSMutableDictionary new];
     
  
-    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mSId]] forKey:@"sId"];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mSId]] forKey:@"serviceId"];
     [para setObject:@"ios" forKey:@"device"];
 
  
@@ -834,17 +834,17 @@ bool g_bined = NO;
     NSString *mType = nil;
     
     if (mState == 0) {
-        mType = @"8,5";
+        mType = @"4";
     }else if (mState == 1){
-        mType = @"6";
+        mType = @"8";
     }else{
-        mType = @"0";
+        mType = @"5";
     }
     
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId ) forKey:@"mId"];
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mId ) forKey:@"mId"];
     [para setObject:NumberWithInt(10) forKey:@"pageSize"];
     [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
     [para setObject:mType forKey:@"state"];
@@ -908,6 +908,55 @@ bool g_bined = NO;
     
 }
 
+#pragma mark----报修商户接单接口
+/**
+ *  报修商户接单接口
+ *
+ *  @param mId      商家id
+ *  @param mOrderId 订单id
+ *  @param block    返回值
+ */
+- (void)merchantAcceptOrder:(int)mId andOrderId:(int)mOrderId block:(void(^)(mBaseData *resb))block{
+
+ 
+    
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt(mId) forKey:@"mid"];
+    [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
+    
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/receiving" parameters:para call:^(mBaseData * _Nonnull info) {
+        block ( info );
+    }];
+    
+
+}
+
+#pragma mark----报修商户完成服务接口
+/**
+ *  报修商户完成服务接口
+ *
+ *  @param mId      商家id
+ *  @param mOrderId 订单id
+ *  @param mPrice   最终价格
+ *  @param block    返回值
+ */
+- (void)merchantFinishOrder:(int)mId andOrderId:(int)mOrderId andPrice:(float)mPrice block:(void(^)(mBaseData *resb))block{
+
+    
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt(mId) forKey:@"mid"];
+    [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
+    [para setObject:NumberWithFloat(mPrice) forKey:@"offer"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/serviceCompletion" parameters:para call:^(mBaseData * _Nonnull info) {
+        block ( info );
+    }];
+    
+    
+}
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     MLLog(@"reveive Response:\n%@",response);
@@ -2972,12 +3021,19 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
-    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId) forKey:@"serviceId"];
+//    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
+//    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
     
+    
+    if ([mUserInfo backNowUser].mIsOpenShop) {
+        [para setObject:NumberWithInt([mUserInfo backNowUser].mShopId) forKey:@"sId"];
+    }
+    if ([mUserInfo backNowUser].mIsOpenMerchant) {
+        [para setObject:NumberWithInt([mUserInfo backNowUser].mId) forKey:@"mId"];
+    }
 
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/msg/queryUserMsg" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/serviceMsg/queryServiceMsg" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
             
@@ -3343,7 +3399,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     self.mOrderMerchanid = [obj objectForKeyMy:@"merchantId"];
     self.mOrderPrice = [[obj objectForKeyMy:@"price"] floatValue];
     self.mOrderStatus = [obj objectForKeyMy:@"statusName"];
-    self.mOrderImage = [obj objectForKeyMy:@"imageUrl"];
+    self.mOrderImage = [NSString stringWithFormat:@"%@%@",[HTTPrequest currentResourceUrl],[obj objectForKeyMy:@"imageUrl"]];
     
     self.mClassificationName2 = [obj objectForKeyMy:@"classificationName2"];
     self.mOrderServiceTime = [obj objectForKeyMy:@"appointmentTime"];
@@ -3352,13 +3408,9 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     self.addTime = [obj objectForKeyMy:@"addTime"];
     self.mDescription = [obj objectForKeyMy:@"description"];
     self.serviceTime = [obj objectForKeyMy:@"serviceTime"];
-    self.tel = [obj objectForKeyMy:@"tel"];
-    
-    
-    self.mSerialNumber = [obj objectForKeyMy:@"serialNumber"];
-    self.mIntegral = [obj objectForKeyMy:@"integral"];
-    self.mRechargeTime = [obj objectForKeyMy:@"rechargeTime"];
-    self.mPaymentMethod = [obj objectForKeyMy:@"paymentMethod"];
+  
+    self.mVideoUrl = [obj objectForKeyMy:@"videoUrl"];
+    self.mEstimatedPrice = [[obj objectForKeyMy:@"estimatedPrice"] floatValue];
     
 }
 
@@ -4599,12 +4651,12 @@ bool pptbined = NO;
     
     self.mId = [[obj objectForKeyMy:@"id"] intValue];
     
-    self.mIsRead = [[obj objectForKeyMy:@"is_read"] boolValue];
+    self.mIsRead = [[obj objectForKeyMy:@"isRead"] boolValue];
     self.mType = [[obj
-                   objectForKeyMy:@"msg_type"] intValue];
-    self.mMsg_title = [obj objectForKeyMy:@"msg_title"];
-    self.mMsg_content = [obj objectForKeyMy:@"msg_content"];
-    self.mGen_time = [obj objectForKeyMy:@"gen_time"];
+                   objectForKeyMy:@"type"] intValue];
+    self.mMsg_title = [obj objectForKeyMy:@"msgTitle"];
+    self.mMsg_content = [obj objectForKeyMy:@"msgContent"];
+    self.mGen_time = [obj objectForKeyMy:@"addtime"];
     
     
     self.mExtras = [[GExtra alloc] initWithObj:[Util dictionaryWithJsonString:[obj objectForKeyMy:@"extras"]]];
@@ -4768,6 +4820,14 @@ bool pptbined = NO;
     self.mUserId = [[obj objectForKeyMy:@"userId"] intValue];
     
     self.mState = [[obj objectForKeyMy:@"status"] intValue];
+    
+    
+    self.mUserName = [obj objectForKeyMy:@"userName"];
+    
+    self.mAddress = [obj objectForKeyMy:@"addRess"];
+    
+    self.mServiceName = [obj objectForKeyMy:@"classificationName"];
+
 
     
     

@@ -200,7 +200,7 @@
         cell.mName.text = self.tempArray[1][indexPath.row];
 
         if (indexPath.row == 1) {
-            cell.mBadge.hidden = NO;
+            cell.mBadge.hidden = YES;
         }else{
             cell.mBadge.hidden = YES;
         }

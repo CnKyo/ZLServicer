@@ -42,6 +42,47 @@
     UINib   *nib = [UINib nibWithNibName:@"mmgTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
 }
+
+- (void)headerBeganRefresh{
+
+    self.page = 1;
+    [[mUserInfo backNowUser] getMsgList:self.page block:^(mBaseData *resb, NSArray *mArr) {
+        
+        [self headerEndRefresh];
+        [self removeEmptyView];
+        [self.tempArray removeAllObjects];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mArr];
+            [self.tableView reloadData];
+        }else{
+        
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+    }];
+    
+}
+
+- (void)footetBeganRefresh{
+
+    self.page ++;
+    [[mUserInfo backNowUser] getMsgList:self.page block:^(mBaseData *resb, NSArray *mArr) {
+        
+        [self headerEndRefresh];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mArr];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+    }];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -63,7 +104,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.tempArray.count;
     
     
 }
@@ -82,7 +123,7 @@
     reuseCellId = @"cell";
     mmgTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
     
-    
+    [cell setMMsg:self.tempArray[indexPath.row]];
     return cell;
     
     

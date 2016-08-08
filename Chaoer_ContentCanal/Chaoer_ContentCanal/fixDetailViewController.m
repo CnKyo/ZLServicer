@@ -9,7 +9,12 @@
 #import "fixDetailViewController.h"
 #import "fixDetailTableViewCell.h"
 #import "mFixBottomView.h"
-@interface fixDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+#import "YXCustomAlertView.h"
+
+#import <MapKit/MapKit.h>
+
+@interface fixDetailViewController ()<UITableViewDelegate,UITableViewDataSource,cellWithDetailBtnActionDelegate,cellWithBottomViewBtnDelegate,YXCustomAlertViewDelegate>
 @property(nonatomic,strong) GFixOrder *orderItem;
 @end
 
@@ -17,7 +22,34 @@
 {
     
     mFixBottomView *mBottomView;
+    
+    YXCustomAlertView *alertV;
+    
+    UITextField *mPriceTx;
+
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    /**
+     IQKeyboardManager为自定义收起键盘
+     **/
+    [[IQKeyboardManager sharedManager] setEnable:YES];///视图开始加载键盘位置开启调整
+    [[IQKeyboardManager sharedManager]setEnableAutoToolbar:YES];///是否启用自定义工具栏
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;///启用手势
+    //    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[IQKeyboardManager sharedManager] setEnable:NO];///视图消失键盘位置取消调整
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];///关闭自定义工具栏
+    
+}
+
+
 - (void)viewDidLoad {
     self.hiddenTabBar = YES;
     
@@ -43,6 +75,11 @@
     
     
     mBottomView = [mFixBottomView shareView];
+    mBottomView.mLeftBtn.hidden = mBottomView.mRightBtn.hidden = YES;
+    
+    mBottomView.delegate = self;
+    
+    
     [self.view addSubview:mBottomView];
     [mBottomView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view).offset(@0);
@@ -50,8 +87,57 @@
         make.width.offset(DEVICE_Width);
     }];
     
+    
+    
 }
 
+- (void)updatePage{
+    NSString *mTT = nil;
+    
+    if (self.orderItem.mStatus == 4) {
+        mTT = @"接受接单";
+    }else if (self.orderItem.mStatus == 8){
+        mTT = @"完成服务";
+
+    }else{
+        mTT = @"服务已完成";
+        [mBottomView.mMidBtn setBackgroundColor:[UIColor lightGrayColor]];
+
+    }
+    [mBottomView.mMidBtn setTitle:mTT forState:0];
+    
+}
+
+- (void)initPopView{
+
+    
+    
+    CGFloat dilX = 25;
+    CGFloat dilH = 150;
+    
+    [alertV removeFromSuperview];
+    
+    alertV = [[YXCustomAlertView alloc] initAlertViewWithFrame:CGRectMake(dilX, 0, 280, dilH) andSuperView:self.navigationController.view];
+    alertV.center = CGPointMake(DEVICE_Width/2, DEVICE_Height/2-30);
+    alertV.delegate = self;
+    alertV.titleStr = @"输入报修价格";
+    
+    CGFloat loginX = 20;
+    mPriceTx = [[UITextField alloc] initWithFrame:CGRectMake(loginX, 55, alertV.frame.size.width - 2 * loginX, 32)];
+    mPriceTx.layer.borderColor = [[UIColor colorWithWhite:0.9 alpha:1] CGColor];
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 32)];
+    mPriceTx.leftViewMode = UITextFieldViewModeAlways;
+    mPriceTx.leftView = leftView;
+    mPriceTx.keyboardType = UIKeyboardTypeNumberPad;
+    mPriceTx.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    mPriceTx.layer.borderWidth = 1;
+    mPriceTx.layer.cornerRadius = 4;
+    [alertV addSubview:mPriceTx];
+
+    
+    
+    
+}
 
 - (void)headerBeganRefresh{
     
@@ -60,11 +146,11 @@
     [[mUserInfo backNowUser] getOrderDetail:[NSString stringWithFormat:@"%i", _baseItem.mId] block:^(mBaseData *resb, GFixOrder *mFixOrder) {
         
         [self headerEndRefresh];
-        [self.tempArray removeAllObjects];
         [self removeEmptyView];
         
         if (resb.mSucess) {
             self.orderItem = mFixOrder;
+            [self updatePage];
             [self.tableView reloadData];
         }else{
             
@@ -105,7 +191,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return 530;
+    return 560;
     
 }
 
@@ -116,14 +202,8 @@
     fixDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
     
     
-    cell.mName.text = [NSString stringWithFormat:@"服务名称:%@", _orderItem.mClassificationName.length>0 ? _orderItem.mClassificationName : @"暂无"];
-    cell.mOrderCode.text = [NSString stringWithFormat:@"订单编号:%@", _orderItem.mOrderCode.length>0 ? _orderItem.mOrderCode : @"暂无"];
-    cell.mServiceName.text = [NSString stringWithFormat:@"顾客名称:%@", _orderItem.mMerchantName.length>0 ? _orderItem.mMerchantName : @"暂无"];
-    cell.mPhone.text = [NSString stringWithFormat:@"联系电话:%@", _orderItem.tel.length>0 ? _orderItem.tel : @"暂无"];
-    cell.mAddress.text = [NSString stringWithFormat:@"联系地址:%@", _orderItem.mAddress.length>0 ? _orderItem.mAddress : @"暂无"];
-    cell.mNote.text = [NSString stringWithFormat:@"服务名称:%@", _orderItem.mNote.length>0 ? _orderItem.mNote : @"暂无"];
-    cell.mMoney.text = [NSString stringWithFormat:@"维修金额:￥%.2f", _orderItem.mOrderPrice];
-    cell.mPromisPrice.text = [NSString stringWithFormat:@"保证金:￥%.2f", _orderItem.mOrderPrice];
+    cell.delegate = self;
+    [cell setMOrderDetail:self.orderItem];
     
     return cell;
     
@@ -136,5 +216,143 @@
     
     
 }
+#pragma mark----打电话按钮
+- (void)cellWithPhoneBtnAction{
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.orderItem.mPhone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+    
+}
+#pragma mark----导航按钮
+- (void)cellWithNavBtnAction{
+    if(self.orderItem.mAddress.length>0){
+        CLGeocoder *stringWithCityName=[[CLGeocoder alloc]init]; //地理编码的类和下面其对应的方法,CLPlacemark是地理信息的类
+        [stringWithCityName geocodeAddressString:self.orderItem.mAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+            if (error||!(placemarks.count>0)) {
+                MLLog(@"该城市不存在或者搜索有误");
+                [self showErrorStatus:@"该城市不存在或者搜索有误"];
+            }
+            else{
+                CLPlacemark *firstObj=[placemarks firstObject]; // 就用第一个位置对象
+                CLLocationCoordinate2D cityCoor=firstObj.location.coordinate; //得到城市的纬度和经度
+                NSString *strLat=[NSString stringWithFormat:@"%f",cityCoor.latitude];
+                NSString *strLong=[NSString stringWithFormat:@"%f",cityCoor.longitude];
+                
+                
+                NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0", @"gotoMap",[HTTPrequest getAppName],strLat, strLong] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                
+                //跳转到高德地图
+                NSString* ampurl = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0",@"gotoMap",[HTTPrequest getAppName],strLat, strLong];
+                
+                if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]] )
+                {//
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+                }
+                else
+                {//ioS map
+                    
+                    CLLocationCoordinate2D to;
+                    to.latitude =  [[NSString stringWithFormat:@"%@",strLat] floatValue];
+                    to.longitude =  [[NSString stringWithFormat:@"%@",strLong] floatValue];
+                    
+                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+                    MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil] ];
+                    toLocation.name = self.orderItem.mAddress;
+                    [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil]
+                                   launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]
+                                                                             forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
+                }
+                
+                
+            }
+            
+        }];
+        
+    }
+    else{
+        
+        MLLog(@"地理位置不能为空");
+        [self showErrorStatus:@"地理位置不能为空"];
+        
+    }
 
+    
+}
+#pragma mark----查看图片按钮
+- (void)cellWithImgBtnAction{
+
+    
+}
+#pragma mark----查看视频按钮
+- (void)cellWithVideoBtnAction{
+
+    
+}
+#pragma mark----取消订单按钮
+- (void)cellWithCancelOrderBtnAction{
+
+  
+}
+#pragma mark----接受订单按钮
+- (void)cellWithAcceptOrderBtnAction{
+    
+
+    if (self.orderItem.mStatus == 4) {
+
+        [self showWithStatus:@"正在操作中..."];
+
+        [[mUserInfo backNowUser] merchantAcceptOrder:[mUserInfo backNowUser].mId andOrderId:self.orderItem.mOrderId block:^(mBaseData *resb) {
+            
+            if (resb.mSucess) {
+                [self showSuccessStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }else{
+                [self showErrorStatus:resb.mMessage];
+            }
+        }];
+        
+    }else if (self.orderItem.mStatus == 8){
+        
+        [self initPopView];
+  
+
+    }else{
+
+    }
+    
+    
+    
+}
+
+#pragma mark - YXCustomAlertViewDelegate
+- (void) customAlertView:(YXCustomAlertView *) customAlertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (buttonIndex==0) {
+        
+        [customAlertView dissMiss];
+        customAlertView = nil;
+        
+        MLLog(@"取消");
+        
+    }else
+    {
+        MLLog(@"确认");
+        [self finish];
+
+    }
+}
+- (void)finish{
+
+    [self showWithStatus:@"正在操作中..."];
+    
+    [[mUserInfo backNowUser] merchantFinishOrder:[mUserInfo backNowUser].mId andOrderId:self.orderItem.mOrderId andPrice:[[NSString stringWithFormat:@"%@",mPriceTx.text] floatValue] block:^(mBaseData *resb) {
+        if (resb.mSucess) {
+            [alertV dissMiss];
+            [self showSuccessStatus:resb.mMessage];
+            [self headerBeganRefresh];
+        }else{
+            [self showErrorStatus:resb.mMessage];
+        }
+    }];
+}
 @end

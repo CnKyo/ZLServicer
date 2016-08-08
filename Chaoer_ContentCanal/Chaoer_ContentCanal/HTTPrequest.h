@@ -151,5 +151,11 @@ HDSingletonH(HDNetworking) // 单例声明
  *  @return 返回资源url
  */
 + (NSString *)currentResourceUrl;
+///获取appname
++ (NSString *)getAppName;
+
+///获取app的appscheme
++ (NSString *)getAppScheme;
+
 @end
 NS_ASSUME_NONNULL_END
