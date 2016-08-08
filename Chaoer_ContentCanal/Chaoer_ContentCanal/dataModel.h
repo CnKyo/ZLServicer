@@ -422,6 +422,9 @@
  */
 - (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
 
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
+
+
 /**
  *  获取红包信息
  *
@@ -790,6 +793,7 @@
  */
 - (void)getOrderDetail:(NSString *)mOrderID block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block;
 
+- (void)getShoppingOrderDetail:(NSString *)mOrderID andShopId:(NSString *)shopId block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block;;
 
 /**
  *  获取积分列表

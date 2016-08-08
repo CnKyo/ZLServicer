@@ -180,6 +180,13 @@ typedef enum {
 } kTableNoteType;
 
 
+typedef enum {
+    kOrderState_notPay = 10,
+    kOrderState_havePay = 11,
+    kOrderState_peiIng = 12,
+    kOrderState_done = 13,
+    kOrderState_cancel = 14
+} kOrderState;  //状态10:未支付11:支付完成12:正在配送 13:完成 14:取消
 
 
 

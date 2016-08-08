@@ -9,5 +9,5 @@
 #import "BaseVC.h"
 
 @interface fixDetailViewController : BaseVC
-
+@property(nonatomic,strong) GFixOrderList *baseItem;
 @end

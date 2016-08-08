@@ -15,7 +15,7 @@
 
 @implementation marketOrderDetailViewController
 {
-
+    
     marketHeaderView *mHeaderView;
     marketHeaderView *mFooterView;
     marketHeaderView *mBottomView;
@@ -30,7 +30,7 @@
     self.hiddenRightBtn = YES;
     
     [self initView];
-
+    
 }
 - (void)initView{
     
@@ -63,20 +63,43 @@
     
 }
 
+
+- (void)headerBeganRefresh{
+    
+    self.page = 1;
+    
+    [[mUserInfo backNowUser] getShoppingOrderDetail:@"5" andShopId:@"1" block:^(mBaseData *resb, GFixOrder *mFixOrder) {
+        
+        [self headerEndRefresh];
+        [self.tempArray removeAllObjects];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            //self.orderItem = mFixOrder;
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+    }];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark -- tableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView              // Default is 1 if not implemented
 {

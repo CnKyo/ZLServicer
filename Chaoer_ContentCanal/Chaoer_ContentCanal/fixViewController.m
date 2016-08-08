@@ -29,7 +29,7 @@
     
     mType =0;
     [self initView];
-
+    
 }
 - (void)initView{
     
@@ -98,14 +98,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark -- tableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView              // Default is 1 if not implemented
 {
@@ -151,7 +151,13 @@
     NSString *reuseCellId = @"cell";
     
     fixOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
-  
+    
+    GFixOrderList *item = [self.tempArray objectAtIndex:indexPath.row];
+    cell.mOrderStatus.text = item.mOrderCode;
+    cell.mName.text = [NSString stringWithFormat:@"服务名称:%@", item.mDescrip.length>0 ? item.mDescrip : @"暂无"];
+    cell.mPhone.text = [NSString stringWithFormat:@"联系电话:%@", item.mPhone.length>0 ? item.mPhone : @"暂无"];
+    cell.mTime.text = [NSString stringWithFormat:@"预约时间:%@", item.mAddTime.length>0 ? item.mAddTime : @"暂无"];
+    
     return cell;
     
 }
@@ -162,6 +168,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     fixDetailViewController *fff = [[fixDetailViewController alloc] initWithNibName:@"fixDetailViewController" bundle:nil];
+    fff.baseItem = [self.tempArray objectAtIndex:indexPath.row];
     [self pushViewController:fff];
 }
 

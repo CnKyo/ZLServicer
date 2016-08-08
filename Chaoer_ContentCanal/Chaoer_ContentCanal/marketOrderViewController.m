@@ -27,7 +27,7 @@
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
-    mType =1;
+    mType =0;
     [self initView];
     
 }
@@ -47,7 +47,28 @@
     
 }
 
-
+- (void)headerBeganRefresh{
+    
+    self.page = 1;
+    
+    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, GFixOrder *mOrder) {
+        
+        [self headerEndRefresh];
+        [self.tempArray removeAllObjects];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mOrder.mOrderList];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -55,14 +76,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark -- tableviewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView              // Default is 1 if not implemented
 {
@@ -130,7 +151,7 @@
  *  @param IndexPath    索引
  */
 - (void)cellWithLeftBtnClick:(marketOrderTableViewCell *)cell andOrderStatus:(int)mOrderStatus andIndexPath:(NSIndexPath *)IndexPath{
-
+    
 }
 /**
  *  右边按钮的代理方法
@@ -140,7 +161,7 @@
  *  @param IndexPath    索引
  */
 - (void)cellWithRightBtnClick:(marketOrderTableViewCell *)cell andOrderStatus:(int)mOrderStatus andIndexPath:(NSIndexPath *)IndexPath{
-
+    
     
 }
 

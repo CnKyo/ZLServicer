@@ -868,6 +868,47 @@ bool g_bined = NO;
     
 }
 
+/**
+ *  获取商家订单列表
+ *
+ *  @param mPage  分页
+ *  @param mState 状态
+ *  @param block  返回值
+ */
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block{
+    
+    
+    NSString *mType = nil;
+    
+    if (mState == 0) {
+        mType = [NSString stringWithFormat:@"%i", kOrderState_havePay];
+    }else if (mState == 1){
+        mType = [NSString stringWithFormat:@"%i", kOrderState_done];
+    }else{
+        mType = [NSString stringWithFormat:@"%i", kOrderState_cancel];
+    }
+    
+    
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:NumberWithInt([mUserInfo backNowUser].mShopId ) forKey:@"sId"];
+    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
+    [para setObject:mType forKey:@"state"];
+    [para setObject:@"ios" forKey:@"device"];
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/shoppingOrderList" parameters:para call:^(mBaseData * _Nonnull info) {
+        if (info.mSucess) {
+            //block(info,[[GFixOrder alloc] initWithObj:info.mData]);
+            block(info,nil);
+        }else{
+            block(info,nil);
+        }
+    }];
+    
+}
+
+
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     MLLog(@"reveive Response:\n%@",response);
 }
@@ -1907,10 +1948,27 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
             block ( info , nil );
         }
     }];
-    
-    
-    
 }
+
+
+- (void)getShoppingOrderDetail:(NSString *)mOrderID andShopId:(NSString *)shopId block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block{
+    
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    [para setObject:shopId forKey:@"sId"];
+    [para setObject:mOrderID forKey:@"orderId"];
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/getShoppingOrderDetails" parameters:para call:^(mBaseData *info) {
+        
+        if (info.mSucess) {
+            //GFixOrder *mFix = [[GFixOrder alloc] initWithObj:info.mData];
+            //block ( info , mFix );
+            block ( info , nil );
+            
+        }else{
+            block ( info , nil );
+        }
+    }];
+}
+
 
 - (void)getScoreList:(int)mType andPage:(int)mPage andNum:(int)mNum block:(void(^)(mBaseData *resb,NSArray *mArr))block{
 
