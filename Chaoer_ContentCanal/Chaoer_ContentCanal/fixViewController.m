@@ -234,8 +234,7 @@
     else{
         
         MLLog(@"地理位置不能为空");
-        [self showErrorStatus:@"地理位置不能为空"];
-        
+        [self showErrorStatus:@"导航地址有误！请查证！"];
     }
 
     

@@ -34,8 +34,8 @@
     
     marketHeaderView *view = [[[NSBundle mainBundle] loadNibNamed:@"marketBottomView" owner:self options:nil] objectAtIndex:0];
     
-    view.mLeftBtn.layer.masksToBounds = view.mRightBtn.layer.masksToBounds = YES;
-    view.mLeftBtn.layer.cornerRadius = view.mRightBtn.layer.cornerRadius = 3;
+    view.mLeftBtn.layer.masksToBounds = view.mRightBtn.layer.masksToBounds = view.mFinishBtn.layer.masksToBounds =  YES;
+    view.mLeftBtn.layer.cornerRadius = view.mRightBtn.layer.cornerRadius = view.mFinishBtn.layer.cornerRadius = 3;
     
     view.mLeftBtn.layer.borderColor = [UIColor colorWithRed:0.27 green:0.27 blue:0.27 alpha:1.00].CGColor;
     view.mRightBtn.layer.borderColor = [UIColor redColor].CGColor;
@@ -44,4 +44,49 @@
     
     return view;
 }
+
+
+- (IBAction)mNavBtnAction:(UIButton *)sender {
+
+    if ([self.delegate respondsToSelector:@selector(cellWithBottomLeftBtnAction)]) {
+        [self.delegate cellWithBottomLeftBtnAction];
+    }
+    
+}
+
+- (IBAction)mPhoneBtnAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(cellWithBottomRightBtnAction)]) {
+        [self.delegate cellWithBottomRightBtnAction];
+    }
+    
+    
+}
+
+- (IBAction)mCancelAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(cellWithCancelOrderAction)]) {
+        [self.delegate cellWithCancelOrderAction];
+    }
+    
+}
+- (IBAction)mcomfirmAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(cellWithComfirmOrderAction)]) {
+        [self.delegate cellWithComfirmOrderAction];
+    }
+    
+    
+}
+
+- (IBAction)mFinishAction:(UIButton *)sender {
+
+    if ([self.delegate respondsToSelector:@selector(cellWithFinishOrderAction)]) {
+        [self.delegate cellWithFinishOrderAction];
+    }
+    
+    
+}
+
+
 @end

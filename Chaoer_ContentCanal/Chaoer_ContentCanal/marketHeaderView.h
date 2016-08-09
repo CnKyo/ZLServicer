@@ -7,6 +7,34 @@
 //
 
 #import <UIKit/UIKit.h>
+/**
+ *  底部按钮的代理方法
+ */
+@protocol cellWithBottomBtnActionDelegate <NSObject>
+
+@optional
+/**
+ *  左边按钮的代理方法
+ */
+- (void)cellWithBottomLeftBtnAction;
+/**
+ *  右边按钮的代理方法
+ */
+- (void)cellWithBottomRightBtnAction;
+/**
+ *  取消订单代理方法
+ */
+- (void)cellWithCancelOrderAction;
+/**
+ *  确认订单代理方法
+ */
+- (void)cellWithComfirmOrderAction;
+/**
+ *  完成订单代理方法
+ */
+- (void)cellWithFinishOrderAction;
+
+@end
 
 @interface marketHeaderView : UIView
 
@@ -87,9 +115,18 @@
  */
 @property (weak, nonatomic) IBOutlet UIButton *mRightBtn;
 /**
+ *  完成服务
+ */
+@property (weak, nonatomic) IBOutlet UIButton *mFinishBtn;
+
+
+/**
  *  初始化方法
  *
  *  @return 返回view
  */
 + (marketHeaderView *)shareBottomView;
+
+@property (strong,nonatomic) id <cellWithBottomBtnActionDelegate> delegate;
+
 @end

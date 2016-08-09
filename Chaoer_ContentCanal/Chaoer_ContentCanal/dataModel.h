@@ -77,6 +77,7 @@
 @class GCanal;
 @class GCanalList;
 @class GPPTOrder;
+@class GShopOrder;
 
 /**
  *  用户信息
@@ -422,7 +423,7 @@
  */
 - (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
 
-- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,NSArray *mArr))block;
 #pragma mark----报修商户接单接口
 /**
  *  报修商户接单接口
@@ -769,7 +770,7 @@
  *  @param block  返回值
  */
 - (void)getOrder:(NSString *)mType andStart:(int)mStart andEd:(int)mEnd block:(void(^)(mBaseData *resb,NSArray *mArr))block;
-
+#pragma mark----获取保修订单详情
 /**
  *  获取保修订单详情
  *
@@ -777,8 +778,26 @@
  *  @param block    返回值
  */
 - (void)getOrderDetail:(NSString *)mOrderID block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block;
+#pragma mark----获取超市订单详情
+/**
+ *  获取超市订单详情
+ *
+ *  @param mOrderID 订单id
+ *  @param shopId   店铺id
+ *  @param block    返回值
+ */
+- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block;;
 
-- (void)getShoppingOrderDetail:(NSString *)mOrderID andShopId:(NSString *)shopId block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block;;
+#pragma mark----超市订单完成服务
+/**
+ *  超市订单完成服务
+ *
+ *  @param mOrderId  订单ID
+ *  @param mShopId  店铺id
+ *  @param block    返回值
+ */
+- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId block:(void(^)(mBaseData *resb))block;;
+
 
 /**
  *  获取积分列表
@@ -2681,5 +2700,169 @@
 @property (strong,nonatomic) NSString *mUserName;
 
 @property (strong,nonatomic) NSString *mServiceName;
+
+@end
+
+/**
+ *  超市订单对象
+ */
+@interface GShopOrder : NSObject
+/**
+ *  用户id
+ */
+@property (assign,nonatomic) int mUserId;
+/**
+ *  支付时间
+ */
+@property (strong,nonatomic) NSString *mPayTime;
+/**
+ *  是否评价
+ */
+@property (assign,nonatomic) BOOL mIscoment;
+/**
+ *  等会
+ */
+@property (strong,nonatomic) NSString *mPhone;
+/**
+ *  收货人
+ */
+@property (strong,nonatomic) NSString *mConsignee;
+
+@property (strong,nonatomic) NSString *mUserName;
+/**
+ *  总价
+ */
+@property (assign,nonatomic) float mCommodityPrice;
+/**
+ *  配送方式1:自取2:	跑跑腿配送
+ 3:商家配送
+
+ */
+@property (strong,nonatomic) NSString *mDistributionMode;
+/**
+ *  店铺id
+ */
+@property (assign,nonatomic) int mShopId;
+/**
+ *  商品数量
+ */
+@property (assign,nonatomic) int mCount;
+/**
+ *  店铺名称
+ */
+@property (strong,nonatomic) NSString *mShopName;
+/**
+ *  应支付金额
+ */
+@property (assign,nonatomic) int mPayableAmount;
+/**
+ *  状态10:未支付11:支付完成
+ 12:正在配送13:完成14:取消
+
+ */
+@property (assign,nonatomic) int mState;
+/**
+ *  订单编号
+ */
+@property (strong,nonatomic) NSString *mOrderCode;
+/**
+ *  店铺logo
+ */
+@property (strong,nonatomic) NSString *mShopLogo;
+/**
+ *  配送费
+ */
+@property (assign,nonatomic) float mDeliverFee;
+/**
+ *  添加时间
+ */
+@property (strong,nonatomic) NSString *mAddTime;
+/**
+ *  支付方式
+ */
+@property (strong,nonatomic) NSString *mPaymentMethod;
+/**
+ *  已支付金额
+ */
+@property (assign,nonatomic) float mAmountMoney;
+/**
+ *  配送地址
+ */
+@property (strong,nonatomic) NSString *mDistributionAddress;
+/**
+ *  订单id
+ */
+@property (assign,nonatomic) int mOrderId;
+
+/**
+ *  商品数组
+ */
+@property (strong,nonatomic) NSArray *mGoodsArr;
+/**
+ *  卡卷ID
+ */
+@property (assign,nonatomic) int mCardRollId;
+/**
+ *  配送时间
+ */
+@property (strong,nonatomic) NSString *mDistributionTime;
+/**
+ *  备注
+ */
+@property (strong,nonatomic) NSString *mRemarks;
+/**
+ *  积分抵扣金额
+ */
+@property (assign,nonatomic) float mCreditPrice;
+/**
+ *  卡卷抵扣金额
+ */
+@property (assign,nonatomic) float mCouponMoney;
+/**
+ *  使用积分
+ */
+@property (assign,nonatomic) BOOL mIntegral;
+
+-(id)initWithObj:(NSDictionary *)obj;
+
+@end
+/**
+ 商品对象
+ 
+ - returns:
+ */
+@interface GGoods : NSObject
+
+-(id)initWithObj:(NSDictionary *)obj;
+
+/**
+ *  数量？
+ */
+@property (assign,nonatomic) int mNumber;
+/**
+ *  商品名称
+ */
+@property (strong,nonatomic) NSString *mGoodsName;
+
+/**
+ *  单价
+ */
+@property (assign,nonatomic) float mUnitPrice;
+/**
+ *  总价
+ */
+@property (assign,nonatomic) float mTotalPrice;
+/**
+ *  商品描述
+ */
+@property (strong,nonatomic) NSString *mGoodsComment;
+/**
+ *  备注
+ */
+@property (strong,nonatomic) NSString *mRemarks;
+/**
+ *  商品图片
+ */
+@property (strong,nonatomic) NSString *mGoodsImg;
 
 @end

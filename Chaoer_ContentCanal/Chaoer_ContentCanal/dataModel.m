@@ -798,7 +798,7 @@ bool g_bined = NO;
     [para setObject:NumberWithInt(10) forKey:@"rows"];
     [para setObject:NumberWithInt(mPage) forKey:@"page"];
     
-    [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/bank" parameters:para call:^(mBaseData * _Nonnull info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/bill/orderRecord" parameters:para call:^(mBaseData * _Nonnull info) {
         NSMutableArray *tempArr = [NSMutableArray new];
         [tempArr removeAllObjects];
         if (info.mSucess) {
@@ -875,13 +875,13 @@ bool g_bined = NO;
  *  @param mState 状态
  *  @param block  返回值
  */
-- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block{
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,NSArray *mArr))block{
     
     
     NSString *mType = nil;
     
     if (mState == 0) {
-        mType = [NSString stringWithFormat:@"%i", kOrderState_havePay];
+        mType = [NSString stringWithFormat:@"%i", kOrderState_peiIng];
     }else if (mState == 1){
         mType = [NSString stringWithFormat:@"%i", kOrderState_done];
     }else{
@@ -898,11 +898,21 @@ bool g_bined = NO;
     [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/shoppingOrderList" parameters:para call:^(mBaseData * _Nonnull info) {
+        
+        NSMutableArray *tempArr = [NSMutableArray new];
+        [tempArr removeAllObjects];
         if (info.mSucess) {
-            //block(info,[[GFixOrder alloc] initWithObj:info.mData]);
-            block(info,nil);
+            
+            
+            for (NSDictionary *dic in [info.mData objectForKeyMy:@"list"]) {
+
+                [tempArr addObject:[[GShopOrder alloc] initWithObj:dic]];
+            }
+            
+            
+            block(info,tempArr);
         }else{
-            block(info,nil);
+            block(info,tempArr);
         }
     }];
     
@@ -2000,24 +2010,44 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 }
 
 
-- (void)getShoppingOrderDetail:(NSString *)mOrderID andShopId:(NSString *)shopId block:(void(^)(mBaseData *resb,GFixOrder *mFixOrder))block{
+- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block{
     
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:shopId forKey:@"sId"];
-    [para setObject:mOrderID forKey:@"orderId"];
+    [para setObject:NumberWithInt(shopId) forKey:@"sId"];
+    [para setObject:NumberWithInt(mOrderID) forKey:@"orderId"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/getShoppingOrderDetails" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
-            //GFixOrder *mFix = [[GFixOrder alloc] initWithObj:info.mData];
-            //block ( info , mFix );
-            block ( info , nil );
+           
+            block ( info , [[GShopOrder alloc] initWithObj:info.mData] );
             
         }else{
             block ( info , nil );
         }
     }];
 }
+#pragma mark----超市订单完成服务
+/**
+ *  超市订单完成服务
+ *
+ *  @param mOrderId  订单ID
+ *  @param mShopId  店铺id
+ *  @param block    返回值
+ */
+- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId block:(void(^)(mBaseData *resb))block;{
 
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mShopId]] forKey:@"sId"];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mOrderId]] forKey:@"orderId"];
+    [para setObject:@"ios" forKey:@"device"];
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/orderCompletion" parameters:para call:^(mBaseData *info) {
+        
+        block ( info );
+    }];
+
+    
+    
+}
 
 - (void)getScoreList:(int)mType andPage:(int)mPage andNum:(int)mNum block:(void(^)(mBaseData *resb,NSArray *mArr))block{
 
@@ -4832,4 +4862,124 @@ bool pptbined = NO;
     
     
 }
+@end
+
+@implementation GShopOrder
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+    
+    self.mUserId = [[obj objectForKeyMy:@"userId"] intValue];
+
+    self.mPayTime = [obj objectForKeyMy:@"payTime"];
+    
+    int mRate = [[obj objectForKeyMy:@"isComment"] intValue];
+    
+    self.mIscoment = mRate?1:0;
+    
+    self.mPhone = [obj objectForKeyMy:@"tel"];
+
+    self.mConsignee = [obj objectForKeyMy:@"consignee"];
+    
+    self.mUserName = [obj objectForKeyMy:@"userName"];
+
+    
+    self.mCommodityPrice = [[obj objectForKeyMy:@"commodityPrice"] floatValue];
+    
+    self.mDistributionMode = [obj objectForKeyMy:@"distributionMode"];
+    
+    self.mAddTime = [obj objectForKeyMy:@"addTime"];
+    
+    self.mShopId = [[obj objectForKeyMy:@"shopId"] intValue];
+    
+    self.mCount = [[obj objectForKeyMy:@"count"] intValue];
+
+    self.mShopName = [obj objectForKeyMy:@"shopName"];
+    
+    self.mPayableAmount = [[obj objectForKeyMy:@"payableAmount"] intValue];
+
+    self.mState = [[obj objectForKeyMy:@"state"] intValue];
+
+    self.mOrderCode = [obj objectForKeyMy:@"orderCode"];
+    
+    self.mShopLogo = [NSString stringWithFormat:@"%@%@",[HTTPrequest currentResourceUrl],[obj objectForKeyMy:@"shopLogo"]];
+
+    self.mDeliverFee = [[obj objectForKeyMy:@"deliverFee"] floatValue];
+    
+    self.mAddTime = [obj objectForKeyMy:@"addTime"];
+    
+    self.mAmountMoney = [[obj objectForKeyMy:@"amountMoney"] floatValue];
+    
+    self.mDistributionAddress = [obj objectForKeyMy:@"distributionAddress"];
+    
+    self.mOrderId = [[obj objectForKeyMy:@"orderId"] intValue];
+    
+    
+    self.mCardRollId = [[obj objectForKeyMy:@"cardRollId"] intValue];
+    
+    self.mDistributionTime = [obj objectForKeyMy:@"distributionTime"];
+    self.mRemarks = [obj objectForKeyMy:@"remarks"];
+    
+    
+    self.mCreditPrice = [[obj objectForKeyMy:@"creditPrice"] floatValue];
+    
+    self.mCouponMoney = [[obj objectForKeyMy:@"couponMoney"] floatValue];
+    
+    int mInter = [[obj objectForKeyMy:@"integral"] intValue];
+    
+    self.mIntegral = mInter?1:0;
+    
+    
+    NSMutableArray *mTempGoods = [NSMutableArray new];
+    
+    for (NSDictionary *dic in [obj objectForKeyMy:@"merchbillList"]) {
+        [mTempGoods addObject:[[GGoods alloc] initWithObj:dic]];
+    }
+    
+    self.mGoodsArr = mTempGoods;
+
+
+}
+
+
+@end
+
+@implementation GGoods
+
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+   
+    
+    self.mNumber = [[obj objectForKeyMy:@"number"] intValue];
+    
+    self.mUnitPrice = [[obj objectForKeyMy:@"unitPrice"] floatValue];
+    
+    self.mTotalPrice = [[obj objectForKeyMy:@"totalPrice"] floatValue];
+    
+    self.mGoodsName = [obj objectForKeyMy:@"goodsName"];
+    
+    self.mGoodsImg = [NSString stringWithFormat:@"%@%@",[HTTPrequest currentResourceUrl],[obj objectForKeyMy:@"goodsImg"]];
+
+    self.mRemarks = [obj objectForKeyMy:@"remarks"];
+    
+    self.mGoodsComment = [obj objectForKeyMy:@"goodsComment"];
+
+    
+}
+
 @end

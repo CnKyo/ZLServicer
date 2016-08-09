@@ -51,14 +51,14 @@
     
     self.page = 1;
     
-    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, GFixOrder *mOrder) {
+    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, NSArray *mArr) {
         
         [self headerEndRefresh];
         [self.tempArray removeAllObjects];
         [self removeEmptyView];
         
         if (resb.mSucess) {
-            [self.tempArray addObjectsFromArray:mOrder.mOrderList];
+            [self.tempArray addObjectsFromArray:mArr];
             [self.tableView reloadData];
         }else{
             
@@ -70,6 +70,26 @@
     
 }
 
+- (void)footetBeganRefresh{
+    self.page ++;
+    
+    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, NSArray *mArr) {
+        
+        [self footetEndRefresh];
+        [self removeEmptyView];
+        
+        if (resb.mSucess) {
+            [self.tempArray addObjectsFromArray:mArr];
+            [self.tableView reloadData];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self addEmptyView:nil];
+        }
+        
+    }];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -92,7 +112,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 5;
+    return self.tempArray.count;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -110,9 +130,8 @@
 - (void)WKDidSelectedIndex:(NSInteger)mIndex{
     MLLog(@"点击了%lu",(unsigned long)mIndex);
     
-    mType = [[NSString stringWithFormat:@"%ld",(long)mIndex+1] intValue];
-    //    [self headerBeganRefresh];
-    [self.tableView reloadData];
+    mType = [[NSString stringWithFormat:@"%ld",(long)mIndex] intValue];
+    [self headerBeganRefresh];
     
 }
 
@@ -131,6 +150,7 @@
     marketOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
     cell.mIndexPath = indexPath;
     cell.delegate = self;
+    [cell setMOrder:self.tempArray[indexPath.row]];
     return cell;
     
 }
@@ -140,7 +160,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    GShopOrder *mOrder = self.tempArray[indexPath.row];
     marketOrderDetailViewController *ddd = [[marketOrderDetailViewController alloc] initWithNibName:@"marketOrderDetailViewController" bundle:nil];
+    
+    ddd.mShopId = mOrder.mShopId;
+    ddd.mOrderId = mOrder.mOrderId;
+    
     [self pushViewController:ddd];
 }
 /**
@@ -151,6 +176,24 @@
  *  @param IndexPath    索引
  */
 - (void)cellWithLeftBtnClick:(marketOrderTableViewCell *)cell andOrderStatus:(int)mOrderStatus andIndexPath:(NSIndexPath *)IndexPath{
+    
+    GShopOrder *mOrder = self.tempArray[IndexPath.row];
+
+    [self showWithStatus:@"正在操作中..."];
+    
+    [[mUserInfo backNowUser] finishShopOrder:mOrder.mOrderId andShopId:mOrder.mShopId block:^(mBaseData *resb) {
+        
+        if (resb.mSucess) {
+            [self showSuccessStatus:resb.mMessage];
+            [self headerBeganRefresh];
+        }else{
+            
+            [self showErrorStatus:resb.mMessage];
+            [self headerBeganRefresh];
+        }
+        
+    }];
+    
     
 }
 /**
@@ -163,6 +206,10 @@
 - (void)cellWithRightBtnClick:(marketOrderTableViewCell *)cell andOrderStatus:(int)mOrderStatus andIndexPath:(NSIndexPath *)IndexPath{
     
     
+    GShopOrder *mOrder = self.tempArray[IndexPath.row];
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",mOrder.mPhone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+
 }
 
 @end

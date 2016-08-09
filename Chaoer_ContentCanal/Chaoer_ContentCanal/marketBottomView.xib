@@ -19,6 +19,9 @@
                     <state key="normal" title="取消订单">
                         <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="mCancelAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="9Uv-3q-hRY"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0G-2s-1L9">
                     <rect key="frame" x="172" y="12" width="140" height="35"/>
@@ -26,6 +29,22 @@
                     <state key="normal" title="确认订单">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="mcomfirmAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Zkp-MH-WRD"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0P-9O-erS">
+                    <rect key="frame" x="8" y="12" width="304" height="35"/>
+                    <color key="backgroundColor" red="0.52941176469999995" green="0.75686274509999996" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="Hey-cM-oa5"/>
+                    </constraints>
+                    <state key="normal" title="Button">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="mFinishAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="k8f-GX-HnD"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -33,14 +52,18 @@
                 <constraint firstItem="g0G-2s-1L9" firstAttribute="height" secondItem="dHG-Pw-cnc" secondAttribute="height" id="2k1-B8-qDc"/>
                 <constraint firstItem="dHG-Pw-cnc" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="9IB-xA-mGl"/>
                 <constraint firstItem="dHG-Pw-cnc" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="BQC-oc-Pxx"/>
+                <constraint firstItem="k0P-9O-erS" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="GbH-Ho-uCp"/>
                 <constraint firstItem="g0G-2s-1L9" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="JHD-Fj-Nbt"/>
                 <constraint firstItem="g0G-2s-1L9" firstAttribute="leading" secondItem="dHG-Pw-cnc" secondAttribute="trailing" constant="24" id="VbV-l7-SX6"/>
+                <constraint firstAttribute="trailing" secondItem="k0P-9O-erS" secondAttribute="trailing" constant="8" id="db4-mt-3xT"/>
+                <constraint firstItem="k0P-9O-erS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="jJR-T5-WiJ"/>
                 <constraint firstItem="g0G-2s-1L9" firstAttribute="width" secondItem="dHG-Pw-cnc" secondAttribute="width" id="lth-E5-vlP"/>
                 <constraint firstAttribute="trailing" secondItem="g0G-2s-1L9" secondAttribute="trailing" constant="8" id="w3v-g3-q6m"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="mFinishBtn" destination="k0P-9O-erS" id="jhP-7Z-q3l"/>
                 <outlet property="mLeftBtn" destination="dHG-Pw-cnc" id="9we-ea-3KI"/>
                 <outlet property="mRightBtn" destination="g0G-2s-1L9" id="Q1v-FP-sRg"/>
             </connections>

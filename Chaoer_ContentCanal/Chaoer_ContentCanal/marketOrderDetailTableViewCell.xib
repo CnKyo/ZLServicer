@@ -37,6 +37,9 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一带大神一带大神一带大神一带大神一带大神" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AMG-Ze-cXT">
                         <rect key="frame" x="98" y="58" width="214" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="YxL-7s-lTu"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -73,6 +76,7 @@
                     <constraint firstItem="Jwu-tX-R08" firstAttribute="leading" secondItem="X7k-Qc-s91" secondAttribute="trailing" constant="8" id="CSz-ge-7uG"/>
                     <constraint firstItem="EHN-Yf-zlU" firstAttribute="height" secondItem="Mh8-80-V47" secondAttribute="height" id="EFu-uS-apY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="AMG-Ze-cXT" secondAttribute="trailing" id="FkN-0k-7aH"/>
+                    <constraint firstItem="NGb-rn-Do4" firstAttribute="top" secondItem="X7k-Qc-s91" secondAttribute="bottom" constant="9" id="IQA-iu-LOZ"/>
                     <constraint firstItem="4dA-Hr-TKh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="Joz-DA-Irt"/>
                     <constraint firstItem="Jwu-tX-R08" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="JqO-et-eyt"/>
                     <constraint firstAttribute="trailingMargin" secondItem="EHN-Yf-zlU" secondAttribute="trailing" id="K9l-Hw-a3v"/>
@@ -95,6 +99,7 @@
                     <mask key="constraints">
                         <exclude reference="uEA-UV-itR"/>
                         <exclude reference="JqO-et-eyt"/>
+                        <exclude reference="KnS-Np-WGF"/>
                         <exclude reference="TKZ-ry-vQ1"/>
                         <exclude reference="pEl-Z4-4mg"/>
                     </mask>
@@ -107,7 +112,7 @@
                 <outlet property="mPrice" destination="EHN-Yf-zlU" id="Hin-0B-rKo"/>
                 <outlet property="mSubContent" destination="AMG-Ze-cXT" id="88l-Bb-jWu"/>
             </connections>
-            <point key="canvasLocation" x="246" y="360"/>
+            <point key="canvasLocation" x="233" y="421"/>
         </tableViewCell>
     </objects>
 </document>

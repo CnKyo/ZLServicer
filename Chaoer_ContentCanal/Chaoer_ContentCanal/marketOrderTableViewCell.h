@@ -78,4 +78,6 @@
  */
 @property (strong,nonatomic) id <marketCellDelegate> delegate;
 
+@property (strong,nonatomic) GShopOrder *mOrder;
+
 @end

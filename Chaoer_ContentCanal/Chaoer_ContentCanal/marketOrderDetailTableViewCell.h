@@ -30,4 +30,7 @@
  */
 @property (weak, nonatomic) IBOutlet UILabel *mPrice;
 
+
+@property (strong,nonatomic) GGoods *mGoods;
+
 @end

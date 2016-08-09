@@ -57,4 +57,30 @@
     
 }
 
+- (void)setMOrder:(GShopOrder *)mOrder{
+
+    self.mStoreName.text = mOrder.mShopName;
+    self.mPrice.text = [NSString stringWithFormat:@"共%d件商品   ¥%.2f元",mOrder.mCount,mOrder.mCommodityPrice];
+    
+    [self.mProductImg sd_setImageWithURL:[NSURL URLWithString:mOrder.mShopLogo] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+    self.mSubContent.text = [NSString stringWithFormat:@"下单时间:%@",mOrder.mAddTime];
+    self.mContent.text = [NSString stringWithFormat:@"配送地址:%@",mOrder.mDistributionAddress];
+    
+    NSString *mSS = nil;
+    
+    if (mOrder.mState == 12) {
+        mSS = @"完成服务";
+        self.mLeftBtn.hidden = NO;
+        [self.mLeftBtn setTitle:mSS forState:0];
+
+    }else if (mOrder.mState == 13){
+        mSS = @"完成服务";
+        self.mLeftBtn.hidden = YES;
+    }else{
+        mSS = @"已取消订单";
+        self.mLeftBtn.hidden = YES;
+    }
+    self.mStatus.text = mSS;
+    
+}
 @end

@@ -10,4 +10,15 @@
 
 @interface marketOrderDetailViewController : BaseVC
 
+@property (strong,nonatomic) GShopOrder *mBaseOrder;
+
+/**
+ *  店铺id
+ */
+@property (nonatomic,assign) int mShopId;
+/**
+ *  订单id
+ */
+@property (nonatomic,assign) int mOrderId;
+
 @end

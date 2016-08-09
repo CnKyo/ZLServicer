@@ -21,4 +21,17 @@
     // Configure the view for the selected state
 }
 
+- (void)setMGoods:(GGoods *)mGoods{
+
+    
+    [self.mImg sd_setImageWithURL:[NSURL URLWithString:mGoods.mGoodsImg] placeholderImage:[UIImage  imageNamed:@"DefaultImg"]];
+    
+    self.mNum.text = [NSString stringWithFormat:@"数量:%d",mGoods.mNumber];
+    self.mPrice.text = [NSString stringWithFormat:@"现价:¥%.2f元",mGoods.mUnitPrice];
+    self.mContent.text = mGoods.mGoodsName;
+    self.mSubContent.text = mGoods.mGoodsComment;
+    
+    
+}
+
 @end
