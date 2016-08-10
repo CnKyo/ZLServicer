@@ -148,7 +148,7 @@
     
      self.playerView.frame = CGRectMake(0, 0, DEVICE_Width, 300);
     [mCheckVideoView.mVideoView addSubview:self.playerView];
-    self.playerView.playerUrl = [NSURL URLWithString:@"http://api.feixiong.tv/Api/Base/getShortM3u8?params=%7B%22data%22%3A%7B%22id%22%3A281%2C%22stream_type%22%3A%22hd2%22%2C%22ykss%22%3A%22%22%7D%7D"];
+    self.playerView.playerUrl = [NSURL URLWithString:self.orderItem.mVideoUrl];
     [self.playerView play];
 
 
@@ -375,12 +375,26 @@
 #pragma mark----查看图片按钮
 - (void)cellWithImgBtnAction{
 
-    [self showCheckImgView];
+    if (self.orderItem.mOrderImage.length <= 0) {
+        [self showErrorStatus:@"未找到图片！"];
+        return;
+    }else{
+        [self showCheckImgView];
+    }
+    
+    
 }
 #pragma mark----查看视频按钮
 - (void)cellWithVideoBtnAction{
 
-    [self showCheckVideoView];
+    if (self.orderItem.mVideoUrl.length<=0) {
+        [self showErrorStatus:@"未找到视频！"];
+        return;
+    }else{
+        [self showCheckVideoView];
+    }
+    
+    
 }
 #pragma mark----取消订单按钮
 - (void)cellWithCancelOrderBtnAction{
