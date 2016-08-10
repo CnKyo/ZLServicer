@@ -40,7 +40,7 @@
 - (void)loadData{
     [self.tempArray removeAllObjects];
     NSArray *mArr1 = @[@"接单地区",@"服务类型"];
-    NSArray *mArr2 = @[@"银行卡",@"我的消息",@"账单纪录",@"修改密码"];
+    NSArray *mArr2 = @[@"我的消息",@"账单纪录",@"修改密码"];
     [self.tempArray addObject:mArr1];
     [self.tempArray addObject:mArr2];
 
@@ -103,7 +103,7 @@
 
     
     [mHeaderView.mHeader sd_setImageWithURL:[NSURL URLWithString:[mUserInfo backNowUser].mUserImgUrl] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
-    mHeaderView.mName.text = [mUserInfo backNowUser].mNickName;
+    mHeaderView.mName.text = [mUserInfo backNowUser].mServiceName;
     mHeaderView.mPhone.text = [mUserInfo backNowUser].mPhone;
     mHeaderView.mMoney.text = [NSString stringWithFormat:@"账户余额:¥%.2f元",[mUserInfo backNowUser].mMoney];
     
@@ -143,7 +143,7 @@
     if (section == 0) {
         return 2;
     }else{
-        return 4;
+        return 3;
     }
     
 }
@@ -220,13 +220,12 @@
     }else{
         MLLog(@"点击了%ld",(long)indexPath.row);
         if (indexPath.row == 0) {
-            mBankCarViewController *mmm = [[mBankCarViewController alloc] initWithNibName:@"mBankCarViewController" bundle:nil];
+//            mBankCarViewController *mmm = [[mBankCarViewController alloc] initWithNibName:@"mBankCarViewController" bundle:nil];
+//            [self pushViewController:mmm];
+            messageViewController *mmm = [[messageViewController alloc] initWithNibName:@"messageViewController" bundle:nil];
             [self pushViewController:mmm];
         }
         else if (indexPath.row == 1) {
-            messageViewController *mmm = [[messageViewController alloc] initWithNibName:@"messageViewController" bundle:nil];
-            [self pushViewController:mmm];
-        }else if(indexPath.row == 2){
             historyViewController *hhh = [[historyViewController alloc] initWithNibName:@"historyViewController" bundle:nil];
             [self pushViewController:hhh];
         }else{

@@ -95,11 +95,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.Title = self.mPageName = @"首页";
+    self.Title = self.mPageName = @"订单首页";
     self.hiddenBackBtn = YES;
     self.hiddenRightBtn = YES;
     self.hiddenlll = YES;
-    self.navBar.hidden = YES;
     self.mBanerArr = [NSMutableArray new];
     [self.mBanerArr removeAllObjects];
     mDownAppUrl = nil;
@@ -123,12 +122,12 @@
 }
 - (void)initview{
     
-    mNavView = [homeNavView shareView];
-    mNavView.mMsgPoint.hidden = YES;
-    mNavView.frame = CGRectMake(0, 0, DEVICE_Width, 64);
-    [mNavView.mChtListBtn addTarget:self action:@selector(mRCCListView:) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.view addSubview:mNavView];
+//    mNavView = [homeNavView shareView];
+//    mNavView.mMsgPoint.hidden = YES;
+//    mNavView.frame = CGRectMake(0, 0, DEVICE_Width, 64);
+//    [mNavView.mChtListBtn addTarget:self action:@selector(mRCCListView:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [self.view addSubview:mNavView];
     
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];

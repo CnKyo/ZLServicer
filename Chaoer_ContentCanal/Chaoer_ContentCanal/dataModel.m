@@ -3102,11 +3102,11 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
-    [para setObject:NumberWithInt(mId) forKey:@"id"];
+//    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
+    [para setObject:NumberWithInt(mId) forKey:@"ids"];
     
     
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/msg/readMsgInfo" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/serviceMsg/readMsgInfo" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
             block (info );
@@ -3132,11 +3132,11 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
+//    [para setObject:NumberWithInt([mUserInfo backNowUser].mUserId) forKey:@"userId"];
     [para setObject:NumberWithInt(mId) forKey:@"ids"];
     
     
-    [[HTTPrequest sharedHDNetworking] postUrl:@"app/msg/deleteMsgInfo" parameters:para call:^(mBaseData *info) {
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/serviceMsg/deleteMsgInfo" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
             block (info );

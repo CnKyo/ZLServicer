@@ -14,7 +14,9 @@
 
 #import <MapKit/MapKit.h>
 
-@interface fixDetailViewController ()<UITableViewDelegate,UITableViewDataSource,cellWithDetailBtnActionDelegate,cellWithBottomViewBtnDelegate,YXCustomAlertViewDelegate>
+#import "mCheckImgAndVideoView.h"
+
+@interface fixDetailViewController ()<UITableViewDelegate,UITableViewDataSource,cellWithDetailBtnActionDelegate,cellWithBottomViewBtnDelegate,YXCustomAlertViewDelegate,WKCheckImgDelegate>
 @property(nonatomic,strong) GFixOrder *orderItem;
 @end
 
@@ -26,6 +28,8 @@
     YXCustomAlertView *alertV;
     
     UITextField *mPriceTx;
+    
+    mCheckImgAndVideoView *mCheckView;
 
 }
 
@@ -60,6 +64,7 @@
     self.hiddenRightBtn = YES;
     
     [self initView];
+    [self initCheckImgView];
     
 }
 - (void)initView{
@@ -89,8 +94,30 @@
     
     
     
+    
 }
+- (void)initCheckImgView{
 
+    
+    mCheckView = [mCheckImgAndVideoView shareView];
+    mCheckView.frame = self.view.bounds;
+    mCheckView.alpha = 0;
+    mCheckView.delegate = self;
+    [self.view addSubview:mCheckView];
+    
+}
+- (void)showCheckImgView{
+
+    [UIView animateWithDuration:0.35 animations:^{
+        mCheckView.alpha = 1;
+    }];
+}
+- (void)hiddenCheckImgView{
+
+    [UIView animateWithDuration:0.35 animations:^{
+        mCheckView.alpha = 0;
+    }];
+}
 - (void)updatePage{
     NSString *mTT = nil;
     
@@ -105,6 +132,8 @@
 
     }
     [mBottomView.mMidBtn setTitle:mTT forState:0];
+    
+    [mCheckView.mImg sd_setImageWithURL:[NSURL URLWithString:self.orderItem.mOrderImage] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
     
 }
 
@@ -280,7 +309,7 @@
 #pragma mark----查看图片按钮
 - (void)cellWithImgBtnAction{
 
-    
+    [self showCheckImgView];
 }
 #pragma mark----查看视频按钮
 - (void)cellWithVideoBtnAction{
@@ -354,5 +383,11 @@
             [self showErrorStatus:resb.mMessage];
         }
     }];
+}
+
+#pragma mark----关闭查看图片view
+- (void)WKCloseBtnClicked{
+
+    [self hiddenCheckImgView];
 }
 @end

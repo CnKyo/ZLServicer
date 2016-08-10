@@ -134,8 +134,63 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    GMsgObj *mMsg = self.tempArray[indexPath.row];
     MLLog(@"点击了%ld",(long)indexPath.row);
     
+    [[mUserInfo backNowUser] readMsg:mMsg.mId block:^(mBaseData *resb) {
+        
+        if (resb.mSucess) {
+            
+            for (GMsgObj *obj in self.tempArray) {
+                if (mMsg.mId == obj.mId) {
+                    obj.mIsRead = YES;
+                }
+            }
+            [self.tableView reloadData];
+            
+        }else{
+        
+            [self showErrorStatus:resb.mMessage];
+        }
+        
+    }];
+    
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    GMsgObj *mmsg = self.tempArray[indexPath.row];
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [[mUserInfo backNowUser] deleteMsg:mmsg.mId block:^(mBaseData *resb) {
+            if (resb.mSucess) {
+                
+                [self.tempArray removeObject:self.tempArray[indexPath.row]];
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                
+                
+            }else{
+            
+                [self showErrorStatus:resb.mMessage];
+            }
+        }];
+
+    }
 }
 
 @end
