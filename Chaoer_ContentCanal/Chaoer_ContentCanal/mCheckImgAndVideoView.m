@@ -34,5 +34,10 @@
     
 }
 
++ (mCheckImgAndVideoView *)shareVideoView{
+    
+    mCheckImgAndVideoView *view = [[[NSBundle mainBundle] loadNibNamed:@"mCheckVideoView" owner:self options:nil] objectAtIndex:0];
+    return view;
+}
 
 @end

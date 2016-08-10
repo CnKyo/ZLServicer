@@ -16,8 +16,16 @@
 
 #import "mCheckImgAndVideoView.h"
 
+
+#import <MediaPlayer/MediaPlayer.h>
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "XCAVPlayerView.h"
 @interface fixDetailViewController ()<UITableViewDelegate,UITableViewDataSource,cellWithDetailBtnActionDelegate,cellWithBottomViewBtnDelegate,YXCustomAlertViewDelegate,WKCheckImgDelegate>
 @property(nonatomic,strong) GFixOrder *orderItem;
+
+@property (nonatomic, strong) XCAVPlayerView *playerView;
+
 @end
 
 @implementation fixDetailViewController
@@ -30,6 +38,8 @@
     UITextField *mPriceTx;
     
     mCheckImgAndVideoView *mCheckView;
+
+    mCheckImgAndVideoView *mCheckVideoView;
 
 }
 
@@ -52,6 +62,12 @@
     [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];///关闭自定义工具栏
     
 }
+- (XCAVPlayerView *)playerView{
+    if (!_playerView) {
+        _playerView = [[XCAVPlayerView alloc]init];
+    }
+    return _playerView;
+}
 
 
 - (void)viewDidLoad {
@@ -65,7 +81,7 @@
     
     [self initView];
     [self initCheckImgView];
-    
+    [self initVideoView];
 }
 - (void)initView{
     
@@ -116,6 +132,56 @@
 
     [UIView animateWithDuration:0.35 animations:^{
         mCheckView.alpha = 0;
+    }];
+}
+
+- (void)initVideoView{
+
+    mCheckVideoView = [mCheckImgAndVideoView shareVideoView];
+    mCheckVideoView.frame = self.view.bounds;
+    mCheckVideoView.alpha = 0;
+    mCheckVideoView.delegate = self;
+    [self.view addSubview:mCheckVideoView];
+    
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(statuesBarChanged:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    
+     self.playerView.frame = CGRectMake(0, 0, DEVICE_Width, 300);
+    [mCheckVideoView.mVideoView addSubview:self.playerView];
+    self.playerView.playerUrl = [NSURL URLWithString:@"http://api.feixiong.tv/Api/Base/getShortM3u8?params=%7B%22data%22%3A%7B%22id%22%3A281%2C%22stream_type%22%3A%22hd2%22%2C%22ykss%22%3A%22%22%7D%7D"];
+    [self.playerView play];
+
+
+}
+- (void)statuesBarChanged:(NSNotification *)sender{
+    //    UIInterfaceOrientation statues = [UIApplication sharedApplication].statusBarOrientation;
+    //    if (statues == UIInterfaceOrientationPortrait || statues == UIInterfaceOrientationPortraitUpsideDown) {
+    //        self.playerView.frame = CGRectMake(0, 20.0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width * 0.58);
+    //    }else if (statues == UIInterfaceOrientationLandscapeLeft || statues == UIInterfaceOrientationLandscapeRight){
+    //        self.playerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    //    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
+    NSLog(@"%@--%@",object,[change description]);
+}
+
+- (void)moviePlayDidEnd:(NSNotification *)noti{
+    
+}
+
+- (void)showCheckVideoView{
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        mCheckVideoView.alpha = 1;
+    }];
+}
+- (void)hiddenCheckVideoView{
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        mCheckVideoView.alpha = 0;
+        [self.playerView pause];
+        [self.playerView resume];
     }];
 }
 - (void)updatePage{
@@ -314,11 +380,11 @@
 #pragma mark----查看视频按钮
 - (void)cellWithVideoBtnAction{
 
-    
+    [self showCheckVideoView];
 }
 #pragma mark----取消订单按钮
 - (void)cellWithCancelOrderBtnAction{
-
+    
   
 }
 #pragma mark----接受订单按钮
@@ -389,5 +455,9 @@
 - (void)WKCloseBtnClicked{
 
     [self hiddenCheckImgView];
+    [self hiddenCheckVideoView];
 }
+
+
+
 @end

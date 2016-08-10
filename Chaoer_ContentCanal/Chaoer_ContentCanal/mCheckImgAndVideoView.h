@@ -20,10 +20,13 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *mImg;
 
+@property (weak, nonatomic) IBOutlet UIView *mVideoView;
 @property (weak, nonatomic) IBOutlet UIButton *mCloseBtn;
 
 @property (strong,nonatomic) id<WKCheckImgDelegate> delegate;
 
 + (mCheckImgAndVideoView *)shareView;
+
++ (mCheckImgAndVideoView *)shareVideoView;
 
 @end
