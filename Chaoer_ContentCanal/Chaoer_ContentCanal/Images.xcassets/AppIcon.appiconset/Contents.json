@@ -144,7 +144,7 @@
     {
       "size" : "29x29",
       "idiom" : "watch",
-      "filename" : "Icon-Small@2x.png",
+      "filename" : "Icon@2x-1.png",
       "role" : "companionSettings",
       "scale" : "2x"
     },
@@ -177,11 +177,7 @@
       "subtype" : "42mm"
     },
     {
-      "filename" : "Icon-76@3x-1.png",
-      "unassigned" : true
-    },
-    {
-      "filename" : "Icon-76@3x-2.png",
+      "filename" : "Icon-60.png",
       "unassigned" : true
     },
     {
