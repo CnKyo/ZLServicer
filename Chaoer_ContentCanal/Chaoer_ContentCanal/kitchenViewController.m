@@ -51,9 +51,6 @@
 //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
     
-    self.haveHeader = YES;
-
-
     UINib   *nib = [UINib nibWithNibName:@"mMyTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell1"];
     
@@ -78,35 +75,18 @@
     [mLogoutBtn addTarget:self action:@selector(mLogOutAction:) forControlEvents:UIControlEventTouchUpInside];
     [mFooterView addSubview:mLogoutBtn];
     [self.tableView setTableFooterView:mFooterView];
-    
-}
-
-- (void)headerBeganRefresh{
-    [self loadData];
-
-    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-        [self removeEmptyView];
-        [self headerEndRefresh];
-        if (resb.mSucess) {
-            [self upDatePage];
-            [self.tableView reloadData];
-        }else{
-            
-            [self showErrorStatus:resb.mMessage];
-            [self addEmptyView:nil];
-        }
-    }];
+    [self upDatePage];
     
 }
 
 - (void)upDatePage{
 
-    
+    [self loadData];
     [mHeaderView.mHeader sd_setImageWithURL:[NSURL URLWithString:[mUserInfo backNowUser].mUserImgUrl] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
     mHeaderView.mName.text = [mUserInfo backNowUser].mServiceName;
     mHeaderView.mPhone.text = [mUserInfo backNowUser].mPhone;
     mHeaderView.mMoney.text = [NSString stringWithFormat:@"账户余额:¥%.2f元",[mUserInfo backNowUser].mMoney];
-    
+    [self.tableView reloadData];
     
 }
 

@@ -198,20 +198,8 @@ bool g_bined = NO;
     NSMutableArray *mArr = [NSMutableArray new];
     [mArr removeAllObjects];
     
-    
-    if (mMerchant==1) {
-        [mArr addObject:@{@"name":@"物业报修",@"type":@"1"}];
-    }else{
-        [mArr removeObject:@{@"name":@"物业报修",@"type":@"1"}];
-
-    }
-    
-    if (mShop == 1) {
-        [mArr addObject:@{@"name":@"社区超市",@"type":@"2"}];
-
-    }else{
-        [mArr removeObject:@{@"name":@"社区超市",@"type":@"2"}];
-
+    for (NSDictionary *dic in [obj objectForKeyMy:@"shopList"]) {
+        [mArr addObject:[[GShopList alloc] initWithObj:dic]];
     }
     
     self.mOrderArr = mArr;
@@ -224,13 +212,13 @@ bool g_bined = NO;
 
     for (int i =0;i<self.mOrderArr.count;i++) {
         
-        NSDictionary *dic = self.mOrderArr[i];
+        GShopList *dic = self.mOrderArr[i];
         
         
         if (i == self.mOrderArr.count-1) {
-            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]]];
+            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@",dic.mCategry]];
         }else{
-            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@,",[dic objectForKey:@"name"]]];
+            mTT = [mTT stringByAppendingString:[NSString stringWithFormat:@"%@,",dic.mCategry]];
         }
         
     }
@@ -4979,6 +4967,53 @@ bool pptbined = NO;
     
     self.mGoodsComment = [obj objectForKeyMy:@"goodsComment"];
 
+    
+}
+
+@end
+
+@implementation GShopList
+
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+    
+    
+    self.mType = [[obj objectForKeyMy:@"type"] intValue];
+    
+    self.mSid = [[obj objectForKeyMy:@"sId"] intValue];
+    
+    NSString *mSS = nil;
+    
+    switch (self.mType) {
+        case 1:
+        {
+            mSS = @"超市";
+        }
+            break;
+        case 2:
+        {
+            mSS = @"餐饮";
+        }
+            break;
+        case 3:
+        {
+            mSS = @"干洗";
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    self.mCategry = mSS;
     
 }
 

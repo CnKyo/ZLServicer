@@ -65,10 +65,7 @@
     
     self.navigationController.navigationBarHidden = YES;
     
-    if ([mUserInfo isNeedLogin]) {
-        [self gotoLoginVC];
-        return;
-    }
+    [self loadData];
     
     [CurentLocation sharedManager];
 }
@@ -108,8 +105,10 @@
     
     mLat = nil;
     mLng = nil;
-    [self callBack];
-} 
+    [self initview];
+
+    [[NSNotificationCenter defaultCenter] addObserver: self selector:@selector(callBack)name:@"back"object:nil];
+  }
 
 -(void)callBack{
     [self.mBanerArr removeAllObjects];
@@ -117,8 +116,10 @@
     [self showFrist];
 
 
-    [self initview];
 
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)initview{
     
@@ -132,10 +133,10 @@
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.haveHeader = YES;
+
     UINib   *nib = [UINib nibWithNibName:@"homeTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
-    
+    [self loadData];
 }
 #pragma mark----信息事件
 - (void)mRCCListView:(UIButton *)sender{
@@ -144,21 +145,17 @@
     
 
 }
-- (void)headerBeganRefresh{
+- (void)loadData{
 
-    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-        [self.tempArray removeAllObjects];
-        [self removeEmptyView];
-        [self headerEndRefresh];
-        if (resb.mSucess) {
-            [self.tempArray addObjectsFromArray:user.mOrderArr];
-            [self.tableView reloadData];
-        }else{
-        
-            [self showErrorStatus:resb.mMessage];
-            [self addEmptyView:nil];
-        }
-    }];
+    if ([mUserInfo isNeedLogin]) {
+        [self gotoLoginVC];
+        return;
+    }
+
+    [self.tempArray removeAllObjects];
+    [self removeEmptyView];
+    [self.tempArray addObjectsFromArray:[mUserInfo backNowUser].mOrderArr];
+    [self.tableView reloadData];
     
 }
 - (void)loadAddress{
@@ -231,11 +228,11 @@
 {
     NSString *reuseCellId = @"cell";
 
-    NSDictionary *dic = self.tempArray[indexPath.row];
+    GShopList *mShop = self.tempArray[indexPath.row];
     
     homeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
 
-    int mType = [[dic objectForKey:@"type"] intValue];
+    int mType = mShop.mType;
     
     if (mType == 1) {
         cell.mImg.image = [UIImage imageNamed:@"type_fix"];

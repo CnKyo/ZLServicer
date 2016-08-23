@@ -2866,3 +2866,24 @@
 @property (strong,nonatomic) NSString *mGoodsImg;
 
 @end
+#pragma mark----店铺类型
+/**
+ *  嗲怒类型
+ */
+@interface GShopList : NSObject
+/**
+ *  类型
+ */
+@property (assign,nonatomic) int mType;
+/**
+ *  类型类型(1:超市：2：餐饮：3：干洗)
+ */
+@property (strong,nonatomic) NSString *mCategry;
+
+/**
+ *  id
+ */
+@property (assign,nonatomic) int mSid;
+
+-(id)initWithObj:(NSDictionary *)obj;
+@end

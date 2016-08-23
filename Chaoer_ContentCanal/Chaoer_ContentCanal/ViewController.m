@@ -262,6 +262,7 @@
     
 
     [self dismissViewController];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"back"object:self];
 
     
 }
