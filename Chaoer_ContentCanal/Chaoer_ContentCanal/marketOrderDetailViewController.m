@@ -67,7 +67,7 @@
 }
 - (void)headerBeganRefresh{
     
-    [[mUserInfo backNowUser] getShoppingOrderDetail:self.mOrderId andShopId:self.mShopId block:^(mBaseData *resb, GShopOrder *mShopOrder) {
+    [[mUserInfo backNowUser] getShoppingOrderDetail:self.mOrderId andShopId:self.mShopId type:_shopType block:^(mBaseData *resb, GShopOrder *mShopOrder) {
         
         [self headerEndRefresh];
         [self removeEmptyView];
@@ -244,7 +244,7 @@
 
     [self showWithStatus:@"正在操作中..."];
     
-    [[mUserInfo backNowUser] finishShopOrder:self.mBaseOrder.mOrderId andShopId:self.mBaseOrder.mShopId block:^(mBaseData *resb) {
+    [[mUserInfo backNowUser] finishShopOrder:self.mBaseOrder.mOrderId andShopId:self.mBaseOrder.mShopId type:_shopType block:^(mBaseData *resb) {
         
         if (resb.mSucess) {
             [self showSuccessStatus:resb.mMessage];

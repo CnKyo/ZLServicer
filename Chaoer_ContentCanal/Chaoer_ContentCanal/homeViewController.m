@@ -151,10 +151,20 @@
         [self gotoLoginVC];
         return;
     }
+    
 
     [self.tempArray removeAllObjects];
     [self removeEmptyView];
-    [self.tempArray addObjectsFromArray:[mUserInfo backNowUser].mOrderArr];
+    
+    mUserInfo *user = [mUserInfo backNowUser];
+    if (user.mIsOpenShop )
+        [self.tempArray addObject:[NSString stringWithFormat:@"%i", kShopType_cao]];
+    if (user.mIsOpenMerchant )
+        [self.tempArray addObject:[NSString stringWithFormat:@"%i", kShopType_fix]];
+    if (user.mIsOpenClean )
+        [self.tempArray addObject:[NSString stringWithFormat:@"%i", kShopType_clean]];
+    //[self.tempArray addObjectsFromArray:[mUserInfo backNowUser].mOrderArr];
+    
     [self.tableView reloadData];
     
 }
@@ -228,17 +238,32 @@
 {
     NSString *reuseCellId = @"cell";
 
-    GShopList *mShop = self.tempArray[indexPath.row];
+    //GShopList *mShop = self.tempArray[indexPath.row];
     
     homeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
 
-    int mType = mShop.mType;
+//    int mType = mShop.mType;
+//    
+//    if (mType == 1) {
+//        cell.mImg.image = [UIImage imageNamed:@"type_fix"];
+//    }else{
+//        cell.mImg.image = [UIImage imageNamed:@"type_market"];
+//        
+//    }
     
-    if (mType == 1) {
-        cell.mImg.image = [UIImage imageNamed:@"type_fix"];
-    }else{
-        cell.mImg.image = [UIImage imageNamed:@"type_market"];
-        
+    int type = [self.tempArray[indexPath.row] intValue];
+    switch (type) {
+        case kShopType_cao:
+            cell.mImg.image = [UIImage imageNamed:@"type_market"];
+            break;
+        case kShopType_fix:
+            cell.mImg.image = [UIImage imageNamed:@"type_fix"];
+            break;
+        case kShopType_clean:
+            cell.mImg.image = [UIImage imageNamed:@"type_fix"];
+            break;
+        default:
+            break;
     }
     
     return cell;
@@ -250,15 +275,39 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSDictionary *dic = self.tempArray[indexPath.row];
+//    NSDictionary *dic = self.tempArray[indexPath.row];
+//    
+//    if ([[dic objectForKey:@"type"] intValue] == 1) {
+//        fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
+//        [self pushViewController:fix];
+//        
+//    }else{
+//        marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+//        [self pushViewController:mmm];
+//    }
     
-    if ([[dic objectForKey:@"type"] intValue] == 1) {
-        fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
-        [self pushViewController:fix];
-        
-    }else{
-        marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
-        [self pushViewController:mmm];
+    int type = [self.tempArray[indexPath.row] intValue];
+    switch (type) {
+        case kShopType_cao:
+        {
+            marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+            mmm.shopType = type;
+            [self pushViewController:mmm];
+        }
+            break;
+        case kShopType_fix:
+        {
+            fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
+            [self pushViewController:fix];
+        }
+            break;
+        case kShopType_clean:
+        {
+            
+        }
+            break;
+        default:
+            break;
     }
     
 }

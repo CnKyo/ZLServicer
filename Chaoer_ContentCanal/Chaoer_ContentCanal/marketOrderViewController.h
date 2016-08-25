@@ -9,5 +9,5 @@
 #import "BaseVC.h"
 
 @interface marketOrderViewController : BaseVC
-
+@property(nonatomic,assign) kShopType shopType;
 @end

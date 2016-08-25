@@ -21,4 +21,5 @@
  */
 @property (nonatomic,assign) int mOrderId;
 
+@property(nonatomic,assign) kShopType shopType;
 @end

@@ -51,7 +51,7 @@
     
     self.page = 1;
     
-    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, NSArray *mArr) {
+    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType type:_shopType block:^(mBaseData *resb, NSArray *mArr) {
         
         [self headerEndRefresh];
         [self.tempArray removeAllObjects];
@@ -73,7 +73,7 @@
 - (void)footetBeganRefresh{
     self.page ++;
     
-    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType block:^(mBaseData *resb, NSArray *mArr) {
+    [[mUserInfo backNowUser] getShoppingOrderList:self.page andState:mType type:_shopType block:^(mBaseData *resb, NSArray *mArr) {
         
         [self footetEndRefresh];
         [self removeEmptyView];
@@ -165,6 +165,7 @@
     
     ddd.mShopId = mOrder.mShopId;
     ddd.mOrderId = mOrder.mOrderId;
+    ddd.shopType = _shopType;
     
     [self pushViewController:ddd];
 }
@@ -181,7 +182,7 @@
 
     [self showWithStatus:@"正在操作中..."];
     
-    [[mUserInfo backNowUser] finishShopOrder:mOrder.mOrderId andShopId:mOrder.mShopId block:^(mBaseData *resb) {
+    [[mUserInfo backNowUser] finishShopOrder:mOrder.mOrderId andShopId:mOrder.mShopId type:_shopType block:^(mBaseData *resb) {
         
         if (resb.mSucess) {
             [self showSuccessStatus:resb.mMessage];

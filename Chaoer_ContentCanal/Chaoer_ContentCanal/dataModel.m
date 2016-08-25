@@ -157,6 +157,7 @@ bool g_bined = NO;
 }
 - (void)fetchIt:(NSDictionary *)obj{
     
+    self.mLid = [[obj objectForKeyMy:@"lid"] intValue];
     
     self.mLoginId = [[obj objectForKeyMy:@"loginId"] intValue];
     
@@ -194,6 +195,10 @@ bool g_bined = NO;
     int mShop = [[obj objectForKeyMy:@"is_open_shop"] intValue];
     
     self.mIsOpenShop = mShop?1:0;;
+    
+    int mClean = [[obj objectForKeyMy:@"is_open_clean"] intValue];
+    
+    self.mIsOpenClean = mClean?1:0;;
     
     NSMutableArray *mArr = [NSMutableArray new];
     [mArr removeAllObjects];
@@ -863,7 +868,7 @@ bool g_bined = NO;
  *  @param mState 状态
  *  @param block  返回值
  */
-- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,NSArray *mArr))block{
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState type:(kShopType)type block:(void(^)(mBaseData *resb,NSArray *mArr))block{
     
     
     NSString *mType = nil;
@@ -879,7 +884,9 @@ bool g_bined = NO;
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mShopId ) forKey:@"sId"];
+    [para setObject:StringWithInt(type) forKey:@"orderType"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    //[para setObject:NumberWithInt([mUserInfo backNowUser].mShopId ) forKey:@"sId"];
     [para setObject:NumberWithInt(10) forKey:@"pageSize"];
     [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
     [para setObject:mType forKey:@"state"];
@@ -1998,11 +2005,15 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 }
 
 
-- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block{
+- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId type:(kShopType)type block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block{
     
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:NumberWithInt(shopId) forKey:@"sId"];
-    [para setObject:NumberWithInt(mOrderID) forKey:@"orderId"];
+    //[para setObject:NumberWithInt(shopId) forKey:@"sId"];
+    //[para setObject:NumberWithInt(mOrderID) forKey:@"orderId"];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mOrderID]] forKey:@"orderId"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:StringWithInt(type) forKey:@"orderType"];
+    [para setObject:@"ios" forKey:@"device"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/getShoppingOrderDetails" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
@@ -2022,11 +2033,12 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
  *  @param mShopId  店铺id
  *  @param block    返回值
  */
-- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId block:(void(^)(mBaseData *resb))block;{
+- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId type:(kShopType)type block:(void(^)(mBaseData *resb))block;{
 
     NSMutableDictionary *para = [NSMutableDictionary new];
-    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mShopId]] forKey:@"sId"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
     [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mOrderId]] forKey:@"orderId"];
+    [para setObject:StringWithInt(type) forKey:@"orderType"];
     [para setObject:@"ios" forKey:@"device"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/orderCompletion" parameters:para call:^(mBaseData *info) {
         

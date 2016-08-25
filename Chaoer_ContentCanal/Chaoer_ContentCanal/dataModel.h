@@ -13,6 +13,17 @@
 
 @end
 
+
+typedef enum {
+    kShopType_merchant    = 0,
+    kShopType_cao    = 1,
+    kShopType_fix    = 5,
+    kShopType_clean    = 3,
+    kShopType_food    = 2,
+} kShopType; //店铺类型
+
+
+
 @interface mBaseData : NSObject
 
 
@@ -93,6 +104,8 @@
  */
 @property (nonatomic,strong) NSArray *mOrderArr;
 
+@property (assign,nonatomic) int mLid; //登录ID
+
 /**
  *  是否开通商家
  */
@@ -101,6 +114,10 @@
  *  是否开通超市
  */
 @property (assign,nonatomic) BOOL mIsOpenShop;
+/**
+ *  是否开通超市
+ */
+@property (assign,nonatomic) BOOL mIsOpenClean;
 
 /**
  *  服务状态
@@ -423,7 +440,7 @@
  */
 - (void)getFixOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,GFixOrder *mOrder))block;
 
-- (void)getShoppingOrderList:(int)mPage andState:(int)mState block:(void(^)(mBaseData *resb,NSArray *mArr))block;
+- (void)getShoppingOrderList:(int)mPage andState:(int)mState type:(kShopType)type block:(void(^)(mBaseData *resb,NSArray *mArr))block;
 #pragma mark----报修商户接单接口
 /**
  *  报修商户接单接口
@@ -786,7 +803,7 @@
  *  @param shopId   店铺id
  *  @param block    返回值
  */
-- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block;;
+- (void)getShoppingOrderDetail:(int)mOrderID andShopId:(int)shopId type:(kShopType)type block:(void(^)(mBaseData *resb,GShopOrder *mShopOrder))block;;
 
 #pragma mark----超市订单完成服务
 /**
@@ -796,7 +813,7 @@
  *  @param mShopId  店铺id
  *  @param block    返回值
  */
-- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId block:(void(^)(mBaseData *resb))block;;
+- (void)finishShopOrder:(int)mOrderId andShopId:(int)mShopId type:(kShopType)type block:(void(^)(mBaseData *resb))block;;
 
 
 /**

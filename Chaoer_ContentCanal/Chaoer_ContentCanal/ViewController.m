@@ -196,12 +196,12 @@
         [mLoginV.phoneTx becomeFirstResponder];
         return;
     }
-    if (![Util isMobileNumber:mLoginV.phoneTx.text]) {
-        [LCProgressHUD showInfoMsg:@"请输入合法的手机号码"];
-        [mLoginV.phoneTx becomeFirstResponder];
-
-        return;
-    }
+//    if (![Util isMobileNumber:mLoginV.phoneTx.text]) {
+//        [LCProgressHUD showInfoMsg:@"请输入合法的手机号码"];
+//        [mLoginV.phoneTx becomeFirstResponder];
+//
+//        return;
+//    }
     if (mLoginV.codeTx.text == nil || [mLoginV.codeTx.text isEqualToString:@""]) {
         [LCProgressHUD showInfoMsg:@"密码不能为空"];
 
