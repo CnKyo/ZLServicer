@@ -568,9 +568,10 @@ bool g_bined = NO;
     NSMutableDictionary *para = [NSMutableDictionary new];
     
  
-    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mSId]] forKey:@"serviceId"];
+//    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mSId]] forKey:@"serviceId"];
+//    [para setObject:@"ios" forKey:@"device"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
     [para setObject:@"ios" forKey:@"device"];
-
  
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/homeRefresh" parameters:para call:^(mBaseData *info) {
         
@@ -834,13 +835,15 @@ bool g_bined = NO;
         mType = @"5";
     }
     
+    NSLog(@"%i", ([mUserInfo backNowUser].mLid ));
     
     NSMutableDictionary *para = [NSMutableDictionary new];
-    
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mId ) forKey:@"mId"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    //[para setObject:NumberWithInt([mUserInfo backNowUser].mId ) forKey:@"mId"];
     [para setObject:NumberWithInt(10) forKey:@"pageSize"];
     [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
     [para setObject:mType forKey:@"state"];
+    [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/getWarrantyOrderList" parameters:para call:^(mBaseData * _Nonnull info) {
 //        NSMutableArray *tempArr = [NSMutableArray new];
@@ -927,9 +930,10 @@ bool g_bined = NO;
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt(mId) forKey:@"mid"];
+    //[para setObject:NumberWithInt(mId) forKey:@"mid"];
     [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
-    
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/receiving" parameters:para call:^(mBaseData * _Nonnull info) {
         block ( info );
@@ -952,9 +956,11 @@ bool g_bined = NO;
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt(mId) forKey:@"mid"];
+    //[para setObject:NumberWithInt(mId) forKey:@"mid"];
     [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
     [para setObject:NumberWithFloat(mPrice) forKey:@"offer"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/serviceCompletion" parameters:para call:^(mBaseData * _Nonnull info) {
         block ( info );
@@ -1988,8 +1994,8 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     [para setObject:mOrderID forKey:@"orderId"];
-
-    
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:@"ios" forKey:@"device"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"app/warrantyOrder/getOrderDetails" parameters:para call:^(mBaseData *info) {
         
         if (info.mSucess) {
@@ -3051,17 +3057,22 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId) forKey:@"serviceId"];
-//    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
-//    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+//    [para setObject:NumberWithInt([mUserInfo backNowUser].mSId) forKey:@"serviceId"];
+////    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
+////    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+//    
+//    
+//    if ([mUserInfo backNowUser].mIsOpenShop) {
+//        [para setObject:NumberWithInt([mUserInfo backNowUser].mShopId) forKey:@"sId"];
+//    }
+//    if ([mUserInfo backNowUser].mIsOpenMerchant) {
+//        [para setObject:NumberWithInt([mUserInfo backNowUser].mId) forKey:@"mId"];
+//    }
     
-    
-    if ([mUserInfo backNowUser].mIsOpenShop) {
-        [para setObject:NumberWithInt([mUserInfo backNowUser].mShopId) forKey:@"sId"];
-    }
-    if ([mUserInfo backNowUser].mIsOpenMerchant) {
-        [para setObject:NumberWithInt([mUserInfo backNowUser].mId) forKey:@"mId"];
-    }
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:NumberWithInt(10) forKey:@"pageSize"];
+    [para setObject:NumberWithInt(mPage) forKey:@"pageNumber"];
+    [para setObject:@"ios" forKey:@"device"];
 
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/serviceMsg/queryServiceMsg" parameters:para call:^(mBaseData *info) {
         
