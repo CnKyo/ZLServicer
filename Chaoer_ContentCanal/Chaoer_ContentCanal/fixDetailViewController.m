@@ -171,6 +171,8 @@
 }
 
 - (void)showCheckVideoView{
+    self.playerView.playerUrl = [NSURL URLWithString:self.orderItem.mVideoUrl];
+    [self.playerView play];
     
     [UIView animateWithDuration:0.35 animations:^{
         mCheckVideoView.alpha = 1;
@@ -181,7 +183,7 @@
     [UIView animateWithDuration:0.35 animations:^{
         mCheckVideoView.alpha = 0;
         [self.playerView pause];
-        [self.playerView resume];
+        //[self.playerView resume];
     }];
 }
 - (void)updatePage{
