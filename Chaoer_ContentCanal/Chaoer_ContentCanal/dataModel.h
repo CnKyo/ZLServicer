@@ -420,7 +420,7 @@ typedef enum {
  *
  *  @param block fanhuizhi
  */
-- (void)getBankInfo:(void(^)(mBaseData *resb))block;
+- (void)getBankInfo:(void(^)(mBaseData *resb,NSArray *mArr))block;
 #pragma mark----获取账单纪录
 /**
  *  获取账单纪录
@@ -644,6 +644,18 @@ typedef enum {
  *  @param mPayID    缴费ID
  */
 - (void)payCanal:(NSMutableDictionary *)mPara block:(void(^)(mBaseData *resb))block;
+
+
+/**
+ *  服务提现
+ *
+ *  @param mBankId        银行卡id
+ *  @param mMoney         提现金额
+ *  @param mPresentManner 是否是及时(1:为及时即T+0;为空或者为0：T+1)
+ *  @param block          返回值
+ */
++(void)getUserCash:(NSString *)mBankId andMoney:(NSString *)mMoney andPresentManner:(NSString *)mPresentManner block:(void(^)(mBaseData *resb))block;
+
 
 /**
  *  提现
@@ -2904,3 +2916,25 @@ typedef enum {
 
 -(id)initWithObj:(NSDictionary *)obj;
 @end
+
+
+
+
+
+
+@interface BankObject : NSObject
+@property (strong,nonatomic) NSString *mId;
+@property (strong,nonatomic) NSString *realName;    //姓名
+@property (strong,nonatomic) NSString *bankCard;    //银行卡号
+@property (strong,nonatomic) NSString *bankName;    //银行名称
+@property (strong,nonatomic) NSString *bankProvince;    //开户省份
+@property (strong,nonatomic) NSString *bankCity;    //开户城市
+@property (strong,nonatomic) NSString *bankWebSite; //开户网点
+@property (strong,nonatomic) NSString *card; //银行卡号
+
+-(id)initWithObj:(NSDictionary *)obj;
+@end
+
+
+
+

@@ -29,7 +29,7 @@
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
-    mType =0;
+    mType =1;
     [self initView];
     
 }

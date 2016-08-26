@@ -765,16 +765,24 @@ bool g_bined = NO;
  *
  *  @param block fanhuizhi
  */
-- (void)getBankInfo:(void(^)(mBaseData *resb))block{
+- (void)getBankInfo:(void(^)(mBaseData *resb,NSArray *mArr))block{
 
     NSMutableDictionary *para = [NSMutableDictionary new];
     
     [para setObject:NumberWithInt([mUserInfo backNowUser].mSId ) forKey:@"serviceId"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/bank" parameters:para call:^(mBaseData * _Nonnull info) {
+        NSMutableArray *tempArr = [NSMutableArray new];
+        [tempArr removeAllObjects];
+        if (info.mSucess) {
+            
+            for (NSDictionary *dic in info.mData) {
+                [tempArr addObject:[[BankObject alloc] initWithObj:dic]];
+            }
+            block(info,tempArr);
         
-        block(info);
- 
+        }else
+            block(info,tempArr);
     }];
     
 }
@@ -834,6 +842,11 @@ bool g_bined = NO;
     }else{
         mType = @"5";
     }
+//    if (mState == 0) {
+//        mType = @"8";
+//    }else if (mState == 1){
+//        mType = @"5";
+//    }
     
     NSLog(@"%i", ([mUserInfo backNowUser].mLid ));
     
@@ -1620,6 +1633,29 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     [[HTTPrequest sharedHDNetworking] postUrl:@"app/propertyCost/deliveryCharge" parameters:mPara call:^(mBaseData *info) {
         if (info.mSucess) {
             block ( info );
+        }else{
+            block ( info );
+        }
+    }];
+    
+}
+
+
++(void)getUserCash:(NSString *)mBankId andMoney:(NSString *)mMoney andPresentManner:(NSString *)mPresentManner block:(void(^)(mBaseData *resb))block{
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mSId )] forKey:@"serviceId"];
+    [para setObject:[Util RSAEncryptor:StringWithInt([mUserInfo backNowUser].mLid )] forKey:@"loginId"];
+    [para setObject:[Util RSAEncryptor:mBankId] forKey:@"bankCardId"];
+    [para setObject:mMoney forKey:@"money"];
+    [para setObject:mPresentManner forKey:@"type"];
+    [para setObject:@"ios" forKey:@"device"];
+
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/user/cash" parameters:para call:^(mBaseData *info) {
+        if (info.mSucess ) {
+            
+            block ( info );
+            
         }else{
             block ( info );
         }
@@ -3450,7 +3486,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     self.mDescription = [obj objectForKeyMy:@"description"];
     self.serviceTime = [obj objectForKeyMy:@"serviceTime"];
   
-    self.mVideoUrl = [obj objectForKeyMy:@"videoUrl"];
+    self.mVideoUrl = [NSString stringWithFormat:@"%@%@",[HTTPrequest currentResourceUrl],[obj objectForKeyMy:@"videoUrl"]];
     self.mEstimatedPrice = [[obj objectForKeyMy:@"estimatedPrice"] floatValue];
     
 }
@@ -5038,6 +5074,38 @@ bool pptbined = NO;
     
     self.mCategry = mSS;
     
+}
+
+@end
+
+
+
+
+
+
+
+
+
+@implementation BankObject
+
+-(id)initWithObj:(NSDictionary *)obj{
+    self = [super init];
+    if( self && obj != nil )
+    {
+        [self fetchIt:obj];
+    }
+    return self;
+    
+}
+- (void)fetchIt:(NSDictionary *)obj{
+    self.mId = [[obj objectForKeyMy:@"id"] stringValue];
+    self.realName = [obj objectForKeyMy:@"realName"];
+    self.bankCard = [obj objectForKeyMy:@"bankCard"];
+    self.bankName = [obj objectForKeyMy:@"bankName"];
+    self.bankProvince = [obj objectForKeyMy:@"bankProvince"];
+    self.bankCity= [obj objectForKeyMy:@"bankCity"];
+    self.bankWebSite = [obj objectForKeyMy:@"bankWebSite"];
+    self.card = [obj objectForKeyMy:@"card"];
 }
 
 @end

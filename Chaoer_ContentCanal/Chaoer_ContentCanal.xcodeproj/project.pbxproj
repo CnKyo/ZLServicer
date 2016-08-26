@@ -449,6 +449,11 @@
 		B2D48CA51BEC53FF00482EB8 /* UIImage+RTTint.podspec in Resources */ = {isa = PBXBuildFile; fileRef = B2D48CA11BEC53FF00482EB8 /* UIImage+RTTint.podspec */; };
 		B2D5394C1BA97763009170A8 /* StrikeThroughLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D5394B1BA97763009170A8 /* StrikeThroughLabel.m */; };
 		B2D539521BA97F64009170A8 /* JSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D539511BA97F64009170A8 /* JSBadgeView.m */; };
+		DFACAA821D70344F009F4CC0 /* BankTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DFACAA811D70344F009F4CC0 /* BankTVC.m */; };
+		DFACAA871D7034B3009F4CC0 /* BankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFACAA851D7034B3009F4CC0 /* BankTableViewCell.m */; };
+		DFACAA881D7034B3009F4CC0 /* BankTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFACAA861D7034B3009F4CC0 /* BankTableViewCell.xib */; };
+		DFACAA8C1D703E23009F4CC0 /* cashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFACAA8A1D703E23009F4CC0 /* cashViewController.m */; };
+		DFACAA8D1D703E23009F4CC0 /* cashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFACAA8B1D703E23009F4CC0 /* cashViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1314,6 +1319,14 @@
 		B2D5394B1BA97763009170A8 /* StrikeThroughLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StrikeThroughLabel.m; sourceTree = "<group>"; };
 		B2D539501BA97F64009170A8 /* JSBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBadgeView.h; sourceTree = "<group>"; };
 		B2D539511BA97F64009170A8 /* JSBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBadgeView.m; sourceTree = "<group>"; };
+		DFACAA801D70344F009F4CC0 /* BankTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankTVC.h; sourceTree = "<group>"; };
+		DFACAA811D70344F009F4CC0 /* BankTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankTVC.m; sourceTree = "<group>"; };
+		DFACAA841D7034B3009F4CC0 /* BankTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankTableViewCell.h; sourceTree = "<group>"; };
+		DFACAA851D7034B3009F4CC0 /* BankTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankTableViewCell.m; sourceTree = "<group>"; };
+		DFACAA861D7034B3009F4CC0 /* BankTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BankTableViewCell.xib; sourceTree = "<group>"; };
+		DFACAA891D703E23009F4CC0 /* cashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cashViewController.h; sourceTree = "<group>"; };
+		DFACAA8A1D703E23009F4CC0 /* cashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cashViewController.m; sourceTree = "<group>"; };
+		DFACAA8B1D703E23009F4CC0 /* cashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cashViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2427,6 +2440,7 @@
 		31F544781CAE0BE100307B83 /* 个人中心 */ = {
 			isa = PBXGroup;
 			children = (
+				DFACAA7F1D7033F8009F4CC0 /* 提现 */,
 				31F544791CAE0C4100307B83 /* kitchenViewController.h */,
 				31F5447A1CAE0C4100307B83 /* kitchenViewController.m */,
 				044A24761CB4A85700A6379C /* kitchenTableViewCell.h */,
@@ -3211,6 +3225,29 @@
 			path = "UIImage-RTTint-lib";
 			sourceTree = "<group>";
 		};
+		DFACAA7F1D7033F8009F4CC0 /* 提现 */ = {
+			isa = PBXGroup;
+			children = (
+				DFACAA831D703496009F4CC0 /* View */,
+				DFACAA801D70344F009F4CC0 /* BankTVC.h */,
+				DFACAA811D70344F009F4CC0 /* BankTVC.m */,
+				DFACAA891D703E23009F4CC0 /* cashViewController.h */,
+				DFACAA8A1D703E23009F4CC0 /* cashViewController.m */,
+				DFACAA8B1D703E23009F4CC0 /* cashViewController.xib */,
+			);
+			name = "提现";
+			sourceTree = "<group>";
+		};
+		DFACAA831D703496009F4CC0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DFACAA841D7034B3009F4CC0 /* BankTableViewCell.h */,
+				DFACAA851D7034B3009F4CC0 /* BankTableViewCell.m */,
+				DFACAA861D7034B3009F4CC0 /* BankTableViewCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3329,6 +3366,7 @@
 				0401011A1D5B0F6B00EA1188 /* mCheckVideoView.xib in Resources */,
 				0446BBB31D38D1740071E7B5 /* pptORderViewController.xib in Resources */,
 				04D85DD51CF6ED3500E1A3A2 /* mGeneryEmptyView.xib in Resources */,
+				DFACAA8D1D703E23009F4CC0 /* cashViewController.xib in Resources */,
 				040101371D5B126D00EA1188 /* icon_previous@2x.png in Resources */,
 				318D56671C9C012B0045B5FB /* MHSheetFoot.xib in Resources */,
 				04E5A7E01CE579B000A2D111 /* down_arrow@2x.png in Resources */,
@@ -3338,6 +3376,7 @@
 				0446BBD41D38EF6A0071E7B5 /* mFixBottomView.xib in Resources */,
 				312D08B51CAA1C560006F0FA /* WeiboSDK.bundle in Resources */,
 				749529AC1BF72DBE00E934D0 /* music1.caf in Resources */,
+				DFACAA881D7034B3009F4CC0 /* BankTableViewCell.xib in Resources */,
 				741B8D9A1B326EFA002104A0 /* Main.storyboard in Resources */,
 				B2D48CA51BEC53FF00482EB8 /* UIImage+RTTint.podspec in Resources */,
 				0446BBDA1D38FB140071E7B5 /* marketOrderViewController.xib in Resources */,
@@ -3424,6 +3463,7 @@
 				74BCE15A1B3A6058008F515A /* RSKImageScrollView.m in Sources */,
 				B2CEE1221C03794600FC159C /* UITableView+DataSourceBlocks.m in Sources */,
 				0446BBB21D38D1740071E7B5 /* pptORderViewController.m in Sources */,
+				DFACAA821D70344F009F4CC0 /* BankTVC.m in Sources */,
 				31F5447E1CAE12B900307B83 /* homeNavView.m in Sources */,
 				04F2283A1CEEE4EB004E8702 /* ActionSheetDatePicker.m in Sources */,
 				749BEA471B3277AA00BABCA6 /* UIImage+GIF.m in Sources */,
@@ -3563,6 +3603,7 @@
 				0446BBD21D38EF620071E7B5 /* mFixBottomView.m in Sources */,
 				04DBAF7D1D52E9B300487A08 /* mLoginView.m in Sources */,
 				749BEA451B3277AA00BABCA6 /* SDWebImagePrefetcher.m in Sources */,
+				DFACAA8C1D703E23009F4CC0 /* cashViewController.m in Sources */,
 				04102CC51D2A507D003A0C56 /* MJRefreshComponent.m in Sources */,
 				040B80151CC50B60006A9489 /* LBProgressHUD.m in Sources */,
 				3134135A1CA28DC3003972E2 /* XMNAssetModel.m in Sources */,
@@ -3689,6 +3730,7 @@
 				16FBBC911BE748EE00D2C917 /* UILabel+myLabel.m in Sources */,
 				04EEADB01D0FAE5A00FA97C6 /* HDPicModle.m in Sources */,
 				749BEA121B32779800BABCA6 /* MJPhotoView.m in Sources */,
+				DFACAA871D7034B3009F4CC0 /* BankTableViewCell.m in Sources */,
 				313413581CA28DC3003972E2 /* XMNAssetCell.m in Sources */,
 				749BE9E11B32776B00BABCA6 /* CunsomLabel.m in Sources */,
 				74BCE15B1B3A6058008F515A /* RSKTouchView.m in Sources */,

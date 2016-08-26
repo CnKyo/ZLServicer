@@ -34,18 +34,18 @@
 
 - (void)loadData{
 
-    [[mUserInfo backNowUser] getBankInfo:^(mBaseData *resb) {
-        if (resb.mSucess) {
-            
-            self.mBankName.text = [resb.mData objectForKey:@"bankName"];
-            self.mName.text =  [resb.mData objectForKey:@"realName"];
-            self.mBankCard.text =  [resb.mData objectForKey:@"card"];
-            self.mCode.text =  [resb.mData objectForKey:@"bankWebSite"];
-        }else{
-            [self emptyPage];
-            [self showErrorStatus:resb.mMessage];
-        }
-    }];
+//    [[mUserInfo backNowUser] getBankInfo:^(mBaseData *resb) {
+//        if (resb.mSucess) {
+//            
+//            self.mBankName.text = [resb.mData objectForKey:@"bankName"];
+//            self.mName.text =  [resb.mData objectForKey:@"realName"];
+//            self.mBankCard.text =  [resb.mData objectForKey:@"card"];
+//            self.mCode.text =  [resb.mData objectForKey:@"bankWebSite"];
+//        }else{
+//            [self emptyPage];
+//            [self showErrorStatus:resb.mMessage];
+//        }
+//    }];
     
     
 }

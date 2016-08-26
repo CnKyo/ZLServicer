@@ -16,6 +16,8 @@
 #import "mBankCarViewController.h"
 #import "historyViewController.h"
 #import "forgetAndChangePwdView.h"
+#import "BankTVC.h"
+#import "cashViewController.h"
 
 @interface kitchenViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -40,7 +42,7 @@
 - (void)loadData{
     [self.tempArray removeAllObjects];
     NSArray *mArr1 = @[@"接单地区",@"服务类型"];
-    NSArray *mArr2 = @[@"我的消息",@"账单纪录",@"修改密码"];
+    NSArray *mArr2 = @[@"我的消息",@"账单纪录",@"修改密码", @"提现"];
     [self.tempArray addObject:mArr1];
     [self.tempArray addObject:mArr2];
 
@@ -123,7 +125,7 @@
     if (section == 0) {
         return 2;
     }else{
-        return 3;
+        return 4;
     }
     
 }
@@ -208,7 +210,13 @@
         else if (indexPath.row == 1) {
             historyViewController *hhh = [[historyViewController alloc] initWithNibName:@"historyViewController" bundle:nil];
             [self pushViewController:hhh];
-        }else{
+        }
+        else if (indexPath.row == 3) {
+            //BankTVC *hhh = [[BankTVC alloc] init];
+            cashViewController *hhh = [[cashViewController alloc] initWithNibName:@"cashViewController" bundle:nil];
+            [self pushViewController:hhh];
+        }
+        else{
         
             UIStoryboard *secondStroyBoard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
             forgetAndChangePwdView *f =[secondStroyBoard instantiateViewControllerWithIdentifier:@"forget"];
