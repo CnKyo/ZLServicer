@@ -136,7 +136,7 @@
 
     UINib   *nib = [UINib nibWithNibName:@"homeTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
-    [self loadData];
+    //[self loadData];
 }
 #pragma mark----信息事件
 - (void)mRCCListView:(UIButton *)sender{
@@ -150,9 +150,28 @@
     if ([mUserInfo isNeedLogin]) {
         [self gotoLoginVC];
         return;
+    } else {
+        
+        [LBProgressHUD showHUDto:self.view withTips:@"加载中..." animated:YES];
+
+        [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
+            [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            
+            if (resb.mSucess) {
+                [self reloadUIWithData];
+                //[LCProgressHUD showSuccess:@"更新成功"];
+            }else{
+                [LCProgressHUD showFailure:resb.mMessage];
+                [self addEmptyView:nil];
+            }
+            
+        }];
     }
     
+}
 
+-(void)reloadUIWithData
+{
     [self.tempArray removeAllObjects];
     [self removeEmptyView];
     
@@ -166,8 +185,8 @@
     //[self.tempArray addObjectsFromArray:[mUserInfo backNowUser].mOrderArr];
     
     [self.tableView reloadData];
-    
 }
+
 - (void)loadAddress{
     
     [CurentLocation sharedManager].delegate = self;
@@ -260,7 +279,7 @@
             cell.mImg.image = [UIImage imageNamed:@"type_fix"];
             break;
         case kShopType_clean:
-            cell.mImg.image = [UIImage imageNamed:@"type_fix"];
+            cell.mImg.image = [UIImage imageNamed:@"fix_clean"];
             break;
         default:
             break;
@@ -303,7 +322,9 @@
             break;
         case kShopType_clean:
         {
-            
+            marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+            mmm.shopType = type;
+            [self pushViewController:mmm];
         }
             break;
         default:
