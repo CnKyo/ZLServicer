@@ -133,6 +133,9 @@
 		04C75DA81D058C27002D21FB /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C75DA61D058C27002D21FB /* AlipaySDK.framework */; };
 		04C75DAB1D058C37002D21FB /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C75DA91D058C37002D21FB /* libcrypto.a */; };
 		04C75DAC1D058C37002D21FB /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C75DAA1D058C37002D21FB /* libssl.a */; };
+		04D232831D71943700E8D6EC /* fixorder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 04D232801D71943700E8D6EC /* fixorder.caf */; };
+		04D232841D71943700E8D6EC /* marketorder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 04D232811D71943700E8D6EC /* marketorder.caf */; };
+		04D232851D71943700E8D6EC /* paotuiorder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 04D232821D71943700E8D6EC /* paotuiorder.caf */; };
 		04D85DC51CF6D20600E1A3A2 /* UITextField+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D85DC41CF6D20600E1A3A2 /* UITextField+Shake.m */; };
 		04D85DD31CF6ED2C00E1A3A2 /* mGeneryEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D85DD21CF6ED2C00E1A3A2 /* mGeneryEmptyView.m */; };
 		04D85DD51CF6ED3500E1A3A2 /* mGeneryEmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D85DD41CF6ED3500E1A3A2 /* mGeneryEmptyView.xib */; };
@@ -360,7 +363,6 @@
 		7487DC1C1B4E17F000C40220 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487DC111B4E17F000C40220 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		7487DC1D1B4E17F000C40220 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487DC131B4E17F000C40220 /* View+MASAdditions.m */; };
 		7487DC241B4E1A1B00C40220 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487DC231B4E1A1B00C40220 /* TTTAttributedLabel.m */; };
-		749529AC1BF72DBE00E934D0 /* music1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 749529AB1BF72DBE00E934D0 /* music1.caf */; };
 		749BE9751B32754000BABCA6 /* NSString+CheckEmpty.m in Sources */ = {isa = PBXBuildFile; fileRef = 749BE9741B32754000BABCA6 /* NSString+CheckEmpty.m */; };
 		749BE9971B32756800BABCA6 /* IQNSArray+Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = 749BE9791B32756800BABCA6 /* IQNSArray+Sort.m */; };
 		749BE9981B32756800BABCA6 /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 749BE97B1B32756800BABCA6 /* IQUIView+Hierarchy.m */; };
@@ -738,6 +740,9 @@
 		04C75DA61D058C27002D21FB /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		04C75DA91D058C37002D21FB /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		04C75DAA1D058C37002D21FB /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		04D232801D71943700E8D6EC /* fixorder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fixorder.caf; sourceTree = "<group>"; };
+		04D232811D71943700E8D6EC /* marketorder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = marketorder.caf; sourceTree = "<group>"; };
+		04D232821D71943700E8D6EC /* paotuiorder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = paotuiorder.caf; sourceTree = "<group>"; };
 		04D85DC31CF6D20600E1A3A2 /* UITextField+Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Shake.h"; sourceTree = "<group>"; };
 		04D85DC41CF6D20600E1A3A2 /* UITextField+Shake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Shake.m"; sourceTree = "<group>"; };
 		04D85DD11CF6ED2C00E1A3A2 /* mGeneryEmptyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mGeneryEmptyView.h; sourceTree = "<group>"; };
@@ -1148,7 +1153,6 @@
 		7487DC141B4E17F000C40220 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
 		7487DC221B4E1A1B00C40220 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
 		7487DC231B4E1A1B00C40220 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
-		749529AB1BF72DBE00E934D0 /* music1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = music1.caf; sourceTree = "<group>"; };
 		749BE96C1B32730200BABCA6 /* CustomDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomDefine.h; sourceTree = "<group>"; };
 		749BE9721B32736E00BABCA6 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		749BE9731B32754000BABCA6 /* NSString+CheckEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+CheckEmpty.h"; sourceTree = "<group>"; };
@@ -1800,6 +1804,16 @@
 				04B3BAFA1D13E965000C7B2E /* x509v3.h */,
 			);
 			path = openssl;
+			sourceTree = "<group>";
+		};
+		04D2327F1D71943700E8D6EC /* music */ = {
+			isa = PBXGroup;
+			children = (
+				04D232801D71943700E8D6EC /* fixorder.caf */,
+				04D232811D71943700E8D6EC /* marketorder.caf */,
+				04D232821D71943700E8D6EC /* paotuiorder.caf */,
+			);
+			path = music;
 			sourceTree = "<group>";
 		};
 		04D85DC21CF6D1E700E1A3A2 /* UITextFileShake */ = {
@@ -2552,7 +2566,7 @@
 				74C165611B7348F900C69390 /* forgetAndChangePwdView.h */,
 				74C165621B7348F900C69390 /* forgetAndChangePwdView.m */,
 				741B8D981B326EFA002104A0 /* Main.storyboard */,
-				749529A11BF72BF800E934D0 /* music */,
+				04D2327F1D71943700E8D6EC /* music */,
 				749BE9CB1B3276D600BABCA6 /* Resource */,
 				741B8DB71B32728C002104A0 /* baseVC */,
 				741B8D9B1B326EFA002104A0 /* Images.xcassets */,
@@ -2761,14 +2775,6 @@
 				7487DC231B4E1A1B00C40220 /* TTTAttributedLabel.m */,
 			);
 			path = TTTAttributedLabel;
-			sourceTree = "<group>";
-		};
-		749529A11BF72BF800E934D0 /* music */ = {
-			isa = PBXGroup;
-			children = (
-				749529AB1BF72DBE00E934D0 /* music1.caf */,
-			);
-			name = music;
 			sourceTree = "<group>";
 		};
 		749BE9531B3272E700BABCA6 /* MJRefresh */ = {
@@ -3375,8 +3381,8 @@
 				04C5286F1CDC8BA000572C3B /* read_me.txt in Resources */,
 				0446BBD41D38EF6A0071E7B5 /* mFixBottomView.xib in Resources */,
 				312D08B51CAA1C560006F0FA /* WeiboSDK.bundle in Resources */,
-				749529AC1BF72DBE00E934D0 /* music1.caf in Resources */,
 				DFACAA881D7034B3009F4CC0 /* BankTableViewCell.xib in Resources */,
+				04D232851D71943700E8D6EC /* paotuiorder.caf in Resources */,
 				741B8D9A1B326EFA002104A0 /* Main.storyboard in Resources */,
 				B2D48CA51BEC53FF00482EB8 /* UIImage+RTTint.podspec in Resources */,
 				0446BBDA1D38FB140071E7B5 /* marketOrderViewController.xib in Resources */,
@@ -3384,6 +3390,7 @@
 				0461EC6E1D33A9160080A3ED /* Star_highlight.png in Resources */,
 				04DBAF7C1D52E9B300487A08 /* mLoginBottomView.xib in Resources */,
 				04E5BD331CC61F6700E62795 /* WJ_sucess.png in Resources */,
+				04D232841D71943700E8D6EC /* marketorder.caf in Resources */,
 				04102CB31D2A506D003A0C56 /* MJRefresh.bundle in Resources */,
 				0446BBF31D3918B50071E7B5 /* marketBottomView.xib in Resources */,
 				0446BBE01D38FB5B0071E7B5 /* marketOrderTableViewCell.xib in Resources */,
@@ -3413,6 +3420,7 @@
 				0461EC6F1D33A9160080A3ED /* Star.png in Resources */,
 				16A987C51C03986200D55C4A /* ReleaseNotes.txt in Resources */,
 				31BBE29C1C9142C9006C553D /* homeTableViewCell.xib in Resources */,
+				04D232831D71943700E8D6EC /* fixorder.caf in Resources */,
 				040B80261CC50D50006A9489 /* WJStatusBarHUD_success@2x.png in Resources */,
 				046B12E41CE184BC00A8FB76 /* MHSelectPickerView.xib in Resources */,
 				04DBAF7E1D52E9B300487A08 /* mLoginView.xib in Resources */,
@@ -3918,7 +3926,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = zl.seller.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4923b79-689b-4df6-bf85-93d00f6faf83";
+				PROVISIONING_PROFILE = "5315c373-9295-476d-a2ec-5e6be95643b6";
 			};
 			name = Debug;
 		};
@@ -3975,7 +3983,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = zl.seller.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4923b79-689b-4df6-bf85-93d00f6faf83";
+				PROVISIONING_PROFILE = "5315c373-9295-476d-a2ec-5e6be95643b6";
 			};
 			name = Release;
 		};

@@ -2163,7 +2163,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 
 + (void)openPush{
 
-    NSString* t = [NSString stringWithFormat:@"%d", [mUserInfo backNowUser].mUserId];
+    NSString* t = [NSString stringWithFormat:@"%d", [mUserInfo backNowUser].mSId];
     
     t = [@"service_" stringByAppendingString:t];
     
