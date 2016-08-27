@@ -42,7 +42,7 @@
 - (void)loadData{
     [self.tempArray removeAllObjects];
     NSArray *mArr1 = @[@"接单地区",@"服务类型"];
-    NSArray *mArr2 = @[@"我的消息",@"账单纪录",@"修改密码", @"提现"];
+    NSArray *mArr2 = @[@"我的消息",@"账单记录",@"修改密码", @"提现"];
     [self.tempArray addObject:mArr1];
     [self.tempArray addObject:mArr2];
 

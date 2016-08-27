@@ -3918,7 +3918,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = zl.seller.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d4923b79-689b-4df6-bf85-93d00f6faf83";
 			};
 			name = Debug;
 		};
@@ -3975,7 +3975,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = zl.seller.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d4923b79-689b-4df6-bf85-93d00f6faf83";
 			};
 			name = Release;
 		};

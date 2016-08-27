@@ -1131,6 +1131,15 @@ typedef enum {
  *  @param block 返回值
  */
 - (void)deleteMsg:(int)mId block:(void(^)(mBaseData *resb))block;
+#pragma mark----干洗、超市确认订单接口
+/**
+ *  干洗、超市确认订单接口
+ *
+ *  @param mOrderId 订单id
+ *  @param mType    订单类型
+ *  @param block    返回值
+ */
+- (void)serviceComfirmOrder:(int)mOrderId andOrderType:(int)mType block:(void(^)(mBaseData *resb))block;
 
 @end
 

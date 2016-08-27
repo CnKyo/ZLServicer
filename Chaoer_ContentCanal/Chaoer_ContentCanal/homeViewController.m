@@ -113,7 +113,7 @@
 -(void)callBack{
     [self.mBanerArr removeAllObjects];
     MLLog(@"this is Notification.");
-    [self showFrist];
+//    [self showFrist];
 
 
 
@@ -122,13 +122,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)initview{
-    
-//    mNavView = [homeNavView shareView];
-//    mNavView.mMsgPoint.hidden = YES;
-//    mNavView.frame = CGRectMake(0, 0, DEVICE_Width, 64);
-//    [mNavView.mChtListBtn addTarget:self action:@selector(mRCCListView:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [self.view addSubview:mNavView];
     
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
@@ -152,14 +145,11 @@
         return;
     } else {
         
-        [LBProgressHUD showHUDto:self.view withTips:@"加载中..." animated:YES];
 
         [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-            [LBProgressHUD hideAllHUDsForView:self.view animated:YES];
             
             if (resb.mSucess) {
                 [self reloadUIWithData];
-                //[LCProgressHUD showSuccess:@"更新成功"];
             }else{
                 [LCProgressHUD showFailure:resb.mMessage];
                 [self addEmptyView:nil];

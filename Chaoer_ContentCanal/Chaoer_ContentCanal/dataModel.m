@@ -2165,7 +2165,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 
     NSString* t = [NSString stringWithFormat:@"%d", [mUserInfo backNowUser].mUserId];
     
-    t = [@"buyer_" stringByAppendingString:t];
+    t = [@"service_" stringByAppendingString:t];
     
     //别名
     //1."seller_1"
@@ -2177,7 +2177,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     //2."重庆"/...
     
     
-    NSSet* labelset = [[NSSet alloc]initWithObjects:@"buyer", @"ios",nil];
+    NSSet* labelset = [[NSSet alloc]initWithObjects:@"service", @"ios",nil];
     
     [APService setTags:labelset alias:t callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
 
@@ -3195,6 +3195,36 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     }];
 }
 
+#pragma mark----干洗、超市确认订单接口
+/**
+ *  干洗、超市确认订单接口
+ *
+ *  @param mOrderId 订单id
+ *  @param mType    订单类型
+ *  @param block    返回值
+ */
+- (void)serviceComfirmOrder:(int)mOrderId andOrderType:(int)mType block:(void(^)(mBaseData *resb))block{
+
+    NSMutableDictionary *para = [NSMutableDictionary new];
+    
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mUserId]] forKey:@"loginId"];
+    [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
+    [para setObject:NumberWithInt(mType) forKey:@"orderType"];
+    
+    
+    [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/confirmOrder" parameters:para call:^(mBaseData *info) {
+        
+        if (info.mSucess) {
+            block (info );
+        }else{
+            block (info );
+            
+        }
+        
+    }];
+
+    
+}
 
 @end
 

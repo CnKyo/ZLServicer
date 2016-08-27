@@ -39,7 +39,7 @@
     self.mServiceName.text = [NSString stringWithFormat:@"顾客名称:%@", mOrderDetail.mMerchantName.length>0 ? mOrderDetail.mMerchantName : @"暂无"];
     self.mTime.text = [NSString stringWithFormat:@"预约时间:%@",mOrderDetail.mOrderServiceTime.length>0 ? mOrderDetail.mOrderServiceTime : @"暂无"];
     self.mPhone.text = [NSString stringWithFormat:@"联系电话:%@", mOrderDetail.mPhone.length>0 ? mOrderDetail.mPhone : @"暂无"];
-    self.mAddress.text = [NSString stringWithFormat:@"联系地址:%@", mOrderDetail.mAddress.length>0 ? mOrderDetail.mAddress : @"暂无"];
+    self.mAddress.text = [NSString stringWithFormat:@"%@", mOrderDetail.mAddress.length>0 ? mOrderDetail.mAddress : @"暂无"];
     self.mNote.text = [NSString stringWithFormat:@"%@", mOrderDetail.mNote.length>0 ? mOrderDetail.mNote : @"暂无"];
     self.mMoney.text = [NSString stringWithFormat:@"维修金额:￥%.2f", mOrderDetail.mOrderPrice];
     self.mPromisPrice.text = [NSString stringWithFormat:@"预计金额:￥%.2f", mOrderDetail.mEstimatedPrice];
@@ -66,14 +66,21 @@
     UIImageView *mFiximg = [UIImageView new];
 
     if (mOrderDetail.mOrderImage.length <= 0) {
-        mFiximg.image = [UIImage imageNamed:@"DefaultImg"];
+        mFiximg.image = [UIImage imageNamed:@"fix_noImage"];
     }else{
-        [mFiximg sd_setImageWithURL:[NSURL URLWithString:mOrderDetail.mOrderImage] placeholderImage:[UIImage imageNamed:@"DefaultImg"]];
+        [mFiximg sd_setImageWithURL:[NSURL URLWithString:mOrderDetail.mOrderImage] placeholderImage:[UIImage imageNamed:@"fix_havaImage"]];
     }
     
     [self.mCheckImgBtn setBackgroundImage:mFiximg.image forState:0];
     
-    [self.mCheckVieoBtn setBackgroundImage:[UIImage imageNamed:@"DefaultImg"] forState:0];
+    UIImage *mVideo = nil;
+    if (mOrderDetail.mVideoUrl.length == 0) {
+        mVideo = [UIImage imageNamed:@"fix_noVedio"];
+    }else{
+        mVideo = [UIImage imageNamed:@"fix_haveVedio"];
+    }
+    
+    [self.mCheckVieoBtn setBackgroundImage:mVideo forState:0];
     
     
 }
