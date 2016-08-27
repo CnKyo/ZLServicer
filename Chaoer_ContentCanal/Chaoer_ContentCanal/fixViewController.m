@@ -10,6 +10,8 @@
 #import "fixOrderTableViewCell.h"
 #import "fixDetailViewController.h"
 #import <MapKit/MapKit.h>
+#import "BaseHeaderRefresh.h"
+
 
 @interface fixViewController ()<UITableViewDelegate,UITableViewDataSource,WKSegmentControlDelagate,cellWithBtnActionDelegate>
 
@@ -33,13 +35,26 @@
     [self initView];
     
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView.mj_header beginRefreshing];
+}
+
 - (void)initView{
     
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-64) delegate:self dataSource:self];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:1.00];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.haveHeader = YES;
+    //self.haveHeader = YES;
     self.haveFooter = YES;
+    
+    BaseHeaderRefresh *mHeader = [BaseHeaderRefresh headerWithRefreshingTarget:self refreshingAction:@selector(headerBeganRefresh)];
+    mHeader.lastUpdatedTimeLabel.hidden = YES;
+    mHeader.stateLabel.hidden = YES;
+    self.tableView.mj_header = mHeader;
     
     
     UINib   *nib = [UINib nibWithNibName:@"fixOrderTableViewCell" bundle:nil];

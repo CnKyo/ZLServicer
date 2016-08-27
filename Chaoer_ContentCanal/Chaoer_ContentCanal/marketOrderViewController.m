@@ -9,6 +9,8 @@
 #import "marketOrderViewController.h"
 #import "marketOrderTableViewCell.h"
 #import "marketOrderDetailViewController.h"
+#import "BaseHeaderRefresh.h"
+
 @interface marketOrderViewController ()<UITableViewDelegate,UITableViewDataSource,WKSegmentControlDelagate,marketCellDelegate>
 
 @end
@@ -18,12 +20,19 @@
     int     mType;
     WKSegmentControl    *mSegmentView;
 }
+
 - (void)viewDidLoad {
     self.hiddenTabBar = YES;
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.Title = self.mPageName = @"购物订单";
+    
+    if (_shopType == kShopType_cao) {
+        self.Title = self.mPageName = @"购物订单";
+    } else if (_shopType == kShopType_clean) {
+        self.Title = self.mPageName = @"干洗订单";
+    }
+    
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
@@ -31,13 +40,26 @@
     [self initView];
     
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView.mj_header beginRefreshing];
+}
+
 - (void)initView{
     
     [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-64) delegate:self dataSource:self];
     self.tableView.backgroundColor = [UIColor colorWithRed:0.91 green:0.91 blue:0.91 alpha:1.00];
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    self.haveHeader = YES;
+    //self.haveHeader = YES;
     self.haveFooter = YES;
+    
+    BaseHeaderRefresh *mHeader = [BaseHeaderRefresh headerWithRefreshingTarget:self refreshingAction:@selector(headerBeganRefresh)];
+    mHeader.lastUpdatedTimeLabel.hidden = YES;
+    mHeader.stateLabel.hidden = YES;
+    self.tableView.mj_header = mHeader;
     
     
     UINib   *nib = [UINib nibWithNibName:@"marketOrderTableViewCell" bundle:nil];
