@@ -7,6 +7,7 @@
 //
 
 #import "BaseVC.h"
+#import "APIObjectDefine.h"
 
 @interface ViewController : BaseVC
 
@@ -15,6 +16,8 @@
 
 @property (nonatomic,strong)    UIViewController* quikTagVC;
 
+
+-(void)jpushLoad:(JPushReceiveObject *)item;
 
 @end
 

@@ -20,6 +20,7 @@ typedef enum {
     kShopType_fix    = 5,
     kShopType_clean    = 3,
     kShopType_food    = 2,
+    kShopType_pao    = 6,
 } kShopType; //店铺类型
 
 

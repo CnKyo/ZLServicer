@@ -10,7 +10,7 @@
 #import "MTA.h"
 #import "MTAConfig.h"
 
-#import "APService.h"
+#import "JPUSHService.h"
 
 #import "WebVC.h"
 #import "ViewController.h"
@@ -29,7 +29,10 @@
 #import "WeiboSDK.h"
 //新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加"-ObjC"
 
-
+#import "QUCustomDefine.h"
+#import "APIObjectDefine.h"
+#import "UIViewController+QUAdditions.h"
+#import "HomeNewVC.h"
 
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 
@@ -123,48 +126,69 @@
 
     [self initExtComp];
     
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                   UIRemoteNotificationTypeSound |
-                                                   UIRemoteNotificationTypeAlert)
-                                       categories:nil];
     
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //可以添加自定义categories
+        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                          UIUserNotificationTypeSound |
+                                                          UIUserNotificationTypeAlert)
+                                              categories:nil];
+    } else {
+        //categories 必须为nil
+        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                          UIRemoteNotificationTypeSound |
+                                                          UIRemoteNotificationTypeAlert)
+                                              categories:nil];
+    }
     
-    [APService setupWithOption:launchOptions];
+    //如不需要使用IDFA，advertisingIdentifier 可为nil
+    [JPUSHService setupWithOption:launchOptions appKey:appKey
+                          channel:channel
+                 apsForProduction:isProduction
+            advertisingIdentifier:nil];
+    
+//    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+//                                                   UIRemoteNotificationTypeSound |
+//                                                   UIRemoteNotificationTypeAlert)
+//                                       categories:nil];
+//    
+//    
+//    [APService setupWithOption:launchOptions];
     
 
     [mUserInfo openPush];
     
     
     [self dealFuncTab];
-    if ([application
-         
-         respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        
-        //注册推送, iOS 8
-        
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings
-                                                
-                                                settingsForTypes:(UIUserNotificationTypeBadge |
-                                                                  
-                                                                  UIUserNotificationTypeSound |
-                                                                  
-                                                                  UIUserNotificationTypeAlert)
-                                                
-                                                categories:nil];
-        
-        [application registerUserNotificationSettings:settings];
-        
-    } else {
-        
-        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
-        
-        UIRemoteNotificationTypeAlert |
-        
-        UIRemoteNotificationTypeSound;
-        
-        [application registerForRemoteNotificationTypes:myTypes];
-        
-    }
+//    if ([application
+//         
+//         respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+//        
+//        //注册推送, iOS 8
+//        
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings
+//                                                
+//                                                settingsForTypes:(UIUserNotificationTypeBadge |
+//                                                                  
+//                                                                  UIUserNotificationTypeSound |
+//                                                                  
+//                                                                  UIUserNotificationTypeAlert)
+//                                                
+//                                                categories:nil];
+//        
+//        [application registerUserNotificationSettings:settings];
+//        
+//    } else {
+//        
+//        UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge |
+//        
+//        UIRemoteNotificationTypeAlert |
+//        
+//        UIRemoteNotificationTypeSound;
+//        
+//        [application registerForRemoteNotificationTypes:myTypes];
+//        
+//    }
     
    
     NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -367,13 +391,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [application setApplicationIconBadgeNumber:0];
-    [APService resetBadge];
+    [JPUSHService resetBadge];
     [self performSelector:@selector(ddddoti:) withObject:nil afterDelay:1];
 }
 
 -(void)ddddoti:(id)sender
 {
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"showMsg" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showMsg" object:nil];
 }
 
 
@@ -411,12 +435,13 @@
 #pragma mark*-*----加载推送通知
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [APService registerDeviceToken:deviceToken];
-    
+    [JPUSHService registerDeviceToken:deviceToken];
+    //[APService registerDeviceToken:deviceToken];
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    [JPUSHService handleRemoteNotification:userInfo];
     if (application.applicationState == UIApplicationStateActive) {
         
         [self dealPush:userInfo bopenwith:NO];
@@ -426,8 +451,34 @@
         [self dealPush:userInfo bopenwith:YES];
     }
 }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [self application:application didReceiveRemoteNotification:userInfo];
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [JPUSHService showLocalNotificationAtFront:notification identifierKey:nil];
+}
+
 -(void)dealPush:(NSDictionary*)userinof bopenwith:(BOOL)bopenwith
 {
+    NSLog(@"userinof: %@", userinof);
+    JPushReceiveObject *it = [JPushReceiveObject mj_objectWithKeyValues:userinof];
+    
+    if( !bopenwith ) {
+        if (it.aps.alert.length>0) {
+            myalert *alertVC = [[myalert alloc]initWithTitle:@"提示" message:it.aps.alert delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
+            alertVC.obj = it;
+            [alertVC show];
+        }
+
+    } else {
+        [self goToVCWithPush:it];
+    }
+    
+    
 //    SMessageInfo* pushobj = [[SMessageInfo alloc]initWithAPN:userinof];
     
     if( !bopenwith )
@@ -482,6 +533,9 @@
         }
     }else{
         if (buttonIndex == 1) {
+            JPushReceiveObject* pushobj = ((myalert *)alertView).obj;
+            
+            [self goToVCWithPush:pushobj];
             
             //        SMessageInfo* pushobj = ((myalert *)alertView).obj;
             
@@ -532,6 +586,36 @@
         [vcvc presentViewController:viewController animated:YES completion:nil];
         
     }
+}
+
+-(void)goToVCWithPush:(JPushReceiveObject *)item
+{
+    UINavigationController *navVC = (UINavigationController *)self.window.rootViewController;
+    NSArray *arr = navVC.viewControllers;
+    
+    if (arr.count > 0) {
+        if (arr.count == 1) {
+            
+            if ([mUserInfo backNowUser] != nil) {
+                HomeNewVC *vc = [[HomeNewVC alloc] init];
+                [navVC pushViewController:vc animated:NO];
+                [vc performSelector:@selector(jPusthVCWithType:) withObject:item.order_type afterDelay:0.1];
+            }
+        } else if (arr.count == 2){
+            UIViewController *vc = [arr objectAtIndex:1];
+            [vc performSelector:@selector(jPusthVCWithType:) withObject:item.order_type afterDelay:0.1];
+        } else {
+            NSMutableArray *arrNew = [NSMutableArray array];
+            [arrNew addObject:[arr objectAtIndex:0]];
+            [arrNew addObject:[arr objectAtIndex:1]];
+            [navVC setViewControllers:arrNew animated:NO];
+            
+            UIViewController *vc = [arr objectAtIndex:1];
+            [vc performSelector:@selector(jPusthVCWithType:) withObject:item.order_type afterDelay:0.1];
+        }
+    }
+
+    
 }
 
 -(void)dealFuncTab

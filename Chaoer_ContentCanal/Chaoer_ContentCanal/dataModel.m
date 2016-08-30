@@ -9,7 +9,7 @@
 #import "dataModel.h"
 #import "HTTPrequest.h"
 #import "NSObject+myobj.h"
-#import "APService.h"
+#import "JPUSHService.h"
 #import <MobileCoreServices/UTType.h>
 
 
@@ -18,6 +18,8 @@
 
 #import <AlipaySDK/AlipaySDK.h>
 #import <objc/message.h>
+
+#import "QUCustomDefine.h"
 
 @implementation dataModel{
     NSMutableURLRequest *request;
@@ -163,6 +165,10 @@ bool g_bined = NO;
     
     self.mNickName = [obj objectForKeyMy:@"loginName"];
     self.mServiceName = [obj objectForKeyMy:@"serviceName"];
+    
+    self.mProvince = [obj objectForKeyMy:@"province"];
+    self.mCity = [obj objectForKeyMy:@"city"];
+    self.mAddress = [obj objectForKeyMy:@"address"];
     
     self.mId =  [[obj objectForKeyMy:@"mId"] intValue];
     
@@ -577,6 +583,8 @@ bool g_bined = NO;
         
         if (info.mSucess) {
             [mUserInfo dealUserSession:info andPhone:nil andOpenId:nil block:block];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:MyUserInfoUpdateSuccessNotification object:nil];
         }else{
             block (info,[mUserInfo backNowUser]);
         }
@@ -2166,7 +2174,7 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     NSString* t = [NSString stringWithFormat:@"%d", [mUserInfo backNowUser].mSId];
     
     t = [@"service_" stringByAppendingString:t];
-    
+
     //别名
     //1."seller_1"
     //2."buyer_1"
@@ -2179,11 +2187,14 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     
     NSSet* labelset = [[NSSet alloc]initWithObjects:@"service", @"ios",nil];
     
-    [APService setTags:labelset alias:t callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
+    [JPUSHService setTags:labelset alias:t callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
+    
+    //[APService setTags:labelset alias:t callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
 
 }
 + (void)closePush{
-    [APService setTags:[NSSet set] alias:@"" callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
+    [JPUSHService setTags:[NSSet set] alias:@"" callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
+    //[APService setTags:[NSSet set] alias:@"" callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:[UIApplication sharedApplication].delegate];
 
 }
 

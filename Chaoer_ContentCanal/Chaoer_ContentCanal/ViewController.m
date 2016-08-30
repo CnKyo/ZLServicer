@@ -37,6 +37,9 @@
 
 #import "RSAEncryptor.h"
 
+#import "HomeNewVC.h"
+#import "APIObjectDefine.h"
+#import "JPUSHService.h"
 
 @interface ViewController ()<UITextFieldDelegate,WJAdsViewDelegate>
 
@@ -124,6 +127,14 @@
     [self initView];
     
 }
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"%@", [JPUSHService registrationID]);
+    
+}
+
 - (void)initView{
 
 
@@ -260,11 +271,28 @@
 #pragma mark----登录成功跳转
 - (void)loginOk{
     
+    HomeNewVC *vc = [[HomeNewVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 
-    [self dismissViewController];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"back"object:self];
+//    [self dismissViewController];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"back"object:self];
 
     
+}
+
+#pragma mark----jpush load
+-(void)jpushLoad:(JPushReceiveObject *)item
+{
+    if (item.type == 1) { //钱包提示消息
+        
+    } else if (item.type == 2) { //订单消息
+        HomeNewVC *vc = [[HomeNewVC alloc] init];
+        [self.navigationController pushViewController:vc animated:NO];
+        
+        [vc performSelector:@selector(jPusthVCWithType:) withObject:item.order_type afterDelay:0.1];
+    } else if (item.type == 3) { //系统消息
+        
+    }
 }
 
 ///限制电话号码输入长度

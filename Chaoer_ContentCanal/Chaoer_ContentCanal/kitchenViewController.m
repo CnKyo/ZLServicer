@@ -18,6 +18,7 @@
 #import "forgetAndChangePwdView.h"
 #import "BankTVC.h"
 #import "cashViewController.h"
+#import "QUCustomDefine.h"
 
 @interface kitchenViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -31,12 +32,24 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.Title = self.mPageName = @"个人中心";
-    self.hiddenBackBtn = YES;
+    self.hiddenBackBtn = NO;
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
-    
+    self.hiddenTabBar = YES;
     self.page = 1;
+    
+    self.tabBar.hidden = YES;
+    
+    self.view.backgroundColor = [UIColor greenColor];
+    
+    [self removeEmptyView];
+    
     [self initView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleUserChangeSuccess:)
+                                                 name:MyUserInfoUpdateSuccessNotification
+                                               object:nil];
 
 }
 - (void)loadData{
@@ -49,7 +62,12 @@
 }
 - (void)initView{
 
-    [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-64)];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
+//    [self loadTableView:CGRectMake(0, 64, DEVICE_Width, DEVICE_Height-114) delegate:self dataSource:self];
 //    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     self.tableView.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.93 alpha:1.00];
     
@@ -79,6 +97,7 @@
     [self.tableView setTableFooterView:mFooterView];
     [self upDatePage];
     
+    
 }
 
 - (void)upDatePage{
@@ -92,9 +111,18 @@
     
 }
 
+-(void)handleUserChangeSuccess:(NSNotification *)note
+{
+    [self upDatePage];
+    [self.tableView reloadData];
+}
+
 - (void)withDrawAction:(UIButton *)sender{
-    WithdrawViewController *www = [[WithdrawViewController alloc] initWithNibName:@"WithdrawViewController" bundle:nil];
-    [self pushViewController:www];
+    cashViewController *hhh = [[cashViewController alloc] initWithNibName:@"cashViewController" bundle:nil];
+    [self pushViewController:hhh];
+    
+//    WithdrawViewController *www = [[WithdrawViewController alloc] initWithNibName:@"WithdrawViewController" bundle:nil];
+//    [self pushViewController:www];
 }
 - (void)mLogOutAction:(UIButton *)sender{
     [mUserInfo logOut];
@@ -125,7 +153,7 @@
     if (section == 0) {
         return 2;
     }else{
-        return 4;
+        return 3;
     }
     
 }
@@ -169,9 +197,28 @@
         cell.mName.text = self.tempArray[0][indexPath.row];
         
         if (indexPath.row == 0) {
-            cell.mContent.text = [mUserInfo backNowUser].mProvince;
+            cell.mLogo.image = IMG(@"user_jiedan.png");
+            cell.mContent.text = [mUserInfo backNowUser].mProvince.length>0 ? [mUserInfo backNowUser].mProvince : @"暂无";
         }else{
-            cell.mContent.text = [mUserInfo backNowUser].mServiceType;
+            cell.mLogo.image = IMG(@"user_fuwu.png");
+            //cell.mContent.text = [mUserInfo backNowUser].mServiceType;
+            
+            NSMutableString *str = [NSMutableString string];
+            mUserInfo *user = [mUserInfo backNowUser];
+            if (user.mIsOpenShop )
+                [str appendString:@"超市"];
+            if (user.mIsOpenMerchant ) {
+                if (str.length > 0)
+                    [str appendString:@","];
+                
+                [str appendString:@"报修"];
+            }
+            if (user.mIsOpenClean ){
+                if (str.length > 0)
+                    [str appendString:@","];
+                [str appendString:@"干洗"];
+            }
+            cell.mContent.text = str.length>0 ? str : @"暂无";
         }
         
         return cell;
@@ -180,7 +227,21 @@
         reuseCellId = @"cell2";
         mMyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseCellId];
         cell.mName.text = self.tempArray[1][indexPath.row];
-
+        
+        switch (indexPath.row) {
+            case 0:
+                cell.mLogo.image = IMG(@"user_message.png");
+                break;
+            case 1:
+                cell.mLogo.image = IMG(@"user_bankcardrecord.png");
+                break;
+            case 2:
+                cell.mLogo.image = IMG(@"user_editpassword.png");
+                break;
+            default:
+                break;
+        }
+        
         if (indexPath.row == 1) {
             cell.mBadge.hidden = YES;
         }else{
