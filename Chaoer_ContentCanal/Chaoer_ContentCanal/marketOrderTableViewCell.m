@@ -68,7 +68,12 @@
     
     NSString *mSS = nil;
     
-    if (mOrder.mState == 12) {
+    if (mOrder.mState == 11) {
+        mSS = @"等待接单";
+        self.mLeftBtn.hidden = NO;
+        [self.mLeftBtn setTitle:mSS forState:0];
+        
+    } else if (mOrder.mState == 12) {
         mSS = @"完成服务";
         self.mLeftBtn.hidden = NO;
         [self.mLeftBtn setTitle:mSS forState:0];

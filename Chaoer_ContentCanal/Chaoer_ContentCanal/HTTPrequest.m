@@ -19,13 +19,17 @@
 #pragma mark -
 #pragma mark APIClient
 
-static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://app.china-cr.com/";
+//static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://app.china-cr.com/";
+
+//static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://120.27.111.122/";
 
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.108/";
 
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.183/";
 
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://114.55.128.177/";
+
+static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.120/";
 
 static NSString* const  kAFASourceUrl    = @"http://resource.china-cr.com/resource/";
 

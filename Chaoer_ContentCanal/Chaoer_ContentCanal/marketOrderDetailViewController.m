@@ -97,7 +97,12 @@
     NSString *mSS = nil;
     UIImage *mTT = nil;
     
-    if (self.mBaseOrder.mState == 12) {
+    if (self.mBaseOrder.mState == 11) {
+        mSS = @"等待接单";
+        mTT = [UIImage imageNamed:@"status_wait"];
+        [mBottomView.mFinishBtn setTitle:@"确认接单" forState:0];
+        
+    } else if (self.mBaseOrder.mState == 12) {
         mSS = @"进行中";
         mTT = [UIImage imageNamed:@"status_ing"];
         [mBottomView.mFinishBtn setTitle:@"确认完成" forState:0];

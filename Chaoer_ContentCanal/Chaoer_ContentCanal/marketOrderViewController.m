@@ -65,7 +65,7 @@
     UINib   *nib = [UINib nibWithNibName:@"marketOrderTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
     
-    mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:@[@"进行中订单",@"已完成订单",@"已取消订单"] andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
+    mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:@[@"待确认订单",@"进行中订单",@"已完成订单",@"已取消订单"] andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
     
 }
 
@@ -204,18 +204,36 @@
 
     [self showWithStatus:@"正在操作中..."];
     
-    [[mUserInfo backNowUser] finishShopOrder:mOrder.mOrderId andShopId:mOrder.mShopId type:_shopType block:^(mBaseData *resb) {
-        
-        if (resb.mSucess) {
-            [self showSuccessStatus:resb.mMessage];
-            [self headerBeganRefresh];
-        }else{
+    if (mOrder.mState == 11) {  //接单
+        [[mUserInfo backNowUser] serviceComfirmOrder:mOrder.mOrderId andOrderType:_shopType block:^(mBaseData *resb) {
             
-            [self showErrorStatus:resb.mMessage];
-            [self headerBeganRefresh];
-        }
+            if (resb.mSucess) {
+                [self showSuccessStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }else{
+                
+                [self showErrorStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }
+            
+        }];
         
-    }];
+        
+    } else { //完成订单
+        [[mUserInfo backNowUser] finishShopOrder:mOrder.mOrderId andShopId:mOrder.mShopId type:_shopType block:^(mBaseData *resb) {
+            
+            if (resb.mSucess) {
+                [self showSuccessStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }else{
+                
+                [self showErrorStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }
+            
+        }];
+    }
+
     
     
 }

@@ -898,8 +898,10 @@ bool g_bined = NO;
     NSString *mType = nil;
     
     if (mState == 0) {
+        mType = [NSString stringWithFormat:@"%i", kOrderState_havePay];
+    } else if (mState == 1) {
         mType = [NSString stringWithFormat:@"%i", kOrderState_peiIng];
-    }else if (mState == 1){
+    }else if (mState == 2){
         mType = [NSString stringWithFormat:@"%i", kOrderState_done];
     }else{
         mType = [NSString stringWithFormat:@"%i", kOrderState_cancel];
@@ -3218,10 +3220,10 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 
     NSMutableDictionary *para = [NSMutableDictionary new];
     
-    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mUserId]] forKey:@"loginId"];
-    [para setObject:NumberWithInt(mOrderId) forKey:@"orderId"];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",[mUserInfo backNowUser].mLid]] forKey:@"loginId"];
+    [para setObject:[Util RSAEncryptor:[NSString stringWithFormat:@"%d",mOrderId]] forKey:@"orderId"];
     [para setObject:NumberWithInt(mType) forKey:@"orderType"];
-    
+    [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/confirmOrder" parameters:para call:^(mBaseData *info) {
         
