@@ -27,7 +27,11 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.Title = self.mPageName = @"购物订单";
+    if (_shopType == kShopType_cao) {
+        self.Title = self.mPageName = @"购物订单";
+    } else if (_shopType == kShopType_clean) {
+        self.Title = self.mPageName = @"干洗订单";
+    }
     self.hiddenlll = YES;
     self.hiddenRightBtn = YES;
     
@@ -249,18 +253,49 @@
 
     [self showWithStatus:@"正在操作中..."];
     
-    [[mUserInfo backNowUser] finishShopOrder:self.mBaseOrder.mOrderId andShopId:self.mBaseOrder.mShopId type:_shopType block:^(mBaseData *resb) {
+    if (self.mBaseOrder.mState == 11) {  //接单
+        [[mUserInfo backNowUser] serviceComfirmOrder:self.mBaseOrder.mOrderId andOrderType:_shopType block:^(mBaseData *resb) {
+            
+            if (resb.mSucess) {
+                [self showSuccessStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }else{
+                
+                [self showErrorStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }
+            
+        }];
         
-        if (resb.mSucess) {
-            [self showSuccessStatus:resb.mMessage];
-            [self headerBeganRefresh];
-        }else{
         
-            [self showErrorStatus:resb.mMessage];
-            [self headerBeganRefresh];
-        }
-        
-    }];
+    } else { //完成订单
+        [[mUserInfo backNowUser] finishShopOrder:self.mBaseOrder.mOrderId andShopId:self.mBaseOrder.mShopId type:_shopType block:^(mBaseData *resb) {
+            
+            if (resb.mSucess) {
+                [self showSuccessStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }else{
+                
+                [self showErrorStatus:resb.mMessage];
+                [self headerBeganRefresh];
+            }
+            
+        }];
+    }
+    
+    
+//    [[mUserInfo backNowUser] finishShopOrder:self.mBaseOrder.mOrderId andShopId:self.mBaseOrder.mShopId type:_shopType block:^(mBaseData *resb) {
+//        
+//        if (resb.mSucess) {
+//            [self showSuccessStatus:resb.mMessage];
+//            [self headerBeganRefresh];
+//        }else{
+//        
+//            [self showErrorStatus:resb.mMessage];
+//            [self headerBeganRefresh];
+//        }
+//        
+//    }];
     
 }
 #pragma mark----确认订单操作

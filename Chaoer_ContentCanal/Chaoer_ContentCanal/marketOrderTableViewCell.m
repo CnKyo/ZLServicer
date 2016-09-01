@@ -31,8 +31,8 @@
     
     self.mLeftBtn.layer.masksToBounds = self.mRightBtn.layer.masksToBounds = YES;
     self.mLeftBtn.layer.cornerRadius = self.mRightBtn.layer.cornerRadius = 3;
-    self.mLeftBtn.layer.borderColor = [UIColor colorWithRed:0.36 green:0.36 blue:0.36 alpha:1.00].CGColor;
-    self.mRightBtn.layer.borderColor = [UIColor colorWithRed:1.00 green:0.13 blue:0.13 alpha:1.00].CGColor;
+    self.mLeftBtn.layer.borderColor = [UIColor colorWithRed:1.00 green:0.13 blue:0.13 alpha:1.00].CGColor;
+    self.mRightBtn.layer.borderColor = [UIColor colorWithRed:0.36 green:0.36 blue:0.36 alpha:1.00].CGColor;
     
     self.mLeftBtn.layer.borderWidth = self.mRightBtn.layer.borderWidth = 0.5;
     
@@ -45,7 +45,6 @@
     if ([self.delegate respondsToSelector:@selector(cellWithLeftBtnClick:andOrderStatus:andIndexPath:)]) {
         [self.delegate cellWithLeftBtnClick:self andOrderStatus:self.mOrderStatus andIndexPath:self.mIndexPath];
     }
-    
 }
 
 - (void)mRightAction:(UIButton *)sender{
