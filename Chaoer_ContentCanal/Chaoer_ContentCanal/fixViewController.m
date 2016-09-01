@@ -60,8 +60,8 @@
     UINib   *nib = [UINib nibWithNibName:@"fixOrderTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"cell"];
     
-    NSArray *titleArr = @[@"等待接单",@"进行中订单",@"已完成订单"];
-    //NSArray *titleArr = @[@"进行中订单",@"已完成订单"];
+    //NSArray *titleArr = @[@"等待接单",@"进行中订单",@"已完成订单"];
+    NSArray *titleArr = @[@"进行中订单",@"已完成订单"];
     mSegmentView = [WKSegmentControl initWithSegmentControlFrame:CGRectMake(0, 165, DEVICE_Width, 40) andTitleWithBtn:titleArr andBackgroudColor:[UIColor whiteColor] andBtnSelectedColor:M_CO andBtnTitleColor:M_TextColor1 andUndeLineColor:M_CO andBtnTitleFont:[UIFont systemFontOfSize:15] andInterval:20 delegate:self andIsHiddenLine:NO andType:1];
     
 }
@@ -150,12 +150,12 @@
 
 - (void)WKDidSelectedIndex:(NSInteger)mIndex{
     MLLog(@"点击了%lu",(unsigned long)mIndex);
-    mType = (int)mIndex;
-//    if (mIndex == 0) {
-//        mType = 1;
-//    } else if (mIndex == 1) {
-//        mType = 2;
-//    }
+    //mType = (int)mIndex;
+    if (mIndex == 0) {
+        mType = 1;
+    } else if (mIndex == 1) {
+        mType = 2;
+    }
     //mType = [[NSString stringWithFormat:@"%ld",(long)mIndex] intValue];
     [self headerBeganRefresh];
     
