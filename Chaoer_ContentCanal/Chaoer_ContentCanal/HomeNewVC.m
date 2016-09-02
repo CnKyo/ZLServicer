@@ -127,6 +127,17 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    CGFloat width = self.iconImgView.bounds.size.width;
+    self.iconImgView.layer.masksToBounds = YES;
+    self.iconImgView.layer.cornerRadius = width/2;
+    self.iconImgView.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.1].CGColor;
+    self.iconImgView.layer.borderWidth= 10;
+}
+
 -(void)reloadMiddleViewSub
 {
     mUserInfo *user = [mUserInfo backNowUser];

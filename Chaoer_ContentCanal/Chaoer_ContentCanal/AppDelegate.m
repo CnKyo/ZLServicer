@@ -33,6 +33,8 @@
 #import "APIObjectDefine.h"
 #import "UIViewController+QUAdditions.h"
 #import "HomeNewVC.h"
+#import "marketOrderViewController.h"
+#import "fixViewController.h"
 
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 
@@ -611,12 +613,14 @@
             [navVC setViewControllers:arrNew animated:NO];
             
             UIViewController *vc = [arr objectAtIndex:1];
+
             [vc performSelector:@selector(jPusthVCWithType:) withObject:item.order_type afterDelay:0.1];
         }
     }
 
-    
 }
+
+
 
 -(void)dealFuncTab
 {
