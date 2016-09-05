@@ -447,6 +447,7 @@
 		B2D48CA51BEC53FF00482EB8 /* UIImage+RTTint.podspec in Resources */ = {isa = PBXBuildFile; fileRef = B2D48CA11BEC53FF00482EB8 /* UIImage+RTTint.podspec */; };
 		B2D5394C1BA97763009170A8 /* StrikeThroughLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D5394B1BA97763009170A8 /* StrikeThroughLabel.m */; };
 		B2D539521BA97F64009170A8 /* JSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D539511BA97F64009170A8 /* JSBadgeView.m */; };
+		DF1E85281D7AC8AE0052D086 /* PushAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF1E85271D7AC8AE0052D086 /* PushAudioPlayer.m */; };
 		DF59A2FA1D76788E004A4075 /* paotui.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DF59A2F71D76788E004A4075 /* paotui.mp3 */; };
 		DF59A2FB1D76788E004A4075 /* gouwu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DF59A2F81D76788E004A4075 /* gouwu.mp3 */; };
 		DF59A2FC1D76788E004A4075 /* fix.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DF59A2F91D76788E004A4075 /* fix.mp3 */; };
@@ -1359,6 +1360,8 @@
 		B2D5394B1BA97763009170A8 /* StrikeThroughLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StrikeThroughLabel.m; sourceTree = "<group>"; };
 		B2D539501BA97F64009170A8 /* JSBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBadgeView.h; sourceTree = "<group>"; };
 		B2D539511BA97F64009170A8 /* JSBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBadgeView.m; sourceTree = "<group>"; };
+		DF1E85261D7AC8AE0052D086 /* PushAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushAudioPlayer.h; sourceTree = "<group>"; };
+		DF1E85271D7AC8AE0052D086 /* PushAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushAudioPlayer.m; sourceTree = "<group>"; };
 		DF59A2F71D76788E004A4075 /* paotui.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = paotui.mp3; sourceTree = "<group>"; };
 		DF59A2F81D76788E004A4075 /* gouwu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gouwu.mp3; sourceTree = "<group>"; };
 		DF59A2F91D76788E004A4075 /* fix.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fix.mp3; sourceTree = "<group>"; };
@@ -3367,6 +3370,8 @@
 				DF6D577D1D74264800E676BE /* QUItemBtnView.m */,
 				DF6D577E1D74264800E676BE /* QUScrollVC.h */,
 				DF6D577F1D74264800E676BE /* QUScrollVC.m */,
+				DF1E85261D7AC8AE0052D086 /* PushAudioPlayer.h */,
+				DF1E85271D7AC8AE0052D086 /* PushAudioPlayer.m */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -3843,6 +3848,7 @@
 				040101211D5B11D900EA1188 /* XZPlayProgressView.m in Sources */,
 				DF6D57BD1D74264800E676BE /* DTError.m in Sources */,
 				04EEADCC1D0FAED900FA97C6 /* UIImage+HDExtension.m in Sources */,
+				DF1E85281D7AC8AE0052D086 /* PushAudioPlayer.m in Sources */,
 				04F9E5D11CED4D8B00FCA8B7 /* MJFoundation.m in Sources */,
 				04102CC61D2A507D003A0C56 /* MJRefreshFooter.m in Sources */,
 				742FB8FB1B5CDEA3005A1AFA /* WPAttributedStyleAction.m in Sources */,

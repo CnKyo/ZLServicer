@@ -35,6 +35,7 @@
 #import "HomeNewVC.h"
 #import "marketOrderViewController.h"
 #import "fixViewController.h"
+#import "PushAudioPlayer.h"
 
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 
@@ -471,6 +472,7 @@
     
     if( !bopenwith ) {
         if (it.aps.alert.length>0) {
+            [[PushAudioPlayer sharedClient] play:it.aps.sound];
             myalert *alertVC = [[myalert alloc]initWithTitle:@"提示" message:it.aps.alert delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"好的", nil];
             alertVC.obj = it;
             [alertVC show];
@@ -526,6 +528,8 @@
     
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    [[PushAudioPlayer sharedClient] stop];
+    
     if (alertView.tag == 10000) {
         
         if (buttonIndex == 0) {
