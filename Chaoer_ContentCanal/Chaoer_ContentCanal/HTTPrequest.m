@@ -30,15 +30,16 @@ static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://app.china-cr.
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://114.55.128.177/";
 
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.120/";
-
-static NSString* const  kAFASourceUrl    = @"http://resource.china-cr.com/resource/";
+//static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.114/";
+//
+//static NSString* const  kAFASourceUrl    = @"http://resource.china-cr.com/resource/";
 
 //static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://192.168.1.230:8080/";
 
 /**
  *  资源路径
  */
-//static NSString* const  kAFASourceUrl    = @"http://app.china-cr.com/resource/";
+static NSString* const  kAFASourceUrl    = @"http://app.china-cr.com/resource/";
 
 @interface HTTPrequest()
 
