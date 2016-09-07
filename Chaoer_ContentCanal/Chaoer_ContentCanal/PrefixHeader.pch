@@ -129,17 +129,10 @@
 #import "WebVC.h"
 #import "HTTPrequest.h"
 #import "SVProgressHUD.h"
-#import "GiFHUD.h"
 
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
-
-
-
-#import "LBProgressHUD.h"
-#import "LCProgressHUD.h"
-#import "WJStatusBarHUD.h"
 
 
 #import "BlockButton.h"

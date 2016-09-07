@@ -151,7 +151,7 @@
             if (resb.mSucess) {
                 [self reloadUIWithData];
             }else{
-                [LCProgressHUD showFailure:resb.mMessage];
+                [SVProgressHUD showErrorWithStatus:resb.mMessage];
                 [self addEmptyView:nil];
             }
             
@@ -192,7 +192,7 @@
         if (error)
         {
             NSString *eee =@"定位失败！请检查网络和定位设置！";
-            [WJStatusBarHUD showErrorImageName:nil text:eee];
+            [SVProgressHUD showErrorWithStatus:eee];
 
             mNavView.mAddress.text = eee;
             MLLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
@@ -207,7 +207,7 @@
         {
             mLat = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
             mLng = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
-            [WJStatusBarHUD showSuccessImageName:nil text:@"定位成功"];
+            [SVProgressHUD showSuccessWithStatus:@"定位成功"];
             
             MLLog(@"reGeocode:%@", regeocode);
             mNavView.mAddress.text = [NSString stringWithFormat:@"%@%@%@",regeocode.formattedAddress,regeocode.street,regeocode.number];
