@@ -106,11 +106,8 @@
 
 #import "MZTimerLabel.h"
 #import "BaseVC.h"
-#import "UILabel+HYBAttributedCategory.h"
-
 
 #import "NSString+FontAwesome.h"
-#import "HZQDatePickerView.h"
 #import "WKSegmentControl.h"
 
 
@@ -144,9 +141,6 @@
 #import "AttributeView.h"
 #import "UIView+Extnesion.h"
 
-#import "CustomProgress.h"
-
-#import "UITextField+Shake.h"
 #import "MBProgressHUD.h"
 
 

@@ -211,7 +211,6 @@
     
     [SVProgressHUD showWithStatus:@"正在登录中..."];
     [mUserInfo mUserLogin:mLoginV.phoneTx.text andPassword:[Util RSAEncryptor:mLoginV.codeTx.text] block:^(mBaseData *resb, mUserInfo *mUser) {
-        [SVProgressHUD dismiss];
         if (resb.mSucess) {
             [self loginOk];
             
