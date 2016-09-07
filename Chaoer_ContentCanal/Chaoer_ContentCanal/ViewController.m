@@ -15,21 +15,7 @@
 
 #import "mLoginView.h"
 #import "AppDelegate.h"
-#import "WJAdsView.h"
-#import <ShareSDKExtension/SSEThirdPartyLoginHelper.h>
-#import <ShareSDK/ShareSDK.h>
-#import <ShareSDKConnector/ShareSDKConnector.h>
 
-//腾讯开放平台（对应QQ和QQ空间）SDK头文件
-#import <TencentOpenAPI/TencentOAuth.h>
-#import <TencentOpenAPI/QQApiInterface.h>
-
-//微信SDK头文件
-#import "WXApi.h"
-
-//新浪微博SDK头文件
-#import "WeiboSDK.h"
-//新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加"-ObjC"
 
 #import "CRSA.h"
 #import "Base64.h"
@@ -41,7 +27,7 @@
 #import "APIObjectDefine.h"
 #import "JPUSHService.h"
 
-@interface ViewController ()<UITextFieldDelegate,WJAdsViewDelegate>
+@interface ViewController ()<UITextFieldDelegate>
 
 @end
 
@@ -408,72 +394,6 @@
         return @[@"replash-1.png",@"replash.png",@"replash3.png"];
     }
     
-}
-
-
-#pragma mark----加载弹框
-- (void)showAdsView{
-    
-    AppDelegate *app = [UIApplication sharedApplication].delegate;
-    app.window.backgroundColor = [UIColor colorWithWhite:20
-                                                   alpha:0.3];
-    WJAdsView *adsView = [[WJAdsView alloc] initWithWindow:app.window];
-    adsView.tag = 10;
-    adsView.delegate = self;
-    
-    NSArray *tt = @[@"已有账号去登录",@"未有账号去注册"];
-    
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    
-    UIView *vvvv = [UIView new];
-    vvvv.frame = CGRectMake(0, 0,adsView.mainContainView.frame.size.width, adsView.mainContainView.frame.size.height);
-    
-    UIImageView *iii = [UIImageView new];
-    iii.frame = vvvv.bounds;
-    iii.image = [UIImage imageNamed:@"ren_bgk"];
-    [vvvv addSubview:iii];
-    
-    UIButton *aaa = [UIButton new];
-    aaa.frame = CGRectMake(15, vvvv.frame.size.height/2-60, vvvv.frame.size.width-30, 40);
-    aaa.backgroundColor = M_CO;
-    
-    aaa.layer.masksToBounds = YES;
-    aaa.layer.cornerRadius = 3;
-    
-    UIButton *bbb = [UIButton new];
-    bbb.frame = CGRectMake(15, vvvv.frame.size.height/2+30, vvvv.frame.size.width-30, 40);
-    bbb.backgroundColor = [UIColor redColor];
-    
-    bbb.layer.masksToBounds = YES;
-    bbb.layer.cornerRadius = 3;
-    
-    [bbb setTitle:tt[1] forState:0];
-    [vvvv addSubview:bbb];
-    
-    
-    [array addObject:vvvv];
-    
-    
-    
-    [self.view addSubview:adsView];
-    adsView.containerSubviews = array;
-    [adsView showAnimated:YES];
-}
-
-- (void)hide{
-    WJAdsView *adsView = (WJAdsView *)[self.view viewWithTag:10];
-    [adsView hideAnimated:YES];
-}
-- (void)wjAdsViewDidAppear:(WJAdsView *)view{
-    MLLog(@"视图出现");
-}
-- (void)wjAdsViewDidDisAppear:(WJAdsView *)view{
-    MLLog(@"视图消失");
-}
-
-- (void)wjAdsViewTapMainContainView:(WJAdsView *)view currentSelectIndex:(long)selectIndex{
-    MLLog(@"点击主内容视图:--%ld",selectIndex);
 }
 
 

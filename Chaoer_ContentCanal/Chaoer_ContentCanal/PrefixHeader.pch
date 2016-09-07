@@ -85,7 +85,6 @@
 #import "UIView+Additions.h"
 #import "MJPhotoBrowser.h"
 #import "MJPhoto.h"
-#import "CTAssetsPickerController.h"
 #import "RSKImageCropViewController.h"
 #import "TTTAttributedLabel.h"
 #import "Masonry.h"

@@ -13,10 +13,6 @@
 #import <MobileCoreServices/UTType.h>
 
 
-#import "WXApi.h"
-#import "WXApiObject.h"
-
-#import <AlipaySDK/AlipaySDK.h>
 #import <objc/message.h>
 
 #import "QUCustomDefine.h"
@@ -387,20 +383,7 @@ bool g_bined = NO;
 
 
     }
-    
-//    if( [mPayType isEqualToString:@"wx"] )
-//    {
-//        [self wxPay:mPrice block:block];
-//    }
-//    else if ([mPayType isEqualToString:@"alipay"]){
-//        
-//        [self aliPay:mPrice block:block];
-//    }
-//    else{
-//        block( [mBaseData infoWithError:@"不支持的支付方式!"] );
-//        
-//    }
-    
+
 }
 -(void)Pay:(float)Price andType:(int)mType andCode:(NSString *)mCode block:(void(^)(mBaseData* retobj))block{
     NSMutableDictionary* param =    NSMutableDictionary.new;
@@ -414,95 +397,8 @@ bool g_bined = NO;
         
         if( info.mSucess )
         {
-            if (mType == 3) {
-                NSString* typestr = [info.mData objectForKeyMy:@"channel"];
-                if( [typestr isEqualToString:@"wx"] )
-                {
-                    
-                    
-                    [SVProgressHUD dismiss];
-                    SWxPayInfo* wxpayinfo = [[SWxPayInfo alloc]initWithObj:info.mData];
-                    [mUserInfo backNowUser].mPayBlock = ^(mBaseData *retobj) {
-                        
-                        if( retobj.mSucess )
-                        {//如果成功了,就更新下
-                            block(retobj);//再回调获取
-                            
-                        }else
-                            block(retobj);//再回调获取
-                        [mUserInfo backNowUser].mPayBlock = nil;
-                        
-                    };
-                }
-                else
-                {
-                    mBaseData* itretobj = [mBaseData infoWithError:@"支付出现异常,请稍后再试"];
-                    block(itretobj);//再回调获取
-                }
-            }else if (mType == 4){
-                NSString *mPayInfo = [info.mData objectForKey:@"packages"];
-                
-                
-                
-                [SVProgressHUD dismiss];
-                
-                
-                
-                [mUserInfo backNowUser].mPayBlock = ^(mBaseData *retobj) {
-                    
-                    if( retobj.mSucess )
-                    {//如果成功了,就更新下
-                        block(retobj);//再回调获取
-                        
-                    }else
-                        block(retobj);//再回调获取
-                    [mUserInfo backNowUser].mPayBlock = nil;
-                    
-                };
-                
-                
-                [[AlipaySDK defaultService] payOrder:mPayInfo fromScheme:@"zerolife" callback:^(NSDictionary *resultDic) {
-                    
-                    MLLog(@"xxx:%@",resultDic);
-                    
-                    mBaseData* retobj = nil;
-                    
-                    if (resultDic)
-                    {
-                        if ( [[resultDic objectForKey:@"resultStatus"] intValue] == 9000 )
-                        {
-                            retobj = [[mBaseData alloc]init];
-                            retobj.mSucess = YES;
-                            retobj.mMessage = @"支付成功";
-                            retobj.mState = 200000;
-                        }
-                        else
-                        {
-                            retobj = [mBaseData infoWithError: [resultDic objectForKey:@"memo" ]];
-                        }
-                    }
-                    else
-                    {
-                        retobj = [mBaseData infoWithError: @"支付出现异常"];
-                    }
-                    
-                    if(  [mUserInfo backNowUser].mPayBlock )
-                    {
-                        [mUserInfo backNowUser].mPayBlock( retobj );
-                    }
-                    else
-                    {
-                        MLLog(@"alipay block nil?");
-                    }
-                    
-                }];
-            }else if (mType == 1){
-            
-            }else{
-            
+        
                 block (info);
-            }
-            
          
         }
         else
