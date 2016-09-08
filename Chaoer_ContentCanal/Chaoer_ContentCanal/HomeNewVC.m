@@ -231,10 +231,8 @@
     
     [self loadData];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleUserChangeSuccess:)
-                                                 name:MyUserInfoUpdateSuccessNotification
-                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserChangeSuccess:) name:MyUserInfoUpdateSuccessNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -262,23 +260,6 @@
 - (void)loadData{
     
     [self reloadMiddleViewSub];
-    
-//    if ([mUserInfo isNeedLogin]) {
-//        [self gotoLoginVC];
-//        return;
-//    } else {
-//        
-//        [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-//            
-//            if (resb.mSucess) {
-//                [self reloadMiddleViewSub];
-//            }else{
-//                [LCProgressHUD showFailure:resb.mMessage];
-//                [self addEmptyView:nil];
-//            }
-//            
-//        }];
-//    }
     
 }
 

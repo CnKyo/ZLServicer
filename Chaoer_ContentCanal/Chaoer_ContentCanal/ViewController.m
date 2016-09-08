@@ -26,6 +26,7 @@
 #import "HomeNewVC.h"
 #import "APIObjectDefine.h"
 #import "JPUSHService.h"
+#import "QUCustomDefine.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 
@@ -85,6 +86,7 @@
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;///启用手势
 //    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -107,6 +109,8 @@
     self.navBar.rightBtn.frame = CGRectMake(DEVICE_Width-100, 20, 120, 44);
     self.rightBtnTitle = @"密码登录";
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserInfoNeedChange:) name:MyUserNeedUpdateNotification object:nil];
+    
     
     mRSAKey = nil;
     [self getRSAKey];
@@ -120,6 +124,15 @@
     NSLog(@"%@", [JPUSHService registrationID]);
     
 }
+
+//用户需要更新数据
+-(void)handleUserInfoNeedChange:(NSNotification *)note
+{
+    [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
+        
+    }];
+}
+
 
 - (void)initView{
 
@@ -249,6 +262,7 @@
 }
 #pragma mark----登录成功跳转
 - (void)loginOk{
+    mLoginV.codeTx.text = nil;
     
     HomeNewVC *vc = [[HomeNewVC alloc] init];
     [self.navigationController pushViewController:vc animated:YES];

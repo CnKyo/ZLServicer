@@ -22,7 +22,8 @@ static NSString *channel = @"ef7414048ae19afbd418b9da";
 static BOOL isProduction = YES;
 
 static NSString * const MyUserInfoUpdateSuccessNotification   = @"MyUserInfoUpdateSuccessNotification";
-
+static NSString * const MyUserNeedUpdateNotification     = @"MyUserNeedUpdateNotification";
+//static NSString * const MyUserInfoChangedNotification   = @"MyUserInfoChangedNotification";
 
 const static int kTableAllDataNumber = -1;  //
 const static int kTableFirstDataNumber = 0;  //

@@ -712,17 +712,21 @@
 }
 -(void)gotoLoginVC
 {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+//    NSArray *arr = [self.navigationController viewControllers];
+//    NSArray *newArr = [NSArray arrayWithObject:[arr objectAtIndex:0]];
+//    [self.navigationController setViewControllers:newArr animated:YES];
     
-    if( [self.navigationController.topViewController isKindOfClass:[ViewController class]] )
-    {
-        return;
-    }
-    
-    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-    id viewController = [storyboard instantiateViewControllerWithIdentifier:@"login"];
-    
-    [self presentViewController:viewController animated:YES completion:nil];
+//    if( [self.navigationController.topViewController isKindOfClass:[ViewController class]] )
+//    {
+//        return;
+//    }
+//    
+//    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    
+//    id viewController = [storyboard instantiateViewControllerWithIdentifier:@"login"];
+//    
+//    [self presentViewController:viewController animated:YES completion:nil];
     
 }
 

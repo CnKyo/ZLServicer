@@ -46,10 +46,7 @@
     
     [self initView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleUserChangeSuccess:)
-                                                 name:MyUserInfoUpdateSuccessNotification
-                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(handleUserChangeSuccess:)  name:MyUserInfoUpdateSuccessNotification object:nil];
 
 }
 - (void)loadData{

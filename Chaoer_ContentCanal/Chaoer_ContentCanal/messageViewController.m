@@ -10,6 +10,11 @@
 
 #import "messageViewController.h"
 #import "mmgTableViewCell.h"
+#import "fixViewController.h"
+#import "marketOrderViewController.h"
+#import "kitchenViewController.h"
+#import "fixDetailViewController.h"
+
 @interface messageViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -155,6 +160,23 @@
         
     }];
     
+
+    if ([mMsg.mExtras.mOrderType isEqualToString:@"GX"]) {
+        marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+        mmm.shopType = kShopType_clean;
+        [self pushViewController:mmm];
+        
+    } else if ([mMsg.mExtras.mOrderType isEqualToString:@"WX"]) {
+        fixViewController *fix = [[fixViewController alloc] initWithNibName:@"fixViewController" bundle:nil];
+        [self pushViewController:fix];
+        
+    } else if ([mMsg.mExtras.mOrderType isEqualToString:@"GW"]) {
+        marketOrderViewController *mmm = [[marketOrderViewController alloc] initWithNibName:@"marketOrderViewController" bundle:nil];
+        mmm.shopType = kShopType_cao;
+        [self pushViewController:mmm];
+    }
+
+    
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -192,5 +214,7 @@
 
     }
 }
+
+
 
 @end

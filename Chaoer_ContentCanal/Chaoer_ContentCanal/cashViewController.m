@@ -8,6 +8,7 @@
 
 #import "cashViewController.h"
 #import "BankTVC.h"
+#import "QUCustomDefine.h"
 
 @interface cashViewController ()
 @property(nonatomic,strong) BankObject *chooseBankItem;
@@ -145,9 +146,7 @@
             [SVProgressHUD showSuccessWithStatus:resb.mMessage];
             [self performSelector:@selector(leftBtnTouched:) withObject:nil afterDelay:1];
             
-            //更新一次数据
-            [[mUserInfo backNowUser] getNowUserInfo:^(mBaseData *resb, mUserInfo *user) {
-            }];
+            [[NSNotificationCenter defaultCenter] postNotificationName:MyUserNeedUpdateNotification object:nil];
 
         }else{
             [SVProgressHUD showErrorWithStatus:resb.mMessage];

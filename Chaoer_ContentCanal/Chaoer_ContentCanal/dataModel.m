@@ -882,6 +882,9 @@ bool g_bined = NO;
     [para setObject:@"ios" forKey:@"device"];
     
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/warrantyOrder/serviceCompletion" parameters:para call:^(mBaseData * _Nonnull info) {
+        if (info.mSucess)
+            [[NSNotificationCenter defaultCenter] postNotificationName:MyUserNeedUpdateNotification object:nil];
+        
         block ( info );
     }];
     
@@ -1989,6 +1992,8 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
     [para setObject:StringWithInt(type) forKey:@"orderType"];
     [para setObject:@"ios" forKey:@"device"];
     [[HTTPrequest sharedHDNetworking] postUrl:@"service/shOrder/orderCompletion" parameters:para call:^(mBaseData *info) {
+        if (info.mSucess)
+            [[NSNotificationCenter defaultCenter] postNotificationName:MyUserNeedUpdateNotification object:nil];
         
         block ( info );
     }];
