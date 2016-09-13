@@ -10,6 +10,7 @@
 #import "marketHeaderView.h"
 #import "marketOrderDetailTableViewCell.h"
 #import <MapKit/MapKit.h>
+#import "AMapGeocodeSearch.h"
 
 @interface marketOrderDetailViewController ()<UITableViewDelegate,UITableViewDataSource,cellWithBottomBtnActionDelegate>
 
@@ -36,6 +37,8 @@
     self.hiddenRightBtn = YES;
     
     [self initView];
+    
+    [AMapGeocodeSearch sharedClient];
     
 }
 - (void)initView{
@@ -189,56 +192,58 @@
 #pragma mark----导航操作
 - (void)cellWithBottomLeftBtnAction{
     
-    if(self.mBaseOrder.mDistributionAddress.length>0){
-        CLGeocoder *stringWithCityName=[[CLGeocoder alloc]init]; //地理编码的类和下面其对应的方法,CLPlacemark是地理信息的类
-        [stringWithCityName geocodeAddressString:self.mBaseOrder.mDistributionAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-            if (error||!(placemarks.count>0)) {
-                MLLog(@"该城市不存在或者搜索有误");
-                [self showErrorStatus:@"该城市不存在或者搜索有误"];
-            }
-            else{
-                CLPlacemark *firstObj=[placemarks firstObject]; // 就用第一个位置对象
-                CLLocationCoordinate2D cityCoor=firstObj.location.coordinate; //得到城市的纬度和经度
-                NSString *strLat=[NSString stringWithFormat:@"%f",cityCoor.latitude];
-                NSString *strLong=[NSString stringWithFormat:@"%f",cityCoor.longitude];
-                
-                
-                NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0", @"gotoMap",[HTTPrequest getAppName],strLat, strLong] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                
-                //跳转到高德地图
-                NSString* ampurl = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0",@"gotoMap",[HTTPrequest getAppName],strLat, strLong];
-                
-                if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]] )
-                {//
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
-                }
-                else
-                {//ioS map
-                    
-                    CLLocationCoordinate2D to;
-                    to.latitude =  [[NSString stringWithFormat:@"%@",strLat] floatValue];
-                    to.longitude =  [[NSString stringWithFormat:@"%@",strLong] floatValue];
-                    
-                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-                    MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil] ];
-                    toLocation.name = self.mBaseOrder.mDistributionAddress;
-                    [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil]
-                                   launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]
-                                                                             forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
-                }
-                
-                
-            }
-            
-        }];
-        
-    }
-    else{
-        
-        MLLog(@"地理位置不能为空");
-        [self showErrorStatus:@"导航地址有误！请查证！"];
-        
-    }
+    [[AMapGeocodeSearch sharedClient] searchAddress:self.mBaseOrder.mDistributionAddress];
+    
+//    if(self.mBaseOrder.mDistributionAddress.length>0){
+//        CLGeocoder *stringWithCityName=[[CLGeocoder alloc]init]; //地理编码的类和下面其对应的方法,CLPlacemark是地理信息的类
+//        [stringWithCityName geocodeAddressString:self.mBaseOrder.mDistributionAddress completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+//            if (error||!(placemarks.count>0)) {
+//                MLLog(@"该城市不存在或者搜索有误");
+//                [self showErrorStatus:@"该城市不存在或者搜索有误"];
+//            }
+//            else{
+//                CLPlacemark *firstObj=[placemarks firstObject]; // 就用第一个位置对象
+//                CLLocationCoordinate2D cityCoor=firstObj.location.coordinate; //得到城市的纬度和经度
+//                NSString *strLat=[NSString stringWithFormat:@"%f",cityCoor.latitude];
+//                NSString *strLong=[NSString stringWithFormat:@"%f",cityCoor.longitude];
+//                
+//                
+//                NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0", @"gotoMap",[HTTPrequest getAppName],strLat, strLong] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//                
+//                //跳转到高德地图
+//                NSString* ampurl = [NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=%@&lat=%@&lon=%@&dev=0&style=0",@"gotoMap",[HTTPrequest getAppName],strLat, strLong];
+//                
+//                if( [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlString]] )
+//                {//
+//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+//                }
+//                else
+//                {//ioS map
+//                    
+//                    CLLocationCoordinate2D to;
+//                    to.latitude =  [[NSString stringWithFormat:@"%@",strLat] floatValue];
+//                    to.longitude =  [[NSString stringWithFormat:@"%@",strLong] floatValue];
+//                    
+//                    MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+//                    MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:to addressDictionary:nil] ];
+//                    toLocation.name = self.mBaseOrder.mDistributionAddress;
+//                    [MKMapItem openMapsWithItems:[NSArray arrayWithObjects:currentLocation, toLocation, nil]
+//                                   launchOptions:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeDriving, [NSNumber numberWithBool:YES], nil]
+//                                                                             forKeys:[NSArray arrayWithObjects:MKLaunchOptionsDirectionsModeKey, MKLaunchOptionsShowsTrafficKey, nil]]];
+//                }
+//                
+//                
+//            }
+//            
+//        }];
+//        
+//    }
+//    else{
+//        
+//        MLLog(@"地理位置不能为空");
+//        [self showErrorStatus:@"导航地址有误！请查证！"];
+//        
+//    }
 
 
 }

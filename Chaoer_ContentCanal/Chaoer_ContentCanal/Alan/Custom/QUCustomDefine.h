@@ -19,7 +19,7 @@ static NSString * const sAppKey_PostCode     = @"104ef5c579850";
 
 static NSString *appKey = @"3b13994fd9ab08a865bd33ae";
 static NSString *channel = @"ef7414048ae19afbd418b9da";
-static BOOL isProduction = YES;
+static BOOL isProduction = NO;
 
 static NSString * const MyUserInfoUpdateSuccessNotification   = @"MyUserInfoUpdateSuccessNotification";
 static NSString * const MyUserNeedUpdateNotification     = @"MyUserNeedUpdateNotification";

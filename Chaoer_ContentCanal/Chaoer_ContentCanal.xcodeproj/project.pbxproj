@@ -392,6 +392,7 @@
 		DFACAA881D7034B3009F4CC0 /* BankTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFACAA861D7034B3009F4CC0 /* BankTableViewCell.xib */; };
 		DFACAA8C1D703E23009F4CC0 /* cashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFACAA8A1D703E23009F4CC0 /* cashViewController.m */; };
 		DFACAA8D1D703E23009F4CC0 /* cashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFACAA8B1D703E23009F4CC0 /* cashViewController.xib */; };
+		DFB5EE031D87E5C500CB0B62 /* AMapGeocodeSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5EE021D87E5C500CB0B62 /* AMapGeocodeSearch.m */; };
 		DFD711BF1D75125800254C54 /* jpush-ios-2.1.8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD711BD1D75125800254C54 /* jpush-ios-2.1.8.a */; };
 		DFD711EC1D7571C100254C54 /* UIViewController+QUAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD711EB1D7571C100254C54 /* UIViewController+QUAdditions.m */; };
 /* End PBXBuildFile section */
@@ -1144,6 +1145,8 @@
 		DFACAA891D703E23009F4CC0 /* cashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cashViewController.h; sourceTree = "<group>"; };
 		DFACAA8A1D703E23009F4CC0 /* cashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cashViewController.m; sourceTree = "<group>"; };
 		DFACAA8B1D703E23009F4CC0 /* cashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cashViewController.xib; sourceTree = "<group>"; };
+		DFB5EE011D87E5C500CB0B62 /* AMapGeocodeSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMapGeocodeSearch.h; sourceTree = "<group>"; };
+		DFB5EE021D87E5C500CB0B62 /* AMapGeocodeSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapGeocodeSearch.m; sourceTree = "<group>"; };
 		DFD711BD1D75125800254C54 /* jpush-ios-2.1.8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.8.a"; sourceTree = "<group>"; };
 		DFD711BE1D75125800254C54 /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		DFD711EA1D7571C100254C54 /* UIViewController+QUAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+QUAdditions.h"; sourceTree = "<group>"; };
@@ -2608,6 +2611,8 @@
 				DF6D577F1D74264800E676BE /* QUScrollVC.m */,
 				DF1E85261D7AC8AE0052D086 /* PushAudioPlayer.h */,
 				DF1E85271D7AC8AE0052D086 /* PushAudioPlayer.m */,
+				DFB5EE011D87E5C500CB0B62 /* AMapGeocodeSearch.h */,
+				DFB5EE021D87E5C500CB0B62 /* AMapGeocodeSearch.m */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -3210,6 +3215,7 @@
 				749BEA121B32779800BABCA6 /* MJPhotoView.m in Sources */,
 				DFACAA871D7034B3009F4CC0 /* BankTableViewCell.m in Sources */,
 				749BE9E11B32776B00BABCA6 /* CunsomLabel.m in Sources */,
+				DFB5EE031D87E5C500CB0B62 /* AMapGeocodeSearch.m in Sources */,
 				74BCE15B1B3A6058008F515A /* RSKTouchView.m in Sources */,
 				3135F83B1C97FCE500EF9569 /* DVSwitch.m in Sources */,
 				04EEADC71D0FAED900FA97C6 /* NSDate+HDExtension.m in Sources */,
@@ -3363,6 +3369,7 @@
 					"$(PROJECT_DIR)/Chaoer_ContentCanal",
 					"$(PROJECT_DIR)/Chaoer_ContentCanal/Rong_Cloud_iOS_IMKit_SDK_v2_4_10_dev_with_voip",
 					"$(PROJECT_DIR)/Chaoer_ContentCanal/Rong_Cloud_iOS_IMLib_SDK_v2_4_10_dev",
+					"$(PROJECT_DIR)/Chaoer_ContentCanal/Alan/OpenSourceLib/GaoDe",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3420,6 +3427,7 @@
 					"$(PROJECT_DIR)/Chaoer_ContentCanal",
 					"$(PROJECT_DIR)/Chaoer_ContentCanal/Rong_Cloud_iOS_IMKit_SDK_v2_4_10_dev_with_voip",
 					"$(PROJECT_DIR)/Chaoer_ContentCanal/Rong_Cloud_iOS_IMLib_SDK_v2_4_10_dev",
+					"$(PROJECT_DIR)/Chaoer_ContentCanal/Alan/OpenSourceLib/GaoDe",
 				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
