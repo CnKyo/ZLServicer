@@ -27,6 +27,7 @@
 #import "forgetAndChangePwdView.h"
 #import "BankTVC.h"
 #import "cashViewController.h"
+#import "BaseHeaderRefresh.h"
 
 @interface HomeNewVC ()<QUItemBtnViewDelegate>
 @property(nonatomic,strong) UIButton *iconImgView;
@@ -224,12 +225,19 @@
     self.hiddenBackBtn = YES;
     self.hiddenRightBtn = YES;
     self.contentView.hidden = YES;
+    //self.haveHeader = YES;
     
     [self initView];
 //    self.hiddenlll = YES;
 //    self.hiddenNavBar = YES;
     
     [self loadData];
+    
+//    BaseHeaderRefresh *mHeader = [BaseHeaderRefresh headerWithRefreshingTarget:self refreshingAction:@selector(headerBeganRefresh)];
+//    mHeader.lastUpdatedTimeLabel.hidden = YES;
+//    mHeader.stateLabel.hidden = YES;
+//    [mHeader beginRefreshing];
+//    self.view.mj_header = mHeader;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleUserChangeSuccess:) name:MyUserInfoUpdateSuccessNotification object:nil];
@@ -239,6 +247,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation

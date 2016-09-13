@@ -39,7 +39,8 @@ static NSString* const  kAFAppDotNetAPIBaseURLString    = @"http://app.china-cr.
 /**
  *  资源路径
  */
-static NSString* const  kAFASourceUrl    = @"http://app.china-cr.com/resource/";
+//static NSString* const  kAFASourceUrl    = @"http://app.china-cr.com/resource/";
+static NSString* const  kAFASourceUrl    = @"http://resource.china-cr.com/resource/";
 
 @interface HTTPrequest()
 
