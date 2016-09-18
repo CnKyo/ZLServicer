@@ -165,9 +165,6 @@ HDSingletonM(HDNetworking) // 单例实现
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     }];
 
-    
-    
-    
 }
 
 

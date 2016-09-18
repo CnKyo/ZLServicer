@@ -119,6 +119,7 @@
         mTT = [UIImage imageNamed:@"status_finish"];
         [mBottomView.mFinishBtn setTitle:mSS forState:0];
         [mBottomView.mFinishBtn setBackgroundColor:[UIColor lightGrayColor]];
+        mBottomView.mFinishBtn.enabled = NO;
     }else{
         mSS = @"取消订单";
         mTT = [UIImage imageNamed:@"status_finish"];
