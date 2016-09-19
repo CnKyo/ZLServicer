@@ -2675,7 +2675,7 @@ typedef enum {
 /**
  *  支出/收入
  */
-@property (assign,nonatomic) float mOutMoney;
+@property (assign,nonatomic) int mOutMoney;
 /**
  *  备注
  */
@@ -2793,7 +2793,7 @@ typedef enum {
 /**
  *  应支付金额
  */
-@property (assign,nonatomic) int mPayableAmount;
+@property (assign,nonatomic) float mPayableAmount;
 /**
  *  状态10:未支付11:支付完成
  12:正在配送13:完成14:取消

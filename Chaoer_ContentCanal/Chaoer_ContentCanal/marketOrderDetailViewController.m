@@ -132,7 +132,7 @@
     
     mFooterView.mNote.text = self.mBaseOrder.mRemarks;
     mFooterView.mSendPrice.text = [NSString stringWithFormat:@"¥%.2f元",self.mBaseOrder.mDeliverFee];
-    mFooterView.mTotalPrice.text = [NSString stringWithFormat:@"¥%.2f元",self.mBaseOrder.mCommodityPrice];
+    mFooterView.mTotalPrice.text = [NSString stringWithFormat:@"¥%.2f元",self.mBaseOrder.mPayableAmount];
     mFooterView.mOrderCode.text = [NSString stringWithFormat:@"订单编号:%@",self.mBaseOrder.mOrderCode];
     mFooterView.mTime.text = [NSString stringWithFormat:@"下单时间:%@",self.mBaseOrder.mPayTime];
     

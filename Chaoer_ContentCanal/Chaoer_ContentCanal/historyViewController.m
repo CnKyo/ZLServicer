@@ -128,7 +128,12 @@
     cell.mPoint.hidden = YES;
     cell.mLogo.image = [UIImage imageNamed:@"money_msg"];
     
-    cell.mName.text = [NSString stringWithFormat:@"支出/收入:¥%.2f元  余额:¥%.2f元",mTrade.mOutMoney,mTrade.mNowMoney];
+    if (mTrade.mOutMoney == 0) {
+        cell.mName.text = [NSString stringWithFormat:@"收入:¥%.2f元  余额:¥%.2f元",mTrade.mNowMoney,mTrade.mNewMoney];
+    } else if (mTrade.mOutMoney == 1) {
+        cell.mName.text = [NSString stringWithFormat:@"支出/收入:¥%.2f元  余额:¥%.2f元",mTrade.mNowMoney,mTrade.mNewMoney];
+    }
+    
     cell.mContent.text = mTrade.mNote;
     cell.mTime.text = mTrade.mTime;
     return cell;
@@ -143,6 +148,23 @@
     
     MLLog(@"点击了%ld",(long)indexPath.row);
     
+    GTradeHistory *mTrade = self.tempArray[indexPath.row];
+    
+    NSMutableString *str = [NSMutableString new];
+    
+    [str appendFormat:@"记录类型:%@\n", mTrade.mNote];
+    [str appendFormat:@"时间:%@\n", mTrade.mTime];
+    [str appendFormat:@"原金额:%.2f\n", mTrade.mOldMoney];
+    if (mTrade.mOutMoney == 0) {
+        [str appendFormat:@"收入金额:%.2f\n", mTrade.mNowMoney];
+    } else if (mTrade.mOutMoney == 1) {
+        [str appendFormat:@"支出金额:%.2f\n", mTrade.mNowMoney];
+    }
+    [str appendFormat:@"现金额:%.2f\n", mTrade.mNewMoney];
+    [str appendFormat:@"内容:%@\n", mTrade.mNote];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"详情" message:str delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 @end
