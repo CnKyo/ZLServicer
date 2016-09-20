@@ -53,6 +53,9 @@
         if (resb.mSucess) {
             [self.tempArray addObjectsFromArray:mArr];
             [self.tableView reloadData];
+            
+            if (mArr==nil || mArr.count==0)
+                [self showErrorStatus:@"暂无银行卡"];
         }else{
             
             [self showErrorStatus:resb.mMessage];
