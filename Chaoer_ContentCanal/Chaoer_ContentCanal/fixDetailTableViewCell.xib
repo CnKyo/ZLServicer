@@ -93,7 +93,7 @@
                             <action selector="mPhoneBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="XnE-ZD-1oF"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系地址：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tch-xZ-TZq">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系地址：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Tch-xZ-TZq">
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="7xa-8X-BWs"/>
                             <constraint firstAttribute="width" constant="70" id="Vl1-RR-bZ6"/>
