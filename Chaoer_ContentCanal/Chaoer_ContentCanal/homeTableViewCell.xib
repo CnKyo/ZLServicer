@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -26,14 +30,14 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="0.20385237068965517" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="0.20385237068965517" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="1FU-U3-e05" firstAttribute="centerX" secondItem="qwT-pb-FjR" secondAttribute="centerX" id="MNl-gW-D66"/>
                             <constraint firstItem="1FU-U3-e05" firstAttribute="top" secondItem="qwT-pb-FjR" secondAttribute="top" id="lcJ-dS-oSb"/>
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="qwT-pb-FjR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="2" id="1cT-SC-QD4"/>
                     <constraint firstAttribute="bottomMargin" secondItem="qwT-pb-FjR" secondAttribute="bottom" constant="1" id="SR3-yV-suq"/>
@@ -41,7 +45,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="qwT-pb-FjR" secondAttribute="trailing" constant="2" id="gux-DV-6Lb"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="mBgk" destination="qwT-pb-FjR" id="b1D-J7-PaE"/>
                 <outlet property="mImg" destination="1FU-U3-e05" id="eg1-K8-hOx"/>
@@ -50,6 +54,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="type_fix" width="249" height="278"/>
+        <image name="type_fix" width="124" height="139"/>
     </resources>
 </document>

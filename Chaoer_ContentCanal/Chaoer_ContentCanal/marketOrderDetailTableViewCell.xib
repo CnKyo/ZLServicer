@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -91,11 +91,11 @@
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
-                        <exclude reference="uEA-UV-itR"/>
-                        <exclude reference="JqO-et-eyt"/>
-                        <exclude reference="KnS-Np-WGF"/>
-                        <exclude reference="TKZ-ry-vQ1"/>
                         <exclude reference="pEl-Z4-4mg"/>
+                        <exclude reference="JqO-et-eyt"/>
+                        <exclude reference="TKZ-ry-vQ1"/>
+                        <exclude reference="KnS-Np-WGF"/>
+                        <exclude reference="uEA-UV-itR"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -106,7 +106,7 @@
                 <outlet property="mPrice" destination="EHN-Yf-zlU" id="Hin-0B-rKo"/>
                 <outlet property="mSubContent" destination="AMG-Ze-cXT" id="88l-Bb-jWu"/>
             </connections>
-            <point key="canvasLocation" x="233" y="421"/>
+            <point key="canvasLocation" x="-32" y="30"/>
         </tableViewCell>
     </objects>
 </document>
